@@ -29,7 +29,9 @@
   },
   "lint-staged": {
     "linters": {
-    "*.{js,jsx}": ["prettier --parser flow --write","git add -f"]
+      "*.{js,jsx}": ["prettier --parser flow --write","git add -f"],
+      "*.css": "stylelint",
+      "*.scss": "stylelint --syntax=scss"
     }
   }
 }
