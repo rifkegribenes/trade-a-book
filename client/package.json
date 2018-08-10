@@ -28,9 +28,8 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx}": [
-      "prettier --parser flow --write",
-      "git add -f"
-    ]
+    "linters": {
+    "*.{js,jsx}": ["prettier --parser flow --write","git add -f"]
+    }
   }
 }
