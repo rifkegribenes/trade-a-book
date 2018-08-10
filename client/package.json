@@ -28,10 +28,8 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "linters": {
-      "*.{js,jsx}": ["prettier --parser flow --write","git add -f"],
-      "*.css": "stylelint",
-      "*.scss": "stylelint --syntax=scss"
-    }
+    "*.{js,jsx}": ["prettier --parser flow --write","git add -f"],
+    "*.css": "stylelint",
+    "*.scss": "stylelint --syntax=scss"
   }
 }
