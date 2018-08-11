@@ -6,11 +6,8 @@ var BookSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  author: {
-    type: String,
-    required: true
-  },
-  addedBy: {
+  authors: [{ type: String }],
+  owner: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
