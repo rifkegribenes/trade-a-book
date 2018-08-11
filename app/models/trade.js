@@ -21,7 +21,7 @@ var TradeSchema = mongoose.Schema({
     enum: ['pending', 'approved', 'rejected'],
     default: 'pending'
   },
-  createAt: {
+  createdAt: {
     type: Date,
     default: Date.now
   }

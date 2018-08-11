@@ -1,8 +1,7 @@
 import googleBooks from 'google-books-search';
 
-const Book = require('../models/park');
+const Book = require('../models/book');
 const User = require('../models/user');
-const helpers = require('../utils/index');
 
 // Get all books
 exports.getAllBooks = (req, res, next) => {
@@ -16,7 +15,7 @@ exports.getAllBooks = (req, res, next) => {
   	});
 };
 
-// Get all books for one user
+// Get all books for one user. params = userId
 exports.getUserBooks = (req, res, next) => {
   console.log(`book.ctrl.js > getUserBooks: ${req.params.userId}`);
   Book.find({ owner: req.params.userId })
@@ -29,7 +28,7 @@ exports.getUserBooks = (req, res, next) => {
     });
 };
 
-// Get a single book by id
+// Get a single book by id. params = bookId
 exports.getBookById = (req, res, next) => {
   Book.find({ _id: req.params.bookId })
     .then((book) => {
@@ -63,7 +62,7 @@ exports.addBook = (req, res, next) => {
       return handleError(res, err);
     }
 
-    let book = null
+    let book;
     for (let bookId in results) {
       if (results[bookId].thumbnail && results[bookId].thumbnail.length) {
         book = results[bookId];
@@ -87,7 +86,7 @@ exports.addBook = (req, res, next) => {
     newBook.save()
 	    .then((book) => {
 	      console.log('new book saved');
-	      console.log(park);
+	      console.log(book);
 	      return res.status(200).json({
 	          message: 'Book saved successfully',
 	          book
@@ -100,7 +99,7 @@ exports.addBook = (req, res, next) => {
     });
 	};
 
-// change ownership of a book (params = bookId, userId of new owner)
+// change ownership of a book. params = bookId, userId of new owner
 exports.updateBookOwner = (req, res, next) => {
   const { bookId, userId } = req.params;
 
