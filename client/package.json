@@ -9,11 +9,12 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
-    "redux-api-middleware": "^2.3.0"
+    "redux-api-middleware": "^2.3.0",
+    "stylelint-config-recommended": "^2.1.0"
   },
   "devDependencies": {
     "husky": "^0.14.3",
-    "lint-staged": "^7.2.0",
+    "lint-staged": "7.1.2",
     "node-sass": "^4.9.3",
     "prettier": "^1.14.2",
     "react-scripts": "1.1.4",
@@ -25,16 +26,22 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "sass": "sass --watch src/styles/scss:src/styles/css",
-    "precommit": "lint-staged --debug"
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "linters": {
-      "*.{js,jsx}": ["prettier --parser flow --write","git add -f"],
+      "*.{js,jsx}": [
+        "prettier --parser flow --write",
+        "git add"
+      ],
       "*.css": "stylelint",
       "*.scss": "stylelint --syntax=scss"
     },
     "ignore": [
       "**/dist/*.min.js"
     ]
+  },
+  "stylelint": {
+    "extends": "stylelint-config-recommended"
   }
 }
