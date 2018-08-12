@@ -53,7 +53,6 @@ module.exports = (passport) => {
       profile: {
         firstName: profile.displayName.split(' ')[0],
         lastName: profile.displayName.split(' ').slice(1),
-        email: profile.emails[0].value,
         avatarUrl: profile.photos[0].value,
       }
     };
@@ -88,12 +87,11 @@ module.exports = (passport) => {
       if (!user) {
         // if no user found with that email, create one
         var newUser = new User();
-        newUser[platform].id = profile.id;
-        newUser[platform].token = token;
-        newUser[platform].email = profile.emails[0].value;
+        newUser.google.id = profile.id;
+        newUser.google.token = token;
+        newUser.google.email = profile.emails[0].value;
         newUser.profile.firstName = profile.displayName.split(' ')[0],
         newUser.profile.lastName = profile.displayName.split(' ').slice(1),
-        newUser.profile.email = profile.emails[0].value;
         newUser.profile.avatarUrl = profile.photos[0].value,
 
         console.log(newUser);

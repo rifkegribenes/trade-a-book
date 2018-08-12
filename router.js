@@ -4,8 +4,8 @@ const CLIENT_URL = process.env.NODE_ENV === 'production' ? APP_HOST : 'localhost
 const AuthController = require('./app/controllers/auth.ctrl');
 const UserController = require('./app/controllers/user.ctrl');
 const StaticController = require('./app/controllers/static.ctrl');
-// const ParkController = require('./app/controllers/park.ctrl');
-// const YelpController = require('./app/controllers/yelp.ctrl');
+const BookController = require('./app/controllers/book.ctrl');
+const TradeController = require('./app/controllers/trade.ctrl');
 
 const express = require('express');
 const passport = require('passport');
@@ -40,8 +40,9 @@ module.exports = function (app) {
   // Initializing route groups
   const apiRoutes = express.Router(),
     authRoutes = express.Router(),
-    userRoutes = express.Router();
-    // parkRoutes = express.Router();
+    userRoutes = express.Router(),
+    bookRoutes = express.Router(),
+    tradeRoutes = express.Router();
 
   // app.use(passport.initialize());
   // app.use(passport.session());
@@ -59,7 +60,7 @@ module.exports = function (app) {
 
 
   // Handle callback after Google auth
-  // return user object and fb token to client
+  // return user object and token to client
   // need to handle login errors client-side here if redirected to login
   authRoutes.get('/google/callback',
     passport.authenticate('google'), AuthController.socialAuthCallback
@@ -74,41 +75,67 @@ module.exports = function (app) {
   // Set user routes as a subgroup/middleware to apiRoutes
   apiRoutes.use('/user', userRoutes);
 
-  // View user profile route
+  // View full user profile route (secured)
   // Returns fail status + message -or- user object
-  userRoutes.get('/:userId', UserController.viewProfile);
+  userRoutes.get('/:userId', requireAuth, UserController.viewProfile);
 
   // Get partial user profile route (unsecured)
-  // Returns fail status + message -or- username only
+  // Returns fail status + message -or- first name, avatar, city, and state
   userRoutes.get('/partial/:userId', UserController.partialProfile);
 
-  // Update a user's profile.
+  // Update a user's profile. (secured)
   // Returns fail status + message -or- updated user object
   userRoutes.put('/:userId', requireAuth, UserController.updateProfile);
 
 
   //= ========================
-  // Park Routes
+  // Book Routes
   //= ========================
 
-  // // Set park routes as a subgroup/middleware to apiRoutes
-  // apiRoutes.use('/park', parkRoutes);
+  // Set book routes as a subgroup/middleware to apiRoutes
+  apiRoutes.use('/book', bookRoutes);
 
-  // // Get all parks by city
-  // // Returns fail status + message -or- array of all parks
-  // parkRoutes.get('/allparks/:city', YelpController.getParks);
+  // Get all books (unsecured)
+  // Returns fail status + message -or- array of all books
+  bookRoutes.get('/allbooks', BookController.getAllBooks);
 
-  // // View a single park
-  // // Returns fail status + message -or- park object
-  // parkRoutes.get('/:parkId', ParkController.viewParkByYelpId);
+  // Get a single book by Id (unsecured)
+  // Returns fail status + message -or- book object
+  bookRoutes.get('/:bookId', BookController.getBookById);
 
-  // // Get guestlist for a park by yelpId
-  // // Returns fail status + message -or- guestlist
-  // parkRoutes.get('/guestlist/:parkId', ParkController.getGuestListByYelpId);
+  // Get all books for one user (unsecured)
+  // Returns fail status + message -or- array of user's books
+  bookRoutes.get('/books/:userId', BookController.getUserBooks);
 
-  // // Check in to (or out of) a park
-  // // Returns fail status + message -or- park object & user
-  // parkRoutes.put('/checkin/:parkId/:userId', ParkController.updateGuestList);
+  // Add new book (secured)
+  // Returns fail status + message -or- book object
+  bookRoutes.put('/:userId/:title', requireAuth, BookController.addBook);
+
+  // Update book owner (secured)
+  // Returns fail status + message -or- book object
+  bookRoutes.put('/update/:bookId/:userId', requireAuth, BookController.updateBookOwner);
+
+  // remove book ?
+
+
+  //= ========================
+  // Trade Routes
+  //= ========================
+
+  // Set trade routes as a subgroup/middleware to apiRoutes
+  apiRoutes.use('/trade', tradeRoutes);
+
+  // Get all trades for a user (unsecured)
+  // Returns fail status + message -or- array of user's trades
+  tradeRoutes.get('/:userId', TradeController.getUserTrades);
+
+  // Propose new trade (secured)
+  // Returns fail status + message -or- trade object
+  tradeRoutes.put('/new/:toUser/:fromUser/:bookId', requireAuth, TradeController.proposeTrade);
+
+  // Update trade (secured)
+  // Returns fail status + message -or- trade object
+  tradeRoutes.put('/update/:tradeId/:userId/:status', requireAuth, TradeController.updateTrade);
 
 
   // Set url for API group routes

@@ -33,12 +33,13 @@ exports.partialProfile = (req, res, next) => {
     User.findById(userId)
       .exec()
       .then((user) => {
-          // Respond with first name and avatar from user object
+          // Respond with first name, avatar, city, and state from user object
           const userInfo = helpers.setUserInfo(user);
           return res.status(201).json({
             avatarUrl: user.profile.avatarUrl,
             firstName: user.profile.firstName,
-            ownerId: user._id
+            city: user.profile.city,
+            state: user.profile.state
           });
        })
       .catch((err) => {

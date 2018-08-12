@@ -14,7 +14,6 @@ const UserSchema = new Schema(
       firstName: { type: String },
       lastName: { type: String },
       avatarUrl: { type: String },
-      email: { type: String, set: toLower },
       city: { type: String },
       state: { type: String }
     },
