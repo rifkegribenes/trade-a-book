@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   spinnerClass: "spinner__hide",
   trades: [],
   currentTrade: {
+    _id: "",
     from: "",
     to: "",
     book: "",
@@ -25,7 +26,7 @@ const INITIAL_STATE = {
   error: null
 };
 
-function book(state = INITIAL_STATE, action) {
+function trade(state = INITIAL_STATE, action) {
   let error;
 
   switch (action.type) {
@@ -72,4 +73,4 @@ function book(state = INITIAL_STATE, action) {
   }
 }
 
-export default stock;
+export default trade;

@@ -22,6 +22,7 @@ const INITIAL_STATE = {
   spinnerClass: "spinner__hide",
   books: [],
   currentBook: {
+    _id: "",
     title: "",
     authors: [],
     owner: "",
@@ -84,4 +85,4 @@ function book(state = INITIAL_STATE, action) {
   }
 }
 
-export default stock;
+export default book;
