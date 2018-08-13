@@ -3,14 +3,6 @@ import update from "immutability-helper";
 import {
   LOGOUT,
   SET_LOGGEDIN,
-  SET_FORM_FIELD,
-  SET_FORM_ERROR,
-  SET_VALIDATION_ERRORS,
-  RESET_FORM,
-  SHOW_FORM_ERROR,
-  SET_SUBMIT,
-  SET_TOUCHED,
-  SET_SHOW_ERROR,
   SET_REDIRECT_URL,
   SET_SPINNER,
   SET_MENU_STATE,
@@ -21,7 +13,7 @@ import {
   VALIDATE_TOKEN_SUCCESS,
   VALIDATE_TOKEN_FAILURE,
   GET_PROFILE_SUCCESS
-} from "../actions/apiActions";
+} from "../actions/apiProfileActions";
 
 const INITIAL_STATE = {
   loggedIn: false,
@@ -47,7 +39,7 @@ const INITIAL_STATE = {
 };
 
 function appState(state = INITIAL_STATE, action) {
-  let error;
+  // let error;
   switch (action.type) {
     case LOGOUT:
       window.localStorage.clear(); // do this in the component, not the reducer...

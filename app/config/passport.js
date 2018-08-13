@@ -97,14 +97,15 @@ module.exports = (passport) => {
         console.log(newUser);
 
         // save new user to database
-        newUser.save((err) => {
-          console.log(`saving new user to db`);
-          if (err) {
+        newUser.save()
+          .then(() => {
+            console.log(`saving new user to db`);
+            return done(newUser)
+          })
+          .catch(err => {
             console.log(err);
-            throw err;
-          }
-          return done(err, newUser);
-        });
+            return done(err);
+          });
       } else {
         // found user with matching id and different platform key.
         // update & return new user

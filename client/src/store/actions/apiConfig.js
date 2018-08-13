@@ -12,6 +12,7 @@ const devUrl = "http://localhost:3001"; // server url for local install
 
 // NODE_ENV is set by heroku when deployed
 
-const BASE_URL = process.env.NODE_ENV === "production" ? prodUrl : devUrl;
+export const BASE_URL =
+  process.env.NODE_ENV === "production" ? prodUrl : devUrl;
 
 export default BASE_URL;

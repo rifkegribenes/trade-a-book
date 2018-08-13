@@ -1,9 +1,9 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var User = require('./user.js');
-var Book = require('./book.js');
-var Schema = mongoose.Schema;
-var TradeSchema = mongoose.Schema({
+const User = require('./user.js');
+const Book = require('./book.js');
+const TradeSchema = Schema({
   from: {
     type: Schema.Types.ObjectId,
     ref: 'User'

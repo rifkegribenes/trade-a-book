@@ -49,7 +49,6 @@ exports.proposeTrade = (req, res, next) => {
 	      console.log(`trade.ctrl.js > proposeTrade: ${err}`);
       return handleError(res, err);
 	    });
-    });
 }
 
 

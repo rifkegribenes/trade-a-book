@@ -1,4 +1,4 @@
-import googleBooks from 'google-books-search';
+const googleBooks = require('google-books-search-2');
 
 const Book = require('../models/book');
 const User = require('../models/user');

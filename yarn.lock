@@ -35,6 +35,10 @@ bluebird@3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
 
+bluebird@~2.9.27:
+  version "2.9.34"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.9.34.tgz#2f7b4ec80216328a9fddebdf69c8d4942feff7d8"
+
 body-parser@1.18.2:
   version "1.18.2"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.18.2.tgz#87678a19d84b47d859b83199bd59bce222b10454"
@@ -275,6 +279,10 @@ express@^4.16.3:
     utils-merge "1.0.1"
     vary "~1.1.2"
 
+extend@:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/extend/-/extend-3.0.2.tgz#f8b1136b4071fbd8eb140aff858b1019ec2915fa"
+
 finalhandler@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/finalhandler/-/finalhandler-1.1.1.tgz#eebf4ed840079c83f4249038c9d703008301b105"
@@ -295,12 +303,14 @@ fresh@0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
 
-google-books-search@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/google-books-search/-/google-books-search-0.3.1.tgz#eb7ea1d78392ed0a7269751236aa985190350c9b"
+google-books-search-2@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/google-books-search-2/-/google-books-search-2-0.3.0.tgz#4421dcaa1389244c81fdef5f1c3ae41b18ab2fab"
   dependencies:
-    lodash "^4.4.0"
-    querystring "^0.2.0"
+    bluebird "~2.9.27"
+    extend ""
+    lodash "~3.9.3"
+    querystring ""
 
 graceful-fs@^4.1.2:
   version "4.1.11"
@@ -450,9 +460,13 @@ lodash.once@^4.0.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
 
-lodash@^4.17.10, lodash@^4.4.0, lodash@^4.5.1:
+lodash@^4.17.10, lodash@^4.5.1:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
+
+lodash@~3.9.3:
+  version "3.9.3"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.9.3.tgz#0159e86832feffc6d61d852b12a953b99496bd32"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -685,7 +699,7 @@ qs@6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
 
-querystring@^0.2.0:
+querystring@:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
 
