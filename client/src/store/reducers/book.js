@@ -27,7 +27,8 @@ const INITIAL_STATE = {
     owner: "",
     published: "",
     thumbnail: ""
-  }
+  },
+  error: null
 };
 
 function book(state = INITIAL_STATE, action) {
@@ -39,15 +40,17 @@ function book(state = INITIAL_STATE, action) {
     case GET_USER_BOOKS_REQUEST:
     case ADD_BOOK_REQUEST:
     case UPDATE_BOOK_OWNER_REQUEST:
-      return Object.assign({}, state, {
-        spinnerClass: "spinner__show"
+      return update(state, {
+        spinnerClass: { $set: "spinner__show" },
+        error: { $set: null }
       });
 
     case GET_ALL_BOOKS_SUCCESS:
     case GET_USER_BOOKS_SUCCESS:
       return update(state, {
         spinnerClass: { $set: "spinner__hide" },
-        books: { $set: action.payload.books }
+        books: { $set: action.payload.books },
+        error: { $set: null }
       });
 
     case GET_BOOK_BY_ID_SUCCESS:
@@ -55,7 +58,8 @@ function book(state = INITIAL_STATE, action) {
     case UPDATE_BOOK_OWNER_SUCCESS:
       return update(state, {
         spinnerClass: { $set: "spinner__hide" },
-        currentBook: { $set: action.payload.book }
+        currentBook: { $set: action.payload.book },
+        error: { $set: null }
       });
 
     case GET_ALL_BOOKS_FAILURE:
@@ -70,9 +74,9 @@ function book(state = INITIAL_STATE, action) {
         error = "Sorry, something went wrong :(\nPlease try again.";
       }
       console.log(error);
-      return Object.assign({}, state, {
-        spinnerClass: "spinner__hide",
-        errorMsg: error
+      return update(state, {
+        spinnerClass: { $set: "spinner__hide" },
+        error: { $set: error }
       });
 
     default:
