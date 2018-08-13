@@ -105,15 +105,15 @@ module.exports = function (app) {
 
   // Get all books for one user (unsecured)
   // Returns fail status + message -or- array of user's books
-  bookRoutes.get('/books/:userId', BookController.getUserBooks);
+  bookRoutes.get('/userbooks/:userId', BookController.getUserBooks);
 
   // Add new book (secured)
   // Returns fail status + message -or- book object
-  bookRoutes.put('/:userId/:title', requireAuth, BookController.addBook);
+  bookRoutes.put('/new/:userId/:title', requireAuth, BookController.addBook);
 
   // Update book owner (secured)
   // Returns fail status + message -or- book object
-  bookRoutes.put('/update/:bookId/:userId', requireAuth, BookController.updateBookOwner);
+  bookRoutes.put('/update/:userId/:bookId', requireAuth, BookController.updateBookOwner);
 
   // remove book ?
 
@@ -127,7 +127,7 @@ module.exports = function (app) {
 
   // Get all trades for a user (unsecured)
   // Returns fail status + message -or- array of user's trades
-  tradeRoutes.get('/:userId', TradeController.getUserTrades);
+  tradeRoutes.get('/usertrades/:userId', TradeController.getUserTrades);
 
   // Propose new trade (secured)
   // Returns fail status + message -or- trade object
