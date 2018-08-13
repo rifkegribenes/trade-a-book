@@ -12,7 +12,7 @@ const SERVER_URL = process.env.NODE_ENV === 'production' ? APP_HOST : '//localho
 //= =======================================
 
 exports.socialAuthCallback = (req, res) => {
-  console.log('social auth callback');
+  console.log('################# social auth callback');
   if (req.user && req.user.err) {
     res.status(401).json({
       success: false,

@@ -78,6 +78,7 @@ module.exports = (passport) => {
 
   // save new user
   const saveNewUser = (updates, options, profile, token, done) => {
+    console.log('saveNewUser');
     const target = {
       'profile.email': profile.emails[0].value
     };
@@ -94,13 +95,13 @@ module.exports = (passport) => {
         newUser.profile.lastName = profile.displayName.split(' ').slice(1),
         newUser.profile.avatarUrl = profile.photos[0].value,
 
-        console.log(newUser);
+        // console.log(newUser);
 
         // save new user to database
         newUser.save()
-          .then(() => {
+          .then((user) => {
             console.log(`saving new user to db`);
-            return done(newUser)
+            return done(null, user);
           })
           .catch(err => {
             console.log(err);
@@ -137,11 +138,12 @@ module.exports = (passport) => {
         // console.log(req.user);
         // check if user is already logged in
         if (!req.user) {
-          findExistingUser(profile, token, 'google', done)
+          console.log('passport.js > 140');
+          findExistingUser(profile, token, done);
         } else {
           // return existing user
           console.log('user with existing google id');
-          console.log(req.user);
+          // console.log(req.user);
           return done(null, req.user);
         }
       }); // process.nextTick()
