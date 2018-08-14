@@ -7,13 +7,11 @@ import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
+import Search from "./Search";
+import SearchResults from "./SearchResults";
+
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
@@ -63,87 +61,22 @@ class Home extends Component {
     });
   }
 
-  handleInput = ({ target: { name, value } }) =>
-    this.setState({
-      [name]: value
-    });
-
-  searchBook = () => {
-    console.log("searchBook");
-    // const token = this.props.appState.authToken;
-    // const userId = this.props.profile.profile._id;
-    const title = encodeURIComponent(this.state.title);
-    const author = encodeURIComponent(this.state.author);
-    // const body = { userId, title, author };
-    if (title && author) {
-      console.log(title);
-      this.props.apiBook
-        .searchBook(title, author)
-        .then(result => {
-          console.log(result);
-          console.log(this.props.book.searchResults);
-        })
-        .catch(err => console.log(err));
-    } else {
-      // add client-side validation here
-      console.log("title and author are required");
-    }
-  };
-
   render() {
-    const { title, author } = this.state;
     return (
       <div className="Home">
         <Paper>
           <Typography variant="display1" align="center" gutterBottom>
             Trade a book
           </Typography>
-          <form onSubmit={this.addBook}>
-            <TextField
-              name="title"
-              label="Title"
-              value={title}
-              onChange={this.handleInput}
-              margin="normal"
-            />
-            <TextField
-              name="author"
-              label="Author"
-              value={author}
-              onChange={this.handleInput}
-              margin="normal"
-            />
-            <Button
-              type="button"
-              color="primary"
-              variant="raised"
-              onClick={() => this.searchBook()}
-            >
-              Search book
-            </Button>
-          </form>
         </Paper>
-        <List>
-          {this.props.book.books && this.props.book.books.length
-            ? this.props.book.books.map(({ _id, title }) => (
-                <ListItem key={_id}>
-                  <ListItemText primary={title} />
-                </ListItem>
-              ))
-            : null}
-        </List>
-        <List>
-          {this.props.book.searchResults.length &&
-            this.props.book.searchResults.map(book => (
-              <ListItem key={book._id}>
-                <ListItemText primary={book.volumeInfo.title} />
-              </ListItem>
-            ))}
-        </List>
+        <Search />
+        {this.props.book.searchResults.length && <SearchResults />}
       </div>
     );
   }
 }
+
+Home.propTypes = {};
 
 const mapStateToProps = state => ({
   appState: state.appState,

@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 // import PropTypes from "prop-types";
 
+import CssBaseline from "@material-ui/core/CssBaseline";
+
 import * as Actions from "./store/actions";
 import * as apiBookActions from "./store/actions/apiBookActions";
 
@@ -27,6 +29,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <CssBaseline />
         <NavBar />
         <main className="main" id="main">
           <Switch>
