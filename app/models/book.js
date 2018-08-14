@@ -15,7 +15,8 @@ const BookSchema = new Schema({
     type: Date,
     default: Date.now()
   },
-  thumbnail: String
+  thumbnail: String,
+  googleId: String
 });
 
 module.exports = mongoose.model('Book', BookSchema);

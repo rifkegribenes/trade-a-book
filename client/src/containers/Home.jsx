@@ -63,7 +63,7 @@ class Home extends Component {
     return (
       <div className="Home">
         <Search />
-        {this.props.book.searchResults.length && <SearchResults />}
+        {this.props.book.searchResults.length ? <SearchResults /> : null}
       </div>
     );
   }

@@ -183,13 +183,13 @@ export function searchBook(title, author) {
 
 /*
 * Function: addBook -- add new book to db
-* @param {string} userId
 * @param {object} body (book object)
 *  --  @param {string} googleId,
 *  --  @param {string} title,
-*  --  @param {string} author,
+*  --  @param {array} authors,
 *  --  @param {string} publishedDate,
-*  --  @param {string} thumbnail
+*  --  @param {string} thumbnail,
+*  --  @param {string} owner (userId)
 * This action dispatches additional actions as it executes:
 *   ADD_BOOK_REQUEST:
 *     Initiates a spinner on the home page.

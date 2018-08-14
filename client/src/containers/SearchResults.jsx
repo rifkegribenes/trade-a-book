@@ -35,6 +35,43 @@ const styles = theme => ({
 class SearchResults extends Component {
   componentDidMount() {}
 
+  addBook = bookData => {
+    console.log("addBook");
+    console.log(bookData);
+    const token = this.props.appState.authToken;
+    const userId = this.props.profile.profile._id;
+
+    if (!token || !userId) {
+      console.log(
+        "you must be logged in to add a book... handle this error..."
+      );
+    }
+
+    const book = {
+      googleId: bookData.id,
+      title: bookData.volumeInfo.title,
+      authors: [...bookData.volumeInfo.authors],
+      owner: userId,
+      published: bookData.volumeInfo.publishedDate,
+      thumbnail: bookData.volumeInfo.imageLinks.thumbnail
+    };
+
+    if (book) {
+      this.props.apiBook
+        .addBook(token, book)
+        .then(result => {
+          console.log(result);
+          this.props.apiBook
+            .getAllBooks()
+            .then(result => console.log(this.props.book.books));
+        })
+        .catch(err => console.log(err));
+    } else {
+      // add client-side validation here
+      console.log("handle this error client side...");
+    }
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -42,6 +79,10 @@ class SearchResults extends Component {
         <Paper>
           <Typography variant="display1" align="center" gutterBottom>
             Search Results
+          </Typography>
+          <Typography variant="subheading" align="center" gutterBottom>
+            Choose your book from the results and click 'Add' to add to your
+            library.
           </Typography>
           <List style={{ maxWidth: 600 }}>
             {this.props.book.searchResults.map((book, i, books) => (
@@ -64,6 +105,7 @@ class SearchResults extends Component {
                     variant="contained"
                     color="default"
                     className={classes.button}
+                    onClick={() => this.addBook(book)}
                   >
                     Add
                     <AddBox className={classes.rightIcon} />

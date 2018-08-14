@@ -39,21 +39,15 @@ exports.getBookById = (req, res, next) => {
     });
 };
 
-// add new book. params: title, userId
+// add new book. params: title, author
 exports.searchBook = (req, res, next) => {
-  console.log(`search > ${req.params.title}, ${req.params.author}`);
 	const { title, author } = req.params;
 
-  console.log(`search > ${title}, ${author}`);
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&projection=lite&printType=books&fields=items(id, volumeInfo/title, volumeInfo/authors, volumeInfo/description, volumeInfo/publishedDate, volumeInfo/imageLinks)&maxResults=5&key=${process.env.GOOGLE_API_KEY}`
-  console.log(url);
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&projection=lite&printType=books&fields=items(id, volumeInfo/title, volumeInfo/authors, volumeInfo/description, volumeInfo/publishedDate, volumeInfo/imageLinks)&maxResults=3&key=${process.env.GOOGLE_API_KEY}`
 
   utils.getContent(url)
     .then((data) => {
-      console.log('book.ctrl.js > 54');
-      console.log(data);
       const books = data.items.filter((book) => book.volumeInfo.imageLinks.thumbnail && book.volumeInfo.imageLinks.thumbnail.length);
-      console.log(books);
       return res.status(200).json({ books });
     })
     .catch((err) => {
@@ -63,17 +57,20 @@ exports.searchBook = (req, res, next) => {
 };
 
 exports.addBook = (req, res, next) => {
+  const book = req.body;
+  console.log(book);
 
     const newBook = new Book({
+      googleId: book.googleId,
       title: book.title,
   		authors: [ ...book.authors ],
-  		owner: userId,
+  		owner: book.owner,
   		published: book.publishedDate,
   		thumbnail: book.thumbnail
     });
     console.log(newBook);
 
-    // check if exists in db first b4 creating new
+    // check if exists in db first b4 creating new -- findOrCreate ??
 
     newBook.save()
 	    .then((book) => {
