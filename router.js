@@ -17,19 +17,25 @@ const helpers = require('./app/utils/index');
 const requireAuth = (req, res, next) => {
   passport.authenticate('jwt', { session: false },
     (err, user, info) => {
+      console.log('requireAuth');
       if (err) {
+        console.log(`router.js > 22: ${err}`);
         return res.status(422).send({ success : false, message : err.message });
       }
       if (!user) {
         return res.status(422).send({ success : false, message : 'Sorry, you must log in to view this page.' });
       }
       if (user) {
+        console.log(`router.js > 29: user found`);
         // const userInfo = helpers.setUserInfo(user);
         req.login(user, (loginErr) => {
           if (loginErr) {
+            console.log(`router.js > 32: ${loginErr}`);
             return next(loginErr);
           } else {
-            return next(user);
+            console.log(`router.js > 36: returning next`);
+            // return next(user);
+            return next(loginErr, user);
           }
         }); // req.login
       }
@@ -69,8 +75,6 @@ module.exports = function (app) {
   //= ========================
   // User Routes
   //= ========================
-
-  apiRoutes.get('refresh_token', UserController.refreshToken);
 
   // Set user routes as a subgroup/middleware to apiRoutes
   apiRoutes.use('/user', userRoutes);

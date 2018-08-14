@@ -13,6 +13,8 @@ class Profile extends React.Component {
     if (this.props.match && this.props.match.params.id) {
       userId = this.props.match.params.id;
       token = this.props.match.params.token;
+      console.log(`userId: ${userId}`);
+      console.log(`${token ? "token exists" : "no token"}`);
       authCallback = true;
       // if logged in for first time through social auth,
       // need to save userId & token to local storage
@@ -22,6 +24,9 @@ class Profile extends React.Component {
       this.props.actions.setSpinner("hide");
       // remove id & token from route params after saving to local storage
       window.history.replaceState(null, null, `${window.location.origin}/user`);
+      setTimeout(() => {
+        console.log(this.props.appState.loggedIn);
+      }, 1000);
     } else {
       // if userId is not in route params
       // look in redux store or local storage
@@ -33,11 +38,13 @@ class Profile extends React.Component {
       } else {
         token = this.props.appState.authToken;
       }
+      console.log(this.props.appState.loggedIn);
     }
     // retrieve user profile & save to app state
     this.props.api.getProfile(token, userId).then(result => {
       if (result.type === "GET_PROFILE_SUCCESS") {
         this.props.actions.setLoggedIn();
+        console.log(this.props.appState.loggedIn);
         if (authCallback) {
           // if landing on profile page after auth callback,
           // check for redirect url in local storage

@@ -5,12 +5,14 @@ const helpers = require('../utils/index');
 // User Routes
 //= =======================================
 exports.viewProfile = (req, res, next) => {
+  console.log('viewProfile');
+  console.log(req.params.userId);
   const userId = req.params.userId;
 
-  User.findById(userId, (err, user) => {
-    if (err) {
-      return res.status(400).json({ message: 'No user found.' });
-    } else if (user) {
+  User.findById(userId)
+    .exec()
+    .then((user) => {
+      console.log(`user.ctrl.js > 15: user found, generating token`);
       // Respond with JWT and user object
       const userInfo = helpers.setUserInfo(user);
       const token = helpers.generateToken(userInfo);
@@ -18,11 +20,11 @@ exports.viewProfile = (req, res, next) => {
         token,
         user
       });
-    } else {
+    })
+    .catch((err) => {
+      console.log(`user.ctrl.js > 22: ${err}`);
       return res.status(400).json({ message: 'No user found.' });
-    }
-
-  });
+    });
 };
 
 exports.partialProfile = (req, res, next) => {
@@ -104,38 +106,4 @@ exports.updateProfile = (userObj, req, res, next) => {
       .status(400)
       .json({ message: err});
   });
-}
-
-// REFRESH USER TOKEN
-//   Example: GET >> /api/refresh_token
-//   Secured: yes, valid JWT required
-//   Expects:
-//     1) '_id' from JWT
-//   Returns: user profile and new JWT on success
-//
-exports.refreshToken = (req, res) => {
-  const userId = req.token._id;
-
-  User.findById(userId)
-    .exec()
-    .then( user => {
-
-      // generate a token
-      const token = helpers.generateToken(user);
-
-      // return the user profile & JWT
-      return res
-        .status(200)
-        .json({
-            profile : user,
-            token   : token
-        });
-
-      })
-    .catch( err => {
-        return res
-          .status(400)
-          .json({ message: err});
-    });
-
 }

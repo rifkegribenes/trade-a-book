@@ -1,5 +1,8 @@
 import React from "react";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
+
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -23,33 +26,49 @@ const styles = {
   }
 };
 
-function ButtonAppBar(props) {
-  const { classes } = props;
-  return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="Menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="title" color="inherit" className={classes.flex}>
-            Trade a Book
-          </Typography>
-          <a href={`${BASE_URL}/api/auth/google`}>
-            <Button color="inherit">Login</Button>
-          </a>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+class NavBar extends React.Component {
+  render() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            <IconButton
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="Menu"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
+              Trade a Book
+            </Typography>
+            {this.props.appState.loggedIn ? (
+              <Link to="/logout">
+                <Button>Logout</Button>
+              </Link>
+            ) : (
+              <a href={`${BASE_URL}/api/auth/google`}>
+                <Button>Login</Button>
+              </a>
+            )}
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
-ButtonAppBar.propTypes = {
+NavBar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ButtonAppBar);
+const mapStateToProps = state => ({
+  appState: state.appState
+});
+
+export default withRouter(withStyles(styles)(connect(mapStateToProps)(NavBar)));

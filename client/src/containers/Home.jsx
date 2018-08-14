@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as Actions from "../store/actions";
+import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
 import Typography from "@material-ui/core/Typography";
@@ -43,7 +44,7 @@ class Home extends Component {
         token = JSON.parse(token);
         const userId = JSON.parse(window.localStorage.getItem("userId"));
         if (userId) {
-          this.props.api.validateToken(token, userId).then(result => {
+          this.props.apiProfile.validateToken(token, userId).then(result => {
             if (result === "VALIDATE_TOKEN_FAILURE") {
               console.log("token failed to validate");
             } else if (result === "VALIDATE_TOKEN_SUCESS") {
@@ -56,9 +57,9 @@ class Home extends Component {
     } else {
       // console.log("logged in");
     }
-    this.props.apiBook.getAllBooks().then(() => {
-      console.log(this.props.book.books);
-    });
+    // this.props.apiBook.getAllBooks().then(() => {
+    //   console.log(this.props.book.books);
+    // });
   }
 
   handleInput = ({ target: { name, value } }) =>
@@ -118,7 +119,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
-  apiBook: bindActionCreators(apiBookActions, dispatch)
+  apiBook: bindActionCreators(apiBookActions, dispatch),
+  apiProfile: bindActionCreators(apiProfileActions, dispatch)
 });
 
 export default withStyles(styles)(

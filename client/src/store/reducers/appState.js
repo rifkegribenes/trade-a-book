@@ -78,6 +78,7 @@ function appState(state = INITIAL_STATE, action) {
       return update(state, { redirectUrl: { $set: action.payload } });
 
     case SET_LOGGEDIN:
+      console.log("set loggedin");
       return update(state, { loggedIn: { $set: true } });
 
     default:

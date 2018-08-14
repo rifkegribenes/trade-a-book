@@ -48,7 +48,15 @@ function profile(state = INITIAL_STATE, action) {
     case MODIFY_PROFILE_SUCCESS:
       return update(state, {
         spinnerClass: { $set: "spinner__hide" },
-        profile: { $set: action.payload.user },
+        profile: {
+          _id: { $set: action.payload.user._id },
+          firstName: { $set: action.payload.user.profile.firstName },
+          lastName: { $set: action.payload.user.profile.lastName },
+          email: { $set: action.payload.user.google.email },
+          avatarUrl: { $set: action.payload.user.profile.avatarUrl },
+          city: { $set: action.payload.user.profile.city },
+          state: { $set: action.payload.user.profile.state }
+        },
         error: { $set: null }
       });
 
@@ -56,6 +64,7 @@ function profile(state = INITIAL_STATE, action) {
     case GET_PROFILE_FAILURE:
     case GET_PARTIAL_PROFILE_FAILURE:
     case MODIFY_PROFILE_FAILURE:
+      console.log(action.type);
       console.log(action.payload);
       if (typeof action.payload.message === "string") {
         error = action.payload.message;

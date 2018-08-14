@@ -42,7 +42,7 @@ module.exports = (passport) => {
     // if mongo user exists with empty platform key,
     // update with platform info and return updated user
     const target = {
-      'profile.email': profile.emails[0].value
+      'google.email': profile.emails[0].value
       };
     const updates = {
       google: {
@@ -105,7 +105,7 @@ module.exports = (passport) => {
           })
           .catch(err => {
             console.log(err);
-            return done(err);
+            return done(err, null);
           });
       } else {
         // found user with matching id and different platform key.
@@ -115,7 +115,7 @@ module.exports = (passport) => {
     }) // then
     .catch( (err) => {
       console.log(err);
-      return done(err);
+      return done(err, null);
     }); // catch
   }
 

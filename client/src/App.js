@@ -10,8 +10,20 @@ import * as apiBookActions from "./store/actions/apiBookActions";
 import NavBar from "./containers/NavBar";
 import Home from "./containers/Home";
 import Profile from "./containers/Profile";
+import Logout from "./containers/Logout";
 
 class App extends Component {
+  componentDidMount() {
+    if (this.props.location.hash) {
+      console.log("redirect hash client");
+      const hash = this.props.location.hash.slice(2);
+      const url = `/${hash.split("=")[1]}`;
+      // don't redirect for facebook hash after social auth
+      if (url !== "/_") {
+        this.props.history.push(url);
+      }
+    }
+  }
   render() {
     return (
       <div className="App">
@@ -27,6 +39,7 @@ class App extends Component {
               path="/profile/:id?/:token?"
               render={routeProps => <Profile {...routeProps} />}
             />
+            <Route path="/logout" component={Logout} />
             {/*            <Route path="*" component={NotFound} />*/}
           </Switch>
         </main>
