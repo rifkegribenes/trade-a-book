@@ -28,7 +28,8 @@ const styles = theme => ({
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
-  }
+  },
+  author: {}
 });
 
 class SearchResults extends Component {
@@ -42,10 +43,10 @@ class SearchResults extends Component {
           <Typography variant="display1" align="center" gutterBottom>
             Search Results
           </Typography>
-          <List style={{ width: 1200 }}>
+          <List style={{ maxWidth: 600 }}>
             {this.props.book.searchResults.map((book, i, books) => (
               <div key={book.id}>
-                <ListItem>
+                <ListItem style={{ paddingRight: 0 }}>
                   <img
                     className={classes.thumbnail}
                     style={{ height: "80px", padding: 10 }}
@@ -54,11 +55,12 @@ class SearchResults extends Component {
                   />
                   <ListItemText
                     primary={book.volumeInfo.title}
-                    secondary={`${
-                      book.volumeInfo.authors
-                    }, ${book.volumeInfo.publishedDate.substring(0, 4)}`}
+                    secondary={`${book.volumeInfo.authors.join(
+                      ", "
+                    )} (${book.volumeInfo.publishedDate.substring(0, 4)})`}
                   />
                   <Button
+                    size="small"
                     variant="contained"
                     color="default"
                     className={classes.button}
