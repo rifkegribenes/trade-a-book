@@ -3,12 +3,15 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import Divider from "@material-ui/core/Divider";
+
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
 import Search from "./Search";
 import SearchResults from "./SearchResults";
+import BookList from "./BookList";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -64,6 +67,8 @@ class Home extends Component {
       <div className="Home">
         <Search />
         {this.props.book.searchResults.length ? <SearchResults /> : null}
+        <Divider />
+        <BookList />
       </div>
     );
   }
