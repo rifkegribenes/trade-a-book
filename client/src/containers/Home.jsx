@@ -10,8 +10,6 @@ import * as apiBookActions from "../store/actions/apiBookActions";
 import Search from "./Search";
 import SearchResults from "./SearchResults";
 
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = {
@@ -64,11 +62,6 @@ class Home extends Component {
   render() {
     return (
       <div className="Home">
-        <Paper>
-          <Typography variant="display1" align="center" gutterBottom>
-            Trade a book
-          </Typography>
-        </Paper>
         <Search />
         {this.props.book.searchResults.length && <SearchResults />}
       </div>
