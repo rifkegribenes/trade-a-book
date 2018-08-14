@@ -31,7 +31,8 @@ class Home extends Component {
     this.state = {
       books: [],
       currentBook: {},
-      bookInput: ""
+      title: "",
+      author: ""
     };
   }
 
@@ -57,9 +58,9 @@ class Home extends Component {
     } else {
       // console.log("logged in");
     }
-    // this.props.apiBook.getAllBooks().then(() => {
-    //   console.log(this.props.book.books);
-    // });
+    this.props.apiBook.getAllBooks().then(() => {
+      console.log(this.props.book.books);
+    });
   }
 
   handleInput = ({ target: { name, value } }) =>
@@ -67,19 +68,30 @@ class Home extends Component {
       [name]: value
     });
 
-  addBook = () => {
-    // const token =
-    // const userId =
-    // const title = this.state.bookInput;
-    // if (title) {
-    //   this.props.apiBook.addBook(token, userId, title)
-    //     .then(result => console.log(result))
-    //     .catch(err => console.log(err));
-    // }
+  searchBook = () => {
+    console.log("searchBook");
+    // const token = this.props.appState.authToken;
+    // const userId = this.props.profile.profile._id;
+    const title = encodeURIComponent(this.state.title);
+    const author = encodeURIComponent(this.state.author);
+    // const body = { userId, title, author };
+    if (title && author) {
+      console.log(title);
+      this.props.apiBook
+        .searchBook(title, author)
+        .then(result => {
+          console.log(result);
+          console.log(this.props.book.searchResults);
+        })
+        .catch(err => console.log(err));
+    } else {
+      // add client-side validation here
+      console.log("title and author are required");
+    }
   };
 
   render() {
-    const { bookInput } = this.state;
+    const { title, author } = this.state;
     return (
       <div className="Home">
         <Paper>
@@ -88,23 +100,45 @@ class Home extends Component {
           </Typography>
           <form onSubmit={this.addBook}>
             <TextField
-              name="bookInput"
-              label="Add new book"
-              value={bookInput}
+              name="title"
+              label="Title"
+              value={title}
               onChange={this.handleInput}
               margin="normal"
             />
-            <Button type="button" color="primary" variant="raised">
-              Add book
+            <TextField
+              name="author"
+              label="Author"
+              value={author}
+              onChange={this.handleInput}
+              margin="normal"
+            />
+            <Button
+              type="button"
+              color="primary"
+              variant="raised"
+              onClick={() => this.searchBook()}
+            >
+              Search book
             </Button>
           </form>
         </Paper>
         <List>
-          {this.props.book.books.map(({ _id, title }) => (
-            <ListItem key={_id}>
-              <ListItemText primary={title} />
-            </ListItem>
-          ))}
+          {this.props.book.books && this.props.book.books.length
+            ? this.props.book.books.map(({ _id, title }) => (
+                <ListItem key={_id}>
+                  <ListItemText primary={title} />
+                </ListItem>
+              ))
+            : null}
+        </List>
+        <List>
+          {this.props.book.searchResults.length &&
+            this.props.book.searchResults.map(book => (
+              <ListItem key={book._id}>
+                <ListItemText primary={book.volumeInfo.title} />
+              </ListItem>
+            ))}
         </List>
       </div>
     );

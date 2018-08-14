@@ -10,6 +10,9 @@ import {
   GET_USER_BOOKS_REQUEST,
   GET_USER_BOOKS_SUCCESS,
   GET_USER_BOOKS_FAILURE,
+  SEARCH_BOOK_REQUEST,
+  SEARCH_BOOK_SUCCESS,
+  SEARCH_BOOK_FAILURE,
   ADD_BOOK_REQUEST,
   ADD_BOOK_SUCCESS,
   ADD_BOOK_FAILURE,
@@ -21,10 +24,12 @@ import {
 const INITIAL_STATE = {
   spinnerClass: "spinner__hide",
   books: [],
+  searchResults: [],
   currentBook: {
     _id: "",
     title: "",
     authors: [],
+    description: "",
     owner: "",
     published: "",
     thumbnail: ""
@@ -39,6 +44,7 @@ function book(state = INITIAL_STATE, action) {
     case GET_ALL_BOOKS_REQUEST:
     case GET_BOOK_BY_ID_REQUEST:
     case GET_USER_BOOKS_REQUEST:
+    case SEARCH_BOOK_REQUEST:
     case ADD_BOOK_REQUEST:
     case UPDATE_BOOK_OWNER_REQUEST:
       return update(state, {
@@ -54,6 +60,13 @@ function book(state = INITIAL_STATE, action) {
         error: { $set: null }
       });
 
+    case SEARCH_BOOK_SUCCESS:
+      return update(state, {
+        spinnerClass: { $set: "spinner__hide" },
+        searchResults: { $set: action.payload.books },
+        error: { $set: null }
+      });
+
     case GET_BOOK_BY_ID_SUCCESS:
     case ADD_BOOK_SUCCESS:
     case UPDATE_BOOK_OWNER_SUCCESS:
@@ -66,6 +79,7 @@ function book(state = INITIAL_STATE, action) {
     case GET_ALL_BOOKS_FAILURE:
     case GET_BOOK_BY_ID_FAILURE:
     case GET_USER_BOOKS_FAILURE:
+    case SEARCH_BOOK_FAILURE:
     case ADD_BOOK_FAILURE:
     case UPDATE_BOOK_OWNER_FAILURE:
       console.log(action.payload);

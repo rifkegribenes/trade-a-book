@@ -1,7 +1,6 @@
-const googleBooks = require('google-books-search-2');
-
 const Book = require('../models/book');
 const User = require('../models/user');
+const utils = require('../utils');
 
 // Get all books
 exports.getAllBooks = (req, res, next) => {
@@ -41,38 +40,29 @@ exports.getBookById = (req, res, next) => {
 };
 
 // add new book. params: title, userId
-exports.addBook = (req, res, next) => {
+exports.searchBook = (req, res, next) => {
+  console.log(`search > ${req.params.title}, ${req.params.author}`);
+	const { title, author } = req.params;
 
-	const title = req.params.title.trim();
-	const userId = req.params.userId
+  console.log(`search > ${title}, ${author}`);
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${title}+inauthor:${author}&projection=lite&printType=books&fields=items(id, volumeInfo/title, volumeInfo/authors, volumeInfo/description, volumeInfo/publishedDate, volumeInfo/imageLinks)&maxResults=5&key=${process.env.GOOGLE_API_KEY}`
+  console.log(url);
 
-	const searchOptions = {
-	    key: process.env.GOOGLE_KEY,
-	    field: 'title',
-	    offset: 0,
-	    limit: 10,
-	    type: 'books',
-	    order: 'newest',
-	    lang: 'en'
-	};
-
-  googleBooks.search(title, searchOptions, (err, results, apiResponse) => {
-    if (err) {
-      console.log(`book.ctrl.js > addBook: ${err}`);
+  utils.getContent(url)
+    .then((data) => {
+      console.log('book.ctrl.js > 54');
+      console.log(data);
+      const books = data.items.filter((book) => book.volumeInfo.imageLinks.thumbnail && book.volumeInfo.imageLinks.thumbnail.length);
+      console.log(books);
+      return res.status(200).json({ books });
+    })
+    .catch((err) => {
+      console.log(`book.ctrl.js > searchBook: ${err}`);
       return handleError(res, err);
-    }
+    });
+};
 
-    let book;
-    for (let bookId in results) {
-      if (results[bookId].thumbnail && results[bookId].thumbnail.length) {
-        book = results[bookId];
-        break;
-      }
-    }
-
-    if (!book) {
-      return res.status(400).json({ message: 'Book not found.' });
-    }
+exports.addBook = (req, res, next) => {
 
     const newBook = new Book({
       title: book.title,
@@ -82,6 +72,8 @@ exports.addBook = (req, res, next) => {
   		thumbnail: book.thumbnail
     });
     console.log(newBook);
+
+    // check if exists in db first b4 creating new
 
     newBook.save()
 	    .then((book) => {
@@ -96,8 +88,7 @@ exports.addBook = (req, res, next) => {
 	      console.log(`book.ctrl.js > addBook: ${err}`);
       return handleError(res, err);
 	    });
-    });
-	};
+}
 
 // change ownership of a book. params = bookId, userId of new owner
 exports.updateBookOwner = (req, res, next) => {

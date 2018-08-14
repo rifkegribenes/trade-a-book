@@ -10,6 +10,9 @@ export const GET_BOOK_BY_ID_FAILURE = "GET_BOOK_BY_ID_FAILURE";
 export const GET_USER_BOOKS_REQUEST = "GET_USER_BOOKS_REQUEST";
 export const GET_USER_BOOKS_SUCCESS = "GET_USER_BOOKS_SUCCESS";
 export const GET_USER_BOOKS_FAILURE = "GET_USER_BOOKS_FAILURE";
+export const SEARCH_BOOK_REQUEST = "SEARCH_BOOK_REQUEST";
+export const SEARCH_BOOK_SUCCESS = "SEARCH_BOOK_SUCCESS";
+export const SEARCH_BOOK_FAILURE = "SEARCH_BOOK_FAILURE";
 export const ADD_BOOK_REQUEST = "ADD_BOOK_REQUEST";
 export const ADD_BOOK_SUCCESS = "ADD_BOOK_SUCCESS";
 export const ADD_BOOK_FAILURE = "ADD_BOOK_FAILURE";
@@ -137,9 +140,56 @@ export function getUserBooks(userId) {
 }
 
 /*
-* Function: addBook -- fetch book info from google books api by title and add new book to db
-* @param {string} userId
+* Function: searchBook -- fetch book info from google books api
+* Returns: array of up to 5 book objexts that match the search query
 * @param {string} title
+* @param {string} author
+* This action dispatches additional actions as it executes:
+*   SEARCH_BOOK_REQUEST:
+*     Initiates a spinner on the home page.
+*   SEARCH_BOOK_SUCCESS:
+*     If books array successfully retrieved, hides spinner
+*   SEARCH_BOOK_FAILURE:
+*     If database error, hides spinner, displays error toastr
+*/
+export function searchBook(title, author) {
+  return {
+    [RSAA]: {
+      endpoint: `${BASE_URL}/api/book/search/${title}/${author}`,
+      method: "GET",
+      types: [
+        SEARCH_BOOK_REQUEST,
+        SEARCH_BOOK_SUCCESS,
+        {
+          type: SEARCH_BOOK_FAILURE,
+          payload: (action, state, res) => {
+            return res.json().then(data => {
+              let message = "Sorry, something went wrong :(";
+              if (data) {
+                if (data.message) {
+                  message = data.message;
+                }
+                return { message };
+              } else {
+                return { message };
+              }
+            });
+          }
+        }
+      ]
+    }
+  };
+}
+
+/*
+* Function: addBook -- add new book to db
+* @param {string} userId
+* @param {object} body (book object)
+*  --  @param {string} googleId,
+*  --  @param {string} title,
+*  --  @param {string} author,
+*  --  @param {string} publishedDate,
+*  --  @param {string} thumbnail
 * This action dispatches additional actions as it executes:
 *   ADD_BOOK_REQUEST:
 *     Initiates a spinner on the home page.
@@ -148,10 +198,10 @@ export function getUserBooks(userId) {
 *   ADD_BOOK_FAILURE:
 *     If database error, hides spinner, displays error toastr
 */
-export function addBook(token, userId, title) {
+export function addBook(token, body) {
   return {
     [RSAA]: {
-      endpoint: `${BASE_URL}/api/book/new/${userId}/${title}`,
+      endpoint: `${BASE_URL}/api/book/new`,
       method: "PUT",
       types: [
         ADD_BOOK_REQUEST,
@@ -173,7 +223,11 @@ export function addBook(token, userId, title) {
           }
         }
       ],
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
     }
   };
 }

@@ -111,9 +111,13 @@ module.exports = function (app) {
   // Returns fail status + message -or- array of user's books
   bookRoutes.get('/userbooks/:userId', BookController.getUserBooks);
 
+  // Search book (unsecured)
+  // Returns fail status + message -or- array of possible books
+  bookRoutes.get('/search/:title/:author', BookController.searchBook);
+
   // Add new book (secured)
   // Returns fail status + message -or- book object
-  bookRoutes.put('/new/:userId/:title', requireAuth, BookController.addBook);
+  bookRoutes.put('/new', requireAuth, BookController.addBook);
 
   // Update book owner (secured)
   // Returns fail status + message -or- book object
