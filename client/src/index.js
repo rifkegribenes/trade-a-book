@@ -6,11 +6,15 @@ import "./index.css";
 import App from "./App";
 import store from "./store/store";
 import registerServiceWorker from "./registerServiceWorker";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import theme from "./styles/theme";
 
 render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
     </BrowserRouter>
   </Provider>,
   root

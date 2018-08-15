@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
-import TextField from "@material-ui/core/TextField";
+// import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
@@ -62,20 +63,28 @@ class Search extends Component {
     return (
       <div className="search">
         <Paper>
-          <form onSubmit={this.addBook}>
-            <TextField
+          <ValidatorForm
+            ref="form"
+            onSubmit={this.searchBook}
+            onError={errors => console.log(errors)}
+          >
+            <TextValidator
               name="title"
               label="Title"
               value={title}
               onChange={this.handleInput}
               margin="normal"
+              validators={["required"]}
+              errorMessages={["this field is required"]}
             />
-            <TextField
+            <TextValidator
               name="author"
               label="Author"
               value={author}
               onChange={this.handleInput}
               margin="normal"
+              validators={["required"]}
+              errorMessages={["this field is required"]}
             />
             <Button
               type="button"
@@ -85,7 +94,7 @@ class Search extends Component {
             >
               Search book
             </Button>
-          </form>
+          </ValidatorForm>
         </Paper>
       </div>
     );
