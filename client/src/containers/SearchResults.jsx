@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
+import Notifier, { openSnackbar } from "./Notifier";
 
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -61,6 +62,7 @@ class SearchResults extends Component {
         .addBook(token, book)
         .then(result => {
           console.log(result);
+          openSnackbar("success", `Added ${book.title} to your library.`);
           this.props.apiBook
             .getAllBooks()
             .then(result => console.log(this.props.book.books));
@@ -76,6 +78,7 @@ class SearchResults extends Component {
     const { classes } = this.props;
     return (
       <div className="searchResults">
+        <Notifier />
         <Paper>
           <Typography variant="display1" align="center" gutterBottom>
             Search Results
