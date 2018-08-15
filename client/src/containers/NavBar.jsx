@@ -23,7 +23,15 @@ const styles = {
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  link: {
+    color: "white !important",
+    textDecoration: "none"
   }
+  // loginButton: {
+  //   color: "white !important",
+  //   textDecoration: "none"
+  // }
 };
 
 class NavBar extends React.Component {
@@ -45,16 +53,18 @@ class NavBar extends React.Component {
               color="inherit"
               className={classes.flex}
             >
-              Trade a Book
+              <Link to="/" className={classes.link}>
+                Trade a Book
+              </Link>
             </Typography>
             {this.props.appState.loggedIn ? (
               <Link to="/logout">
-                <Button>Logout</Button>
+                <Button color="secondary">Logout</Button>
               </Link>
             ) : (
-              <a href={`${BASE_URL}/api/auth/google`}>
-                <Button>Login</Button>
-              </a>
+              <Button color="secondary" href={`${BASE_URL}/api/auth/google`}>
+                Login
+              </Button>
             )}
           </Toolbar>
         </AppBar>

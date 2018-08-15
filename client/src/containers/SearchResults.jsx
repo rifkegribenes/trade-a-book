@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
+import { BASE_URL } from "../store/actions/apiConfig.js";
 import Notifier, { openSnackbar } from "./Notifier";
 
 import Typography from "@material-ui/core/Typography";
@@ -25,7 +26,8 @@ const styles = theme => ({
     maxWidth: 1200
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    flex: "0 0 auto"
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
@@ -41,11 +43,9 @@ class SearchResults extends Component {
     console.log(bookData);
     const token = this.props.appState.authToken;
     const userId = this.props.profile.profile._id;
-
-    if (!token || !userId) {
-      console.log(
-        "you must be logged in to add a book... handle this error..."
-      );
+    if (!this.props.appState.loggedIn || !userId || !token) {
+      alert("you must be logged in to add a book... handle this error...");
+      return;
     }
 
     const book = {
@@ -76,6 +76,7 @@ class SearchResults extends Component {
 
   render() {
     const { classes } = this.props;
+    const { loggedIn } = this.props.appState;
     return (
       <div className="searchResults">
         <Notifier />
@@ -103,16 +104,30 @@ class SearchResults extends Component {
                       ", "
                     )} (${book.volumeInfo.publishedDate.substring(0, 4)})`}
                   />
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="default"
-                    className={classes.button}
-                    onClick={() => this.addBook(book)}
-                  >
-                    Add
-                    <AddBox className={classes.rightIcon} />
-                  </Button>
+                  {loggedIn ? (
+                    <Button
+                      size="small"
+                      variant="contained"
+                      color="default"
+                      className={classes.button}
+                      onClick={() => this.addBook(book)}
+                    >
+                      Add
+                      <AddBox className={classes.rightIcon} />
+                    </Button>
+                  ) : (
+                    <a href={`${BASE_URL}/api/auth/google`}>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="default"
+                        className={classes.button}
+                      >
+                        Add
+                        <AddBox className={classes.rightIcon} />
+                      </Button>
+                    </a>
+                  )}
                 </ListItem>
                 {i < books.length - 1 ? <Divider light /> : null}
               </div>

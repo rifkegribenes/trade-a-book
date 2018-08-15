@@ -24,7 +24,8 @@ const styles = theme => ({
     maxWidth: 1200
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    flex: "0 0 auto"
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
