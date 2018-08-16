@@ -22,15 +22,18 @@ const styles = theme => ({
   form: {
     margin: "auto",
     width: "100%",
-    maxWidth: 508,
+    maxWidth: 600,
     height: 92,
-    padding: 10
+    paddingBottom: 20,
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "space-between"
   },
   button: {
     flex: "0 0 auto"
   },
   input: {
-    marginRight: 10
+    marginRight: 20
   }
 });
 
@@ -104,7 +107,6 @@ class Search extends Component {
             <Button
               type="button"
               className={classes.button}
-              color="secondary"
               variant="raised"
               onClick={() => this.searchBook()}
             >

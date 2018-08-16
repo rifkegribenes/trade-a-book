@@ -12,8 +12,7 @@ const BookSchema = new Schema({
     ref: 'User'
   },
   published: {
-    type: Date,
-    default: Date.now()
+    type: String
   },
   thumbnail: String,
   googleId: String

@@ -13,7 +13,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import SwapHoriz from "@material-ui/icons/SwapHoriz";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -27,9 +27,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     flex: "0 0 auto"
   },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  },
+  rightIcon: {},
   author: {}
 });
 
@@ -52,10 +50,8 @@ class BookList extends Component {
           <Typography variant="display1" align="center" gutterBottom>
             All Books
           </Typography>
-          <Typography variant="subheading" align="center" gutterBottom>
-            Click 'Trade' to propose a trade
-          </Typography>
-          <List style={{ maxWidth: 600 }}>
+          <Typography variant="subheading" align="center" gutterBottom />
+          <List style={{ maxWidth: 600, margin: "auto" }}>
             {this.props.book.books.map((book, i, books) => (
               <div key={book._id}>
                 <ListItem style={{ paddingRight: 0 }}>
@@ -70,16 +66,15 @@ class BookList extends Component {
                     secondary={`${book.authors.join(", ")}
                     (${book.published.substring(0, 4)})`}
                   />
-                  <Button
-                    size="small"
+                  <IconButton
                     variant="contained"
-                    color="default"
+                    color="primary"
                     className={classes.button}
+                    title="Propose a Trade"
                     onClick={() => this.proposeTrade(book)}
                   >
-                    Trade
                     <SwapHoriz className={classes.rightIcon} />
-                  </Button>
+                  </IconButton>
                 </ListItem>
                 {i < books.length - 1 ? <Divider light /> : null}
               </div>

@@ -24,12 +24,11 @@ const styles = {
     marginLeft: -12,
     marginRight: 20
   },
-  link: {
+  title: {
     color: "white",
     textDecoration: "none"
   },
   loginButton: {
-    color: "white",
     textDecoration: "none"
   }
 };
@@ -53,7 +52,7 @@ class NavBar extends React.Component {
               color="inherit"
               className={classes.flex}
             >
-              <Link to="/" className={classes.link}>
+              <Link to="/" className={classes.title}>
                 Trade a Book
               </Link>
             </Typography>

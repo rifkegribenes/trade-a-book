@@ -91,7 +91,7 @@ class SearchResults extends Component {
           <List style={{ maxWidth: 600 }}>
             {this.props.book.searchResults.map((book, i, books) => (
               <div key={book.id}>
-                <ListItem style={{ paddingRight: 0 }}>
+                <ListItem style={{ paddingRight: 0, paddingLeft: 0 }}>
                   <img
                     className={classes.thumbnail}
                     style={{ height: "80px", padding: 10 }}

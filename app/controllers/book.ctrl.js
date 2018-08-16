@@ -65,7 +65,7 @@ exports.addBook = (req, res, next) => {
       title: book.title,
   		authors: [ ...book.authors ],
   		owner: book.owner,
-  		published: book.publishedDate,
+  		published: book.published,
   		thumbnail: book.thumbnail
     });
     console.log(newBook);
