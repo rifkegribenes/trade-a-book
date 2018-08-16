@@ -13,13 +13,26 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = {
+const styles = theme => ({
   root: {
     margin: 20,
     padding: 20,
     maxWidth: 400
+  },
+  form: {
+    margin: "auto",
+    width: "100%",
+    maxWidth: 508,
+    height: 92,
+    padding: 10
+  },
+  button: {
+    flex: "0 0 auto"
+  },
+  input: {
+    marginRight: 10
   }
-};
+});
 
 class Search extends Component {
   constructor(props) {
@@ -60,10 +73,12 @@ class Search extends Component {
 
   render() {
     const { title, author } = this.state;
+    const { classes } = this.props;
     return (
       <div className="search">
         <Paper>
           <ValidatorForm
+            className={classes.form}
             ref="form"
             onSubmit={this.searchBook}
             onError={errors => console.log(errors)}
@@ -73,7 +88,7 @@ class Search extends Component {
               label="Title"
               value={title}
               onChange={this.handleInput}
-              margin="normal"
+              className={classes.input}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
@@ -82,13 +97,14 @@ class Search extends Component {
               label="Author"
               value={author}
               onChange={this.handleInput}
-              margin="normal"
+              className={classes.input}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
             <Button
               type="button"
-              color="primary"
+              className={classes.button}
+              color="secondary"
               variant="raised"
               onClick={() => this.searchBook()}
             >

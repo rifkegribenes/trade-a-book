@@ -25,13 +25,13 @@ const styles = {
     marginRight: 20
   },
   link: {
-    color: "white !important",
+    color: "white",
+    textDecoration: "none"
+  },
+  loginButton: {
+    color: "white",
     textDecoration: "none"
   }
-  // loginButton: {
-  //   color: "white !important",
-  //   textDecoration: "none"
-  // }
 };
 
 class NavBar extends React.Component {
@@ -58,11 +58,22 @@ class NavBar extends React.Component {
               </Link>
             </Typography>
             {this.props.appState.loggedIn ? (
-              <Link to="/logout">
-                <Button color="secondary">Logout</Button>
+              <Link to="/logout" className={classes.link}>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.loginButton}
+                >
+                  Logout
+                </Button>
               </Link>
             ) : (
-              <Button color="secondary" href={`${BASE_URL}/api/auth/google`}>
+              <Button
+                variant="contained"
+                color="secondary"
+                href={`${BASE_URL}/api/auth/google`}
+                className={classes.loginButton}
+              >
                 Login
               </Button>
             )}
