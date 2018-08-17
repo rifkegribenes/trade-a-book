@@ -57,7 +57,7 @@ class NavBar extends React.Component {
               </Link>
             </Typography>
             {this.props.appState.loggedIn ? (
-              <Link to="/logout" className={classes.link}>
+              <Link to="/logout" className={classes.loginButton}>
                 <Button
                   variant="contained"
                   color="secondary"

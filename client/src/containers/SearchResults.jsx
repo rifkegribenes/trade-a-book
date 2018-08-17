@@ -6,17 +6,10 @@ import { bindActionCreators } from "redux";
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
-import { BASE_URL } from "../store/actions/apiConfig.js";
-import Notifier, { openSnackbar } from "./Notifier";
 
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
-import Button from "@material-ui/core/Button";
-import AddBox from "@material-ui/icons/AddBox";
+import Notifier, { openSnackbar } from "./Notifier";
+import BookListModular from "./BookListModular";
+
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -38,9 +31,9 @@ const styles = theme => ({
 class SearchResults extends Component {
   componentDidMount() {}
 
-  addBook = bookData => {
+  addBook = book => {
     console.log("addBook");
-    console.log(bookData);
+    console.log(book);
     const token = this.props.appState.authToken;
     const userId = this.props.profile.profile._id;
     if (!this.props.appState.loggedIn || !userId || !token) {
@@ -48,14 +41,14 @@ class SearchResults extends Component {
       return;
     }
 
-    const book = {
-      googleId: bookData.id,
-      title: bookData.volumeInfo.title,
-      authors: [...bookData.volumeInfo.authors],
-      owner: userId,
-      published: bookData.volumeInfo.publishedDate,
-      thumbnail: bookData.volumeInfo.imageLinks.thumbnail
-    };
+    // const book = {
+    //   googleId: bookData.id,
+    //   title: bookData.volumeInfo.title,
+    //   authors: [...bookData.volumeInfo.authors],
+    //   owner: userId,
+    //   published: bookData.volumeInfo.publishedDate,
+    //   thumbnail: bookData.volumeInfo.imageLinks.thumbnail
+    // };
 
     if (book) {
       this.props.apiBook
@@ -75,65 +68,18 @@ class SearchResults extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { loggedIn } = this.props.appState;
     return (
       <div className="searchResults">
         <Notifier />
-        <Paper>
-          <Typography variant="display1" align="center" gutterBottom>
-            Search Results
-          </Typography>
-          <Typography variant="subheading" align="center" gutterBottom>
-            Choose your book from the results and click 'Add' to add to your
-            library.
-          </Typography>
-          <List style={{ maxWidth: 600 }}>
-            {this.props.book.searchResults.map((book, i, books) => (
-              <div key={book.id}>
-                <ListItem style={{ paddingRight: 0, paddingLeft: 0 }}>
-                  <img
-                    className={classes.thumbnail}
-                    style={{ height: "80px", padding: 10 }}
-                    src={book.volumeInfo.imageLinks.thumbnail}
-                    alt={book.volumeInfo.title}
-                  />
-                  <ListItemText
-                    primary={book.volumeInfo.title}
-                    secondary={`${book.volumeInfo.authors.join(
-                      ", "
-                    )} (${book.volumeInfo.publishedDate.substring(0, 4)})`}
-                  />
-                  {loggedIn ? (
-                    <Button
-                      size="small"
-                      variant="contained"
-                      color="default"
-                      className={classes.button}
-                      onClick={() => this.addBook(book)}
-                    >
-                      Add
-                      <AddBox className={classes.rightIcon} />
-                    </Button>
-                  ) : (
-                    <a href={`${BASE_URL}/api/auth/google`}>
-                      <Button
-                        size="small"
-                        variant="contained"
-                        color="default"
-                        className={classes.button}
-                      >
-                        Add
-                        <AddBox className={classes.rightIcon} />
-                      </Button>
-                    </a>
-                  )}
-                </ListItem>
-                {i < books.length - 1 ? <Divider light /> : null}
-              </div>
-            ))}
-          </List>
-        </Paper>
+        <BookListModular
+          listType="search"
+          loggedIn={this.props.appState.loggedIn}
+          title="Search Results"
+          subhead="Choose your book from the results and click 'Add' to add to your library."
+          books={this.props.book.searchResults}
+          addBook={this.addBook}
+          classes={this.props.classes}
+        />
       </div>
     );
   }
