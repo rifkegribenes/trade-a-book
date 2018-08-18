@@ -9,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
 import SwapHoriz from "@material-ui/icons/SwapHoriz";
 import AddBox from "@material-ui/icons/AddBox";
 
@@ -26,6 +27,7 @@ const BookListModular = props => (
       <List style={{ maxWidth: 600, margin: "auto" }}>
         {props.books.map((bookData, i, books) => {
           let book = { ...bookData };
+          let city, state;
           if (props.listType === "search") {
             book = {
               googleId: bookData.id,
@@ -34,6 +36,9 @@ const BookListModular = props => (
               published: bookData.volumeInfo.publishedDate,
               thumbnail: bookData.volumeInfo.imageLinks.thumbnail
             };
+          } else if (props.listType === "all" && book.ownerData) {
+            city = book.ownerData.city;
+            state = book.ownerData.state;
           }
           return (
             <div key={book.googleId}>
@@ -44,13 +49,31 @@ const BookListModular = props => (
                   src={book.thumbnail}
                   alt={book.title}
                 />
-                {props.listType === "all" && <Button />}
-                {/* owner avatar goes in 'Button' slot for allBooks list */}
                 <ListItemText
                   primary={book.title}
                   secondary={`${book.authors.join(", ")}
                   (${book.published.substring(0, 4)})`}
                 />
+                {props.listType === "all" &&
+                  book.ownerData && (
+                    <div className={props.classes.owner}>
+                      <Avatar
+                        alt={book.ownerData.firstName}
+                        src={book.ownerData.avatarUrl}
+                        className={props.classes.avatar}
+                      />
+                      <ListItemText
+                        primary={`Offered by: ${book.ownerData.firstName}`}
+                        secondary={
+                          city && state
+                            ? `${city} ${state}`
+                            : city
+                              ? city
+                              : null
+                        }
+                      />
+                    </div>
+                  )}
                 {props.listType === "all" && (
                   <IconButton
                     variant="contained"
@@ -109,10 +132,16 @@ BookListModular.propTypes = {
       _id: PropTypes.string,
       googleId: PropTypes.string,
       title: PropTypes.string,
-      authors: PropTypes.arrayOf(PropTypes.String),
+      authors: PropTypes.arrayOf(PropTypes.string),
       published: PropTypes.string,
       thumbnail: PropTypes.string,
-      owner: PropTypes.string
+      owner: PropTypes.string,
+      ownerData: PropTypes.shape({
+        firstName: PropTypes.string,
+        avatarUrl: PropTypes.string,
+        city: PropTypes.string,
+        state: PropTypes.string
+      })
     })
   ).isRequired,
   classes: PropTypes.object,

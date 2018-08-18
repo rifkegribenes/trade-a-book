@@ -18,7 +18,8 @@ import {
   ADD_BOOK_FAILURE,
   UPDATE_BOOK_OWNER_REQUEST,
   UPDATE_BOOK_OWNER_SUCCESS,
-  UPDATE_BOOK_OWNER_FAILURE
+  UPDATE_BOOK_OWNER_FAILURE,
+  UPDATE_BOOKLIST_SUCCESS
 } from "../actions/apiBookActions";
 
 const INITIAL_STATE = {
@@ -54,6 +55,13 @@ function book(state = INITIAL_STATE, action) {
 
     case GET_ALL_BOOKS_SUCCESS:
     case GET_USER_BOOKS_SUCCESS:
+      return update(state, {
+        spinnerClass: { $set: "spinner__hide" },
+        books: { $set: action.payload.books },
+        error: { $set: null }
+      });
+
+    case UPDATE_BOOKLIST_SUCCESS:
       return update(state, {
         spinnerClass: { $set: "spinner__hide" },
         books: { $set: action.payload.books },

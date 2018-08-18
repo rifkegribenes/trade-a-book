@@ -12,9 +12,9 @@ export default createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+        background: "linear-gradient(45deg, #f12711, #f5af19);",
         "&:hover": {
-          background: "linear-gradient(45deg, #FF8E53 30%, #FE6B8B 90%)"
+          background: "linear-gradient(45deg, #f5af19, #f12711);"
         },
         transition: "all 300ms ease-in-out"
       }

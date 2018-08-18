@@ -26,6 +26,12 @@ const INITIAL_STATE = {
     city: "",
     state: ""
   },
+  partialProfile: {
+    firstName: "",
+    avatarUrl: "",
+    city: "",
+    state: ""
+  },
   error: null
 };
 
@@ -44,7 +50,6 @@ function profile(state = INITIAL_STATE, action) {
 
     case VALIDATE_TOKEN_SUCCESS:
     case GET_PROFILE_SUCCESS:
-    case GET_PARTIAL_PROFILE_SUCCESS:
     case MODIFY_PROFILE_SUCCESS:
       return update(state, {
         spinnerClass: { $set: "spinner__hide" },
@@ -56,6 +61,18 @@ function profile(state = INITIAL_STATE, action) {
           avatarUrl: { $set: action.payload.user.profile.avatarUrl },
           city: { $set: action.payload.user.profile.city },
           state: { $set: action.payload.user.profile.state }
+        },
+        error: { $set: null }
+      });
+
+    case GET_PARTIAL_PROFILE_SUCCESS:
+      return update(state, {
+        spinnerClass: { $set: "spinner__hide" },
+        partialProfile: {
+          firstName: { $set: action.payload.firstName },
+          avatarUrl: { $set: action.payload.avatarUrl },
+          city: { $set: action.payload.city },
+          state: { $set: action.payload.state }
         },
         error: { $set: null }
       });

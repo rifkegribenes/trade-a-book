@@ -19,6 +19,14 @@ export const ADD_BOOK_FAILURE = "ADD_BOOK_FAILURE";
 export const UPDATE_BOOK_OWNER_REQUEST = "UPDATE_BOOK_OWNER_REQUEST";
 export const UPDATE_BOOK_OWNER_SUCCESS = "UPDATE_BOOK_OWNER_SUCCESS";
 export const UPDATE_BOOK_OWNER_FAILURE = "UPDATE_BOOK_OWNER_FAILURE";
+export const UPDATE_BOOKLIST_SUCCESS = "UPDATE_BOOKLIST_SUCCESS";
+
+export function updateBooklist(books) {
+  return {
+    type: UPDATE_BOOKLIST_SUCCESS,
+    payload: { books }
+  };
+}
 
 /*
 * Function: getAllBooks -- return all books

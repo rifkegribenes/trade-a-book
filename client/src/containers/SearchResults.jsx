@@ -41,16 +41,8 @@ class SearchResults extends Component {
       return;
     }
 
-    // const book = {
-    //   googleId: bookData.id,
-    //   title: bookData.volumeInfo.title,
-    //   authors: [...bookData.volumeInfo.authors],
-    //   owner: userId,
-    //   published: bookData.volumeInfo.publishedDate,
-    //   thumbnail: bookData.volumeInfo.imageLinks.thumbnail
-    // };
-
     if (book) {
+      book.owner = userId;
       this.props.apiBook
         .addBook(token, book)
         .then(result => {

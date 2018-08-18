@@ -11,7 +11,7 @@ import * as apiBookActions from "../store/actions/apiBookActions";
 
 import Search from "./Search";
 import SearchResults from "./SearchResults";
-import BookList from "./BookList";
+import AllBooks from "./AllBooks";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -57,9 +57,6 @@ class Home extends Component {
     } else {
       // console.log("logged in");
     }
-    this.props.apiBook.getAllBooks().then(() => {
-      console.log(this.props.book.books);
-    });
   }
 
   render() {
@@ -68,7 +65,7 @@ class Home extends Component {
         <Search />
         {this.props.book.searchResults.length ? <SearchResults /> : null}
         <Divider />
-        <BookList />
+        <AllBooks />
       </div>
     );
   }

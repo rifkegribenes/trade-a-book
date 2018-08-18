@@ -36,7 +36,6 @@ exports.partialProfile = (req, res, next) => {
       .exec()
       .then((user) => {
           // Respond with first name, avatar, city, and state from user object
-          const userInfo = helpers.setUserInfo(user);
           return res.status(201).json({
             avatarUrl: user.profile.avatarUrl,
             firstName: user.profile.firstName,

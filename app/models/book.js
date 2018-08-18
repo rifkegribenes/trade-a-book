@@ -8,8 +8,7 @@ const BookSchema = new Schema({
   },
   authors: [{ type: String }],
   owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+    type: String
   },
   published: {
     type: String
