@@ -59,6 +59,12 @@ class SearchResults extends Component {
     }
   };
 
+  setRedirect = book => {
+    console.log(book);
+    window.localStorage.setItem("redirect", "/library");
+    window.localStorage.setItem("book", JSON.stringify(book));
+  };
+
   render() {
     return (
       <div className="searchResults">
@@ -70,6 +76,7 @@ class SearchResults extends Component {
           subhead="Choose your book from the results and click 'Add' to add to your library."
           books={this.props.book.searchResults}
           addBook={this.addBook}
+          setRedirect={this.setRedirect}
           classes={this.props.classes}
         />
       </div>

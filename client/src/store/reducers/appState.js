@@ -4,10 +4,7 @@ import {
   LOGOUT,
   SET_LOGGEDIN,
   SET_REDIRECT_URL,
-  SET_SPINNER,
-  SET_MENU_STATE,
-  SET_ADMIN_MENU_STATE,
-  SET_WINDOW_SIZE
+  SET_SPINNER
 } from "../actions";
 import {
   VALIDATE_TOKEN_SUCCESS,
@@ -30,12 +27,7 @@ const INITIAL_STATE = {
     showFormError: false,
     submit: false
   },
-  adminMenuState: "closed",
-  menuState: "closed",
-  windowSize: {
-    width: window.innerWidth,
-    height: window.innerHeight
-  }
+  redirect: ""
 };
 
 function appState(state = INITIAL_STATE, action) {
@@ -44,15 +36,6 @@ function appState(state = INITIAL_STATE, action) {
     case LOGOUT:
       window.localStorage.clear(); // do this in the component, not the reducer...
       return INITIAL_STATE;
-
-    case SET_WINDOW_SIZE:
-      return update(state, { windowSize: { $set: action.payload } });
-
-    case SET_MENU_STATE:
-      return update(state, { menuState: { $set: action.payload } });
-
-    case SET_ADMIN_MENU_STATE:
-      return update(state, { adminMenuState: { $set: action.payload } });
 
     case SET_SPINNER:
       return update(state, {
@@ -75,7 +58,7 @@ function appState(state = INITIAL_STATE, action) {
       return update(state, { loggedIn: { $set: false } });
 
     case SET_REDIRECT_URL:
-      return update(state, { redirectUrl: { $set: action.payload } });
+      return update(state, { redirect: { $set: action.payload } });
 
     case SET_LOGGEDIN:
       console.log("set loggedin");

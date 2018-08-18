@@ -19,13 +19,9 @@ import Trades from "./containers/Trades";
 class App extends Component {
   componentDidMount() {
     if (this.props.location.hash) {
-      console.log("redirect hash client");
       const hash = this.props.location.hash.slice(2);
       const url = `/${hash.split("=")[1]}`;
-      // don't redirect for facebook hash after social auth
-      if (url !== "/_") {
-        this.props.history.push(url);
-      }
+      this.props.history.push(url);
     }
   }
   render() {

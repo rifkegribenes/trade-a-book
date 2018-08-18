@@ -98,17 +98,17 @@ const BookListModular = props => (
                       <AddBox />
                     </IconButton>
                   ) : (
-                    <a href={`${BASE_URL}/api/auth/google`}>
-                      <IconButton
-                        size="small"
-                        variant="contained"
-                        color="default"
-                        title="Add Book"
-                        className={props.classes.button}
-                      >
-                        <AddBox />
-                      </IconButton>
-                    </a>
+                    <IconButton
+                      size="small"
+                      variant="contained"
+                      color="default"
+                      title="Add Book"
+                      className={props.classes.button}
+                      onClick={() => props.setRedirect(book)}
+                      href={`${BASE_URL}/api/auth/google`}
+                    >
+                      <AddBox />
+                    </IconButton>
                   )
                 ) : null}
                 {props.listType === "user" && (

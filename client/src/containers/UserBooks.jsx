@@ -8,6 +8,7 @@ import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
 import BookListModular from "./BookListModular";
+import Notifier, { openSnackbar } from "./Notifier";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -35,6 +36,26 @@ class UserBooks extends Component {
       alert("you must be logged in to view user books... handle this error...");
       return;
     }
+    const book = JSON.parse(window.localStorage.getItem("book"));
+    if (book) {
+      // if user was redirected to login after trying to add a book
+      // retrieve that book from localStorage, add it to the user's library
+      book.owner = userId;
+      const token = this.props.appState.authToken;
+      this.props.apiBook
+        .addBook(token, book)
+        .then(result => {
+          console.log(result);
+          openSnackbar("success", `Added ${book.title} to your library.`);
+          this.props.apiBook
+            .getUserBooks(userId)
+            .then(result => console.log(this.props.book.books));
+        })
+        .catch(err => console.log(err));
+      // then remove stored book from localStorage
+      window.localStorage.removeItem("book");
+      return;
+    }
     this.props.apiBook
       .getUserBooks(userId)
       .then(result => {
@@ -49,9 +70,9 @@ class UserBooks extends Component {
   };
 
   render() {
-    console.log(this.props.book.books);
     return (
       <div className="bookList">
+        <Notifier />
         <BookListModular
           listType="user"
           loggedIn={this.props.appState.loggedIn}

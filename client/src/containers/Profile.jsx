@@ -9,13 +9,12 @@ import * as apiProfileActions from "../store/actions/apiProfileActions";
 
 class Profile extends React.Component {
   componentWillMount() {
-    let userId, token, authCallback;
+    let userId, token;
     if (this.props.match && this.props.match.params.id) {
       userId = this.props.match.params.id;
       token = this.props.match.params.token;
       console.log(`userId: ${userId}`);
       console.log(`${token ? "token exists" : "no token"}`);
-      authCallback = true;
       // if logged in for first time through social auth,
       // need to save userId & token to local storage
       window.localStorage.setItem("userId", JSON.stringify(userId));
@@ -45,16 +44,13 @@ class Profile extends React.Component {
       if (result.type === "GET_PROFILE_SUCCESS") {
         this.props.actions.setLoggedIn();
         console.log(this.props.appState.loggedIn);
-        if (authCallback) {
-          // if landing on profile page after auth callback,
-          // check for redirect url in local storage
-          const redirect = window.localStorage.getItem("redirectUrl");
-          if (redirect) {
-            // redirect to originally requested page and then clear value
-            // from local storage
-            this.props.history.push(redirect);
-            window.localStorage.setItem("redirectUrl", null);
-          }
+        // check for redirect url in local storage
+        const redirect = window.localStorage.getItem("redirect");
+        if (redirect) {
+          // redirect to originally requested page and then
+          // clear value from local storage
+          this.props.history.push(redirect);
+          window.localStorage.removeItem("redirect");
         }
       }
     });

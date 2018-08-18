@@ -31,7 +31,6 @@ class AllBooks extends Component {
   componentDidMount() {
     const bookListPromise = books => {
       return books.map(book => {
-        console.log(`getting partial profile for ${book.owner}`);
         return this.props.apiProfile
           .getPartialProfile(book.owner)
           .then(() => {
@@ -49,7 +48,7 @@ class AllBooks extends Component {
 
     // fetch all book data from Mongo
     this.props.apiBook.getAllBooks().then(result => {
-      // then for each book fetch user information
+      // then for each book fetch owner data
       Promise.all(bookListPromise(this.props.book.books))
         .then(bookList => {
           // and save this to redux booklist
@@ -64,7 +63,6 @@ class AllBooks extends Component {
   };
 
   render() {
-    console.log(this.props.book.books);
     return (
       <div className="bookList">
         <BookListModular
