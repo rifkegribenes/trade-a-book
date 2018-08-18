@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import SwapHoriz from "@material-ui/icons/SwapHoriz";
 import AddBox from "@material-ui/icons/AddBox";
+import Delete from "@material-ui/icons/Delete";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
@@ -111,7 +112,18 @@ const BookListModular = props => (
                     </a>
                   )
                 ) : null}
-                {props.listType === "user" && <Button />}
+                {props.listType === "user" && (
+                  <IconButton
+                    size="small"
+                    variant="contained"
+                    color="default"
+                    title="Remove Book"
+                    className={props.classes.button}
+                    onClick={() => props.removeBook(book)}
+                  >
+                    <Delete />
+                  </IconButton>
+                )}
               </ListItem>
               {i < books.length - 1 ? <Divider light /> : null}
             </div>

@@ -13,6 +13,8 @@ import NavBar from "./containers/NavBar";
 import Home from "./containers/Home";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
+import UserBooks from "./containers/UserBooks";
+import Trades from "./containers/Trades";
 
 class App extends Component {
   componentDidMount() {
@@ -41,6 +43,14 @@ class App extends Component {
             <Route
               path="/profile/:id?/:token?"
               render={routeProps => <Profile {...routeProps} />}
+            />
+            <Route
+              path="/library"
+              render={routeProps => <UserBooks {...routeProps} />}
+            />
+            <Route
+              path="/trades"
+              render={routeProps => <Trades {...routeProps} />}
             />
             <Route path="/logout" component={Logout} />
             {/*            <Route path="*" component={NotFound} />*/}

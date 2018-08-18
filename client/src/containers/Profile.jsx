@@ -31,7 +31,7 @@ class Profile extends React.Component {
       // if userId is not in route params
       // look in redux store or local storage
       userId =
-        this.props.profile.user._id ||
+        this.props.profile.profile._id ||
         JSON.parse(window.localStorage.getItem("userId"));
       if (window.localStorage.getItem("authToken")) {
         token = JSON.parse(window.localStorage.getItem("authToken"));
