@@ -12,11 +12,16 @@ export default createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        background: "linear-gradient(45deg, #f12711, #f5af19);",
+        background: "#f12711",
+        background: "linear-gradient(45deg, #f40339, #f5af19)",
+        backgroundImage: "linear-gradient(45deg, #f40339, #f5af19)",
+        backgroundSize: "200% 200%",
+        backgroundPosition: "0 0",
+        transition: "background-position 500ms ease-in-out",
         "&:hover": {
-          background: "linear-gradient(45deg, #f5af19, #f12711);"
-        },
-        transition: "all 300ms ease-in-out"
+          backgroundPosition: "100% 100%",
+          transition: "background-position 500ms ease-in-out"
+        }
       }
     }
   }

@@ -8,7 +8,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import SwapHoriz from "@material-ui/icons/SwapHoriz";
 import AddBox from "@material-ui/icons/AddBox";
