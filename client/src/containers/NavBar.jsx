@@ -117,21 +117,26 @@ class NavBar extends React.Component {
               </Link>
             </Typography>
             {this.props.appState.loggedIn ? (
-              <Link to="/logout" className={classes.loginButton}>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  className={classes.loginButton}
-                >
-                  Logout
-                </Button>
-              </Link>
+              <Button
+                variant="contained"
+                color="secondary"
+                className={classes.loginButton}
+                href="/logout"
+              >
+                Logout
+              </Button>
             ) : (
               <Button
                 variant="contained"
                 color="secondary"
                 href={`${BASE_URL}/api/auth/google`}
                 className={classes.loginButton}
+                onClick={() => {
+                  window.localStorage.setItem(
+                    "redirect",
+                    this.props.location.pathname
+                  );
+                }}
               >
                 Login
               </Button>
