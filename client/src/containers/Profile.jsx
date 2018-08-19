@@ -22,10 +22,11 @@ class Profile extends React.Component {
       this.props.actions.setLoggedIn();
       this.props.actions.setSpinner("hide");
       // remove id & token from route params after saving to local storage
-      window.history.replaceState(null, null, `${window.location.origin}/user`);
-      setTimeout(() => {
-        console.log(this.props.appState.loggedIn);
-      }, 1000);
+      window.history.replaceState(
+        null,
+        null,
+        `${window.location.origin}/profile`
+      );
     } else {
       // if userId is not in route params
       // look in redux store or local storage

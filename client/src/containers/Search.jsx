@@ -13,6 +13,8 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 
+import Notifier, { openSnackbar } from "./Notifier";
+
 const styles = theme => ({
   root: {
     margin: 20,
@@ -64,7 +66,9 @@ class Search extends Component {
       this.props.apiBook
         .searchBook(title, author)
         .then(result => {
-          console.log(result);
+          if (result === "SEARCH_BOOK_FAILURE" || this.props.book.error) {
+            openSnackbar("error", "Sorry, book not found.");
+          }
           console.log(this.props.book.searchResults);
         })
         .catch(err => console.log(err));
@@ -79,6 +83,7 @@ class Search extends Component {
     const { classes } = this.props;
     return (
       <div className="search">
+        <Notifier />
         <Paper>
           <ValidatorForm
             className={classes.form}

@@ -39,7 +39,10 @@ class UserBooks extends Component {
           key="login"
           size="small"
           className={props.classes.button}
-          onClick={props.onClose}
+          onClick={() => {
+            window.localStorage.setItem("redirect", "/library");
+            props.onClose();
+          }}
           href={`${BASE_URL}/api/auth/google`}
         >
           Login
