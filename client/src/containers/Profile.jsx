@@ -8,17 +8,19 @@ import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 
 import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
+import SaveIcon from "@material-ui/icons/Save";
 import { withStyles } from "@material-ui/core/styles";
 
 import BooksImage from "../img/RainbowBooks_400.jpg";
+import Notifier, { openSnackbar } from "./Notifier";
 
 const styles = theme => ({
   root: {
@@ -57,11 +59,22 @@ const styles = theme => ({
   },
   name: {
     color: "primary",
-    textAlign: "center"
+    textAlign: "center",
+    marginTop: 15
   }
 });
 
 class Profile extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      edit: false,
+      city: this.props.profile.profile.city,
+      state: this.props.profile.profile.state
+    };
+  }
+
   componentWillMount() {
     let userId, token;
     if (this.props.match && this.props.match.params.id) {
@@ -91,10 +104,15 @@ class Profile extends React.Component {
         token = this.props.appState.authToken;
       }
     }
-    // retrieve user profile & save to app state
+    // retrieve user profile & save to redux store
     this.props.api.getProfile(token, userId).then(result => {
       if (result.type === "GET_PROFILE_SUCCESS") {
         this.props.actions.setLoggedIn();
+        // save user city and state to component state
+        // this.setState({
+        //   city: this.props.profile.profile.city,
+        //   state: this.props.profile.profile.state
+        // });
         // check for redirect url in local storage
         const redirect = window.localStorage.getItem("redirect");
         if (redirect) {
@@ -107,6 +125,45 @@ class Profile extends React.Component {
     });
   }
 
+  componentDidMount() {
+    if (!this.state.city || !this.state.state) {
+      this.handleEdit();
+    }
+  }
+
+  handleEdit = () => {
+    this.setState({ edit: true });
+  };
+
+  handleInput = ({ target: { name, value } }) =>
+    this.setState({
+      [name]: value
+    });
+
+  handleSubmit = () => {
+    const userId = this.props.profile.profile._id;
+    const token = this.props.appState.authToken;
+    const body = {
+      _id: userId,
+      city: this.state.city,
+      state: this.state.state,
+      firstName: this.props.profile.profile.firstName,
+      lastName: this.props.profile.profile.lastName,
+      avatarUrl: this.props.profile.profile.avatarUrl
+    };
+    this.props.api
+      .modifyProfile(token, userId, body)
+      .then(result => {
+        this.setState({ edit: false });
+        if (result.type === "MODIFY_PROFILE_SUCCESS") {
+          openSnackbar("success", `Profile Saved.`);
+        } else if (result.type === "MODIFY_PROFILE_FAILURE") {
+          openSnackbar("error", this.props.profile.error);
+        }
+      })
+      .catch(err => openSnackbar("error", err));
+  };
+
   render() {
     const { classes } = this.props;
     const {
@@ -118,6 +175,7 @@ class Profile extends React.Component {
     } = this.props.profile.profile;
     return (
       <div className={classes.container}>
+        <Notifier />
         <Card className={classes.card}>
           <CardMedia className={classes.media} image={BooksImage} title="Books">
             <Avatar
@@ -130,17 +188,40 @@ class Profile extends React.Component {
             <Typography variant="headline" className={classes.name}>
               {`${firstName} ${lastName}`}
             </Typography>
-            <Typography component="p">
-              {city} {state}
-            </Typography>
+            {!city || !state ? (
+              <div className={classes.form}>
+                <TextField
+                  id="city"
+                  label="City"
+                  name="city"
+                  onChange={this.handleInput}
+                  value={this.state.city}
+                  fullWidth
+                />
+                <TextField
+                  id="state"
+                  label="State"
+                  name="state"
+                  onChange={this.handleInput}
+                  value={this.state.state}
+                  fullWidth
+                />
+              </div>
+            ) : (
+              <Typography component="p" align="center">
+                {city} {state}
+              </Typography>
+            )}
           </CardContent>
           <CardActions className={classes.actions} disableActionSpacing>
             <IconButton
-              aria-label="Edit"
+              aria-label={!this.state.edit ? "Edit" : "Save"}
+              title={!this.state.edit ? "Edit" : "Save"}
               className={classes.icon}
               color="primary"
+              onClick={!this.state.edit ? this.handleEdit : this.handleSubmit}
             >
-              <EditIcon />
+              {!this.state.edit ? <EditIcon /> : <SaveIcon />}
             </IconButton>
           </CardActions>
         </Card>

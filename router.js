@@ -27,14 +27,12 @@ const requireAuth = (req, res, next) => {
       }
       if (user) {
         console.log(`router.js > 29: user found`);
-        // const userInfo = helpers.setUserInfo(user);
         req.login(user, (loginErr) => {
           if (loginErr) {
             console.log(`router.js > 32: ${loginErr}`);
             return next(loginErr);
           } else {
-            console.log(`router.js > 36: returning next`);
-            // return next(user);
+            console.log(`router.js > 35: returning next`);
             return next(loginErr, user);
           }
         }); // req.login

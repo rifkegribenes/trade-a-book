@@ -37,7 +37,7 @@ class SearchResults extends Component {
     const token = this.props.appState.authToken;
     const userId = this.props.profile.profile._id;
     if (!this.props.appState.loggedIn || !userId || !token) {
-      alert("you must be logged in to add a book... handle this error...");
+      openSnackbar("error", "Please log in to add a book");
       return;
     }
 
@@ -52,10 +52,9 @@ class SearchResults extends Component {
             .getAllBooks()
             .then(result => console.log(this.props.book.books));
         })
-        .catch(err => console.log(err));
+        .catch(err => openSnackbar("error", err));
     } else {
-      // add client-side validation here
-      console.log("handle this error client side...");
+      openSnackbar("error", "Sorry, no books found.");
     }
   };
 

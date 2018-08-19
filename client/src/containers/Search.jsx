@@ -71,10 +71,10 @@ class Search extends Component {
           }
           console.log(this.props.book.searchResults);
         })
-        .catch(err => console.log(err));
+        .catch(err => openSnackbar("error", err));
     } else {
       // add client-side validation here
-      console.log("title and author are required");
+      openSnackbar("error", "Please enter a title and author to search.");
     }
   };
 
