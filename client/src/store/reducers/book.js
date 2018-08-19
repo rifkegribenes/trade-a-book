@@ -90,13 +90,11 @@ function book(state = INITIAL_STATE, action) {
     case SEARCH_BOOK_FAILURE:
     case ADD_BOOK_FAILURE:
     case UPDATE_BOOK_OWNER_FAILURE:
-      console.log(action.payload);
       if (typeof action.payload.message === "string") {
         error = action.payload.message;
       } else {
         error = "Sorry, something went wrong :(\nPlease try again.";
       }
-      console.log(error);
       return update(state, {
         spinnerClass: { $set: "spinner__hide" },
         error: { $set: error }

@@ -46,7 +46,7 @@ class Home extends Component {
         if (userId) {
           this.props.apiProfile.validateToken(token, userId).then(result => {
             if (result === "VALIDATE_TOKEN_FAILURE") {
-              console.log("token failed to validate");
+              window.localStorage.clear();
             } else if (result === "VALIDATE_TOKEN_SUCESS") {
             }
           });

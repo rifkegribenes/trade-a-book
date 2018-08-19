@@ -7,6 +7,7 @@ import * as Actions from "../store/actions";
 class Logout extends React.Component {
   componentDidMount() {
     this.props.actions.logout();
+    window.localStorage.clear();
     setTimeout(() => {
       this.props.history.push("/");
     }, 1000);

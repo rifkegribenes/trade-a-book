@@ -3,9 +3,63 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
-// import update from "immutability-helper";
+
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
+
+import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import { withStyles } from "@material-ui/core/styles";
+
+import BooksImage from "../img/RainbowBooks_400.jpg";
+
+const styles = theme => ({
+  root: {
+    margin: 20,
+    padding: 20,
+    maxWidth: 1200
+  },
+  card: {
+    margin: "auto",
+    width: "100%",
+    maxWidth: 300
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+    position: "relative"
+  },
+  actions: {
+    display: "flex",
+    justifyContent: "flex-end"
+  },
+  icon: {},
+  avatar: {
+    width: 80,
+    height: 80,
+    position: "absolute",
+    top: 100,
+    left: "calc(50% - 40px)"
+  },
+  container: {
+    height: "100%",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+  name: {
+    color: "primary",
+    textAlign: "center"
+  }
+});
 
 class Profile extends React.Component {
   componentWillMount() {
@@ -13,10 +67,8 @@ class Profile extends React.Component {
     if (this.props.match && this.props.match.params.id) {
       userId = this.props.match.params.id;
       token = this.props.match.params.token;
-      console.log(`userId: ${userId}`);
-      console.log(`${token ? "token exists" : "no token"}`);
       // if logged in for first time through social auth,
-      // need to save userId & token to local storage
+      // save userId & token to local storage
       window.localStorage.setItem("userId", JSON.stringify(userId));
       window.localStorage.setItem("authToken", JSON.stringify(token));
       this.props.actions.setLoggedIn();
@@ -38,13 +90,11 @@ class Profile extends React.Component {
       } else {
         token = this.props.appState.authToken;
       }
-      console.log(this.props.appState.loggedIn);
     }
     // retrieve user profile & save to app state
     this.props.api.getProfile(token, userId).then(result => {
       if (result.type === "GET_PROFILE_SUCCESS") {
         this.props.actions.setLoggedIn();
-        console.log(this.props.appState.loggedIn);
         // check for redirect url in local storage
         const redirect = window.localStorage.getItem("redirect");
         if (redirect) {
@@ -58,14 +108,42 @@ class Profile extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+    const {
+      firstName,
+      lastName,
+      avatarUrl,
+      city,
+      state
+    } = this.props.profile.profile;
     return (
-      <div>
-        <div>{this.props.profile.profile.firstName}</div>
-        <div>{this.props.profile.profile.lastName}</div>
-        <div>{this.props.profile.profile.email}</div>
-        <div>{this.props.profile.profile.avatarUrl}</div>
-        <div>{this.props.profile.profile.city}</div>
-        <div>{this.props.profile.profile.state}</div>
+      <div className={classes.container}>
+        <Card className={classes.card}>
+          <CardMedia className={classes.media} image={BooksImage} title="Books">
+            <Avatar
+              alt={`${firstName} ${lastName}`}
+              src={avatarUrl}
+              className={classes.avatar}
+            />
+          </CardMedia>
+          <CardContent>
+            <Typography variant="headline" className={classes.name}>
+              {`${firstName} ${lastName}`}
+            </Typography>
+            <Typography component="p">
+              {city} {state}
+            </Typography>
+          </CardContent>
+          <CardActions className={classes.actions} disableActionSpacing>
+            <IconButton
+              aria-label="Edit"
+              className={classes.icon}
+              color="primary"
+            >
+              <EditIcon />
+            </IconButton>
+          </CardActions>
+        </Card>
       </div>
     );
   }
@@ -133,8 +211,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Profile)
+  withStyles(styles)(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(Profile)
+  )
 );

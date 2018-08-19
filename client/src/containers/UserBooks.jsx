@@ -33,7 +33,6 @@ const styles = theme => ({
 class UserBooks extends Component {
   componentDidMount() {
     if (!this.props.appState.loggedIn) {
-      console.log("opening snackbar");
       const loginButton = props => (
         <Button
           key="login"
@@ -73,10 +72,7 @@ class UserBooks extends Component {
     }
     this.props.apiBook
       .getUserBooks(userId)
-      .then(result => {
-        console.log("user books:");
-        console.log(this.props.book.books);
-      })
+      .then(result => {})
       .catch(err => console.log(err));
   }
 
