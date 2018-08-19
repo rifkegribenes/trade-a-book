@@ -11,18 +11,20 @@ class Notifier extends React.Component {
   state = {
     open: false,
     message: "",
-    variant: "info"
+    variant: "info",
+    action: null
   };
 
   componentDidMount() {
     openSnackbarFn = this.openSnackbar;
   }
 
-  openSnackbar = (variant, message) => {
+  openSnackbar = (variant, message, action) => {
     this.setState({
       open: true,
       variant,
-      message
+      message,
+      action
     });
   };
 
@@ -30,7 +32,8 @@ class Notifier extends React.Component {
     this.setState({
       open: false,
       message: "",
-      variant: "info"
+      variant: "info",
+      action: null
     });
   };
 
@@ -49,21 +52,22 @@ class Notifier extends React.Component {
           horizontal: "right"
         }}
         open={this.state.open}
-        autoHideDuration={3000}
+        autoHideDuration={this.state.variant === "error" ? null : 3000}
         onClose={this.handleSnackbarClose}
       >
         <CustomSnackbarContentWrapper
           variant={this.state.variant}
           message={message}
           open={this.state.open}
+          action={this.state.action}
         />
       </Snackbar>
     );
   }
 }
 
-export const openSnackbar = (variant, message) => {
-  openSnackbarFn(variant, message);
+export const openSnackbar = (variant, message, action) => {
+  openSnackbarFn(variant, message, action);
 };
 
 export default Notifier;

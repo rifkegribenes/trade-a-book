@@ -2,12 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-// import Button from '@material-ui/core/Button';
 import CloseIcon from "@material-ui/icons/Close";
 import green from "@material-ui/core/colors/green";
 import amber from "@material-ui/core/colors/amber";
 import IconButton from "@material-ui/core/IconButton";
-// import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from "@material-ui/core/SnackbarContent";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import WarningIcon from "@material-ui/icons/Warning";
@@ -45,13 +43,27 @@ const styles1 = theme => ({
   message: {
     display: "flex",
     alignItems: "center"
+  },
+  button: {
+    background: "transparent"
   }
 });
 
 const CustomSnackbarContent = props => {
-  const { classes, className, message, onClose, variant, ...other } = props;
+  const {
+    classes,
+    className,
+    message,
+    onClose,
+    variant,
+    action,
+    ...other
+  } = props;
   const Icon = variantIcon[variant];
-
+  let actionButton = null;
+  if (action) {
+    actionButton = action(props);
+  }
   return (
     <SnackbarContent
       className={classNames(classes[variant], className)}
@@ -63,6 +75,7 @@ const CustomSnackbarContent = props => {
         </span>
       }
       action={[
+        actionButton,
         <IconButton
           key="close"
           aria-label="Close"

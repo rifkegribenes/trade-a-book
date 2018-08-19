@@ -6,10 +6,12 @@ import { bindActionCreators } from "redux";
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
+import { BASE_URL } from "../store/actions/apiConfig.js";
 
 import BookListModular from "./BookListModular";
 import Notifier, { openSnackbar } from "./Notifier";
 import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   root: {
@@ -30,12 +32,22 @@ const styles = theme => ({
 
 class UserBooks extends Component {
   componentDidMount() {
-    const userId = this.props.profile.profile._id;
-    if (!this.props.appState.loggedIn || !userId) {
-      console.log("not logged in");
-      alert("you must be logged in to view user books... handle this error...");
-      return;
+    if (!this.props.appState.loggedIn) {
+      console.log("opening snackbar");
+      const loginButton = props => (
+        <Button
+          key="login"
+          size="small"
+          className={props.classes.button}
+          onClick={props.onClose}
+          href={`${BASE_URL}/api/auth/google`}
+        >
+          Login
+        </Button>
+      );
+      openSnackbar("error", "Please log in to view your library", loginButton);
     }
+    const userId = this.props.profile.profile._id;
     const book = JSON.parse(window.localStorage.getItem("book"));
     if (book) {
       // if user was redirected to login after trying to add a book
@@ -73,14 +85,16 @@ class UserBooks extends Component {
     return (
       <div className="bookList">
         <Notifier />
-        <BookListModular
-          listType="user"
-          loggedIn={this.props.appState.loggedIn}
-          title={`${this.props.profile.profile.firstName}'s Library`}
-          books={this.props.book.books}
-          removeBook={this.removeBook}
-          classes={this.props.classes}
-        />
+        {this.props.appState.loggedIn && (
+          <BookListModular
+            listType="user"
+            loggedIn={this.props.appState.loggedIn}
+            title={`${this.props.profile.profile.firstName}'s Library`}
+            books={this.props.book.books}
+            removeBook={this.removeBook}
+            classes={this.props.classes}
+          />
+        )}
       </div>
     );
   }
