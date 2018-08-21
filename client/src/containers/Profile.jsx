@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 
+import Notifier, { openSnackbar } from "./Notifier";
+
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 
@@ -20,7 +22,6 @@ import SaveIcon from "@material-ui/icons/Save";
 import { withStyles } from "@material-ui/core/styles";
 
 import BooksImage from "../img/RainbowBooks_400.jpg";
-import Notifier, { openSnackbar } from "./Notifier";
 
 const styles = theme => ({
   root: {
@@ -70,13 +71,14 @@ class Profile extends React.Component {
 
     this.state = {
       edit: false,
-      city: this.props.profile.profile.city,
-      state: this.props.profile.profile.state
+      city: "",
+      state: ""
     };
   }
 
   componentWillMount() {
     let userId, token;
+    // check route params for user id and token
     if (this.props.match && this.props.match.params.id) {
       userId = this.props.match.params.id;
       token = this.props.match.params.token;
@@ -104,15 +106,25 @@ class Profile extends React.Component {
         token = this.props.appState.authToken;
       }
     }
-    // retrieve user profile & save to redux store
+    // if not logged in, open error snackbar and return
+    if (!userId || !token || !this.props.appState.loggedIn) {
+      openSnackbar("error", "Please log in to view your profile");
+    }
+    // otherwise, retrieve user profile & save to redux store
     this.props.api.getProfile(token, userId).then(result => {
       if (result.type === "GET_PROFILE_SUCCESS") {
         this.props.actions.setLoggedIn();
-        // save user city and state to component state
-        // this.setState({
-        //   city: this.props.profile.profile.city,
-        //   state: this.props.profile.profile.state
-        // });
+        if (
+          this.props.profile.profile.city ||
+          this.props.profile.profile.state
+        ) {
+          // save city and state to component state
+          const newState = { ...this.state };
+          newState.city = this.props.profile.profile.city;
+          newState.state = this.props.profile.profile.state;
+          this.setState({ ...newState });
+          this.closeEdit();
+        }
         // check for redirect url in local storage
         const redirect = window.localStorage.getItem("redirect");
         if (redirect) {
@@ -126,19 +138,30 @@ class Profile extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.state.city || !this.state.state) {
+    if (!this.props.profile.profile.city || !this.props.profile.profile.state) {
       this.handleEdit();
+    } else {
+      this.closeEdit();
     }
   }
 
   handleEdit = () => {
-    this.setState({ edit: true });
+    const newState = { ...this.state };
+    newState.edit = true;
+    this.setState({ ...newState });
   };
 
-  handleInput = ({ target: { name, value } }) =>
-    this.setState({
-      [name]: value
-    });
+  closeEdit = () => {
+    const newState = { ...this.state };
+    newState.edit = false;
+    this.setState({ ...newState });
+  };
+
+  handleInput = ({ target: { name, value } }) => {
+    const newState = { ...this.state };
+    newState[name] = value;
+    this.setState({ ...newState });
+  };
 
   handleSubmit = () => {
     const userId = this.props.profile.profile._id;
@@ -154,7 +177,7 @@ class Profile extends React.Component {
     this.props.api
       .modifyProfile(token, userId, body)
       .then(result => {
-        this.setState({ edit: false });
+        this.closeEdit();
         if (result.type === "MODIFY_PROFILE_SUCCESS") {
           openSnackbar("success", `Profile Saved.`);
         } else if (result.type === "MODIFY_PROFILE_FAILURE") {
@@ -175,56 +198,62 @@ class Profile extends React.Component {
     } = this.props.profile.profile;
     return (
       <div className={classes.container}>
-        <Notifier />
-        <Card className={classes.card}>
-          <CardMedia className={classes.media} image={BooksImage} title="Books">
-            <Avatar
-              alt={`${firstName} ${lastName}`}
-              src={avatarUrl}
-              className={classes.avatar}
-            />
-          </CardMedia>
-          <CardContent>
-            <Typography variant="headline" className={classes.name}>
-              {`${firstName} ${lastName}`}
-            </Typography>
-            {!city || !state ? (
-              <div className={classes.form}>
-                <TextField
-                  id="city"
-                  label="City"
-                  name="city"
-                  onChange={this.handleInput}
-                  value={this.state.city}
-                  fullWidth
-                />
-                <TextField
-                  id="state"
-                  label="State"
-                  name="state"
-                  onChange={this.handleInput}
-                  value={this.state.state}
-                  fullWidth
-                />
-              </div>
-            ) : (
-              <Typography component="p" align="center">
-                {city} {state}
-              </Typography>
-            )}
-          </CardContent>
-          <CardActions className={classes.actions} disableActionSpacing>
-            <IconButton
-              aria-label={!this.state.edit ? "Edit" : "Save"}
-              title={!this.state.edit ? "Edit" : "Save"}
-              className={classes.icon}
-              color="primary"
-              onClick={!this.state.edit ? this.handleEdit : this.handleSubmit}
+        {this.props.appState.loggedIn && (
+          <Card className={classes.card}>
+            <CardMedia
+              className={classes.media}
+              image={BooksImage}
+              title="Books"
             >
-              {!this.state.edit ? <EditIcon /> : <SaveIcon />}
-            </IconButton>
-          </CardActions>
-        </Card>
+              <Avatar
+                alt={`${firstName} ${lastName}`}
+                src={avatarUrl}
+                className={classes.avatar}
+              />
+            </CardMedia>
+            <CardContent>
+              <Typography variant="headline" className={classes.name}>
+                {`${firstName} ${lastName}`}
+              </Typography>
+              {(!city && !state) || this.state.edit ? (
+                <div className={classes.form}>
+                  <TextField
+                    id="city"
+                    label="City"
+                    name="city"
+                    onChange={this.handleInput}
+                    value={this.state.city}
+                    fullWidth
+                  />
+                  <TextField
+                    id="state"
+                    label="State"
+                    name="state"
+                    onChange={this.handleInput}
+                    value={this.state.state}
+                    fullWidth
+                  />
+                </div>
+              ) : (
+                <Typography component="p" align="center">
+                  {city} {state}
+                </Typography>
+              )}
+            </CardContent>
+            <CardActions className={classes.actions} disableActionSpacing>
+              <IconButton
+                aria-label={!this.state.edit ? "Edit" : "Save"}
+                title={!this.state.edit ? "Edit" : "Save"}
+                className={classes.icon}
+                color="primary"
+                onClick={!this.state.edit ? this.handleEdit : this.handleSubmit}
+              >
+                {!this.state.edit ? <EditIcon /> : <SaveIcon />}
+              </IconButton>
+            </CardActions>
+          </Card>
+        )}
+        <Notifier />
       </div>
     );
   }

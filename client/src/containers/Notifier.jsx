@@ -20,6 +20,7 @@ class Notifier extends React.Component {
   }
 
   openSnackbar = (variant, message, action) => {
+    console.log("opening Snackbar");
     this.setState({
       open: true,
       variant,
@@ -68,7 +69,14 @@ class Notifier extends React.Component {
 }
 
 export const openSnackbar = (variant, message, action) => {
-  openSnackbarFn(variant, message, action);
+  // some kind of race condition is happening here between importing the
+  // openSnackbar function into the target component and mounting the Notifier
+  // this is dirty but it works...
+  if (typeof openSnackbarFn === "function") {
+    openSnackbarFn(variant, message, action);
+  } else {
+    setTimeout(() => openSnackbarFn(variant, message, action), 50);
+  }
 };
 
 export default Notifier;
