@@ -106,35 +106,43 @@ class Profile extends React.Component {
         token = this.props.appState.authToken;
       }
     }
-    // if not logged in, open error snackbar and return
-    if (!userId || !token || !this.props.appState.loggedIn) {
-      openSnackbar("error", "Please log in to view your profile");
-    }
-    // otherwise, retrieve user profile & save to redux store
-    this.props.api.getProfile(token, userId).then(result => {
-      if (result.type === "GET_PROFILE_SUCCESS") {
-        this.props.actions.setLoggedIn();
-        if (
-          this.props.profile.profile.city ||
-          this.props.profile.profile.state
-        ) {
-          // save city and state to component state
-          const newState = { ...this.state };
-          newState.city = this.props.profile.profile.city;
-          newState.state = this.props.profile.profile.state;
-          this.setState({ ...newState });
-          this.closeEdit();
+    // retrieve user profile & save to redux store
+    this.props.api
+      .getProfile(token, userId)
+      .then(result => {
+        if (result.type === "GET_PROFILE_SUCCESS") {
+          console.log("got profile");
+          this.props.actions.setLoggedIn();
+          if (
+            this.props.profile.profile.city ||
+            this.props.profile.profile.state
+          ) {
+            // save city and state to component state
+            console.log("saving city and state to component state");
+            const newState = { ...this.state };
+            newState.city = this.props.profile.profile.city;
+            newState.state = this.props.profile.profile.state;
+            this.setState({ ...newState }, () => {
+              console.log(this.state.city, this.state.state);
+              this.closeEdit();
+            });
+          }
+          // check for redirect url in local storage
+          const redirect = window.localStorage.getItem("redirect");
+          if (redirect) {
+            // redirect to originally requested page and then
+            // clear value from local storage
+            this.props.history.push(redirect);
+            window.localStorage.removeItem("redirect");
+          }
+        } else {
+          console.log("not logged in");
+          openSnackbar("error", "Please log in to view your profile");
         }
-        // check for redirect url in local storage
-        const redirect = window.localStorage.getItem("redirect");
-        if (redirect) {
-          // redirect to originally requested page and then
-          // clear value from local storage
-          this.props.history.push(redirect);
-          window.localStorage.removeItem("redirect");
-        }
-      }
-    });
+      })
+      .catch(err => {
+        openSnackbar("error", err);
+      });
   }
 
   componentDidMount() {
