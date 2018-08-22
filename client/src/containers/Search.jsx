@@ -10,10 +10,11 @@ import * as apiBookActions from "../store/actions/apiBookActions";
 
 // import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 
 import Notifier, { openSnackbar } from "./Notifier";
+import ButtonWithSpinner from "./ButtonWithSpinner";
 
 const styles = theme => ({
   root: {
@@ -58,6 +59,7 @@ class Search extends Component {
 
   searchBook = () => {
     console.log("searchBook");
+
     const title = encodeURIComponent(this.state.title);
     const author = encodeURIComponent(this.state.author);
 
@@ -109,14 +111,16 @@ class Search extends Component {
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
-            <Button
+            <ButtonWithSpinner
               type="button"
+              color="primary"
               className={classes.button}
               variant="raised"
               onClick={() => this.searchBook()}
+              loading={this.props.book.loading}
             >
               Search book
-            </Button>
+            </ButtonWithSpinner>
           </ValidatorForm>
         </Paper>
       </div>

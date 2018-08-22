@@ -23,7 +23,7 @@ import {
 } from "../actions/apiBookActions";
 
 const INITIAL_STATE = {
-  spinnerClass: "spinner__hide",
+  loading: false,
   books: [],
   searchResults: [],
   currentBook: {
@@ -49,28 +49,28 @@ function book(state = INITIAL_STATE, action) {
     case ADD_BOOK_REQUEST:
     case UPDATE_BOOK_OWNER_REQUEST:
       return update(state, {
-        spinnerClass: { $set: "spinner__show" },
+        loading: { $set: true },
         error: { $set: null }
       });
 
     case GET_ALL_BOOKS_SUCCESS:
     case GET_USER_BOOKS_SUCCESS:
       return update(state, {
-        spinnerClass: { $set: "spinner__hide" },
+        loading: { $set: false },
         books: { $set: action.payload.books },
         error: { $set: null }
       });
 
     case UPDATE_BOOKLIST_SUCCESS:
       return update(state, {
-        spinnerClass: { $set: "spinner__hide" },
+        loading: { $set: false },
         books: { $set: action.payload.books },
         error: { $set: null }
       });
 
     case SEARCH_BOOK_SUCCESS:
       return update(state, {
-        spinnerClass: { $set: "spinner__hide" },
+        loading: { $set: false },
         searchResults: { $set: action.payload.books },
         error: { $set: null }
       });
@@ -79,7 +79,7 @@ function book(state = INITIAL_STATE, action) {
     case ADD_BOOK_SUCCESS:
     case UPDATE_BOOK_OWNER_SUCCESS:
       return update(state, {
-        spinnerClass: { $set: "spinner__hide" },
+        loading: { $set: false },
         currentBook: { $set: action.payload.book },
         error: { $set: null }
       });
@@ -96,7 +96,7 @@ function book(state = INITIAL_STATE, action) {
         error = "Sorry, something went wrong :(\nPlease try again.";
       }
       return update(state, {
-        spinnerClass: { $set: "spinner__hide" },
+        loading: { $set: false },
         error: { $set: error }
       });
 
