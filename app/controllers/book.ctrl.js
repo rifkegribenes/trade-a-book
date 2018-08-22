@@ -89,30 +89,21 @@ exports.addBook = (req, res, next) => {
 
 // Deletes a book from the DB
 exports.removeBook = (req, res, next) => {
-  console.log('book.ctrl.js > 92: removeBook');
   Book.findOne({ _id: req.params.bookId })
     .then((book) => {
-      console.log('book.ctrl.js > 95');
       if (!book) {
-        console.log('book.ctrl.js > 95: Book not found');
         return res.status(404).json({message: 'Book not found.'});
       } else {
         // Only owner can delete
-        console.log('book.ctrl.js > 101');
         if (book.owner.toString() === req.user._id.toString()) {
-          console.log('book.ctrl.js > 103');
           book.remove((err) => {
             if (err) {
-              console.log('book.ctrl.js > 106');
-              console.log(err);
               return handleError(res, err);
             } else {
-              console.log('book.ctrl.js > 110');
               return res.status(204).json({message: `${book.title} was removed from your library.`});
             }
           });
         } else {
-          console.log('book.ctrl.js > 115');
           return res.status(403).json({message: 'You do not have permission to delete this item.'});
         }
       }

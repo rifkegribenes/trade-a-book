@@ -10,6 +10,7 @@ import { BASE_URL } from "../store/actions/apiConfig.js";
 
 import BookListModular from "./BookListModular";
 import Notifier, { openSnackbar } from "./Notifier";
+
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
@@ -31,6 +32,10 @@ const styles = theme => ({
 });
 
 class UserBooks extends Component {
+  state = {
+    dialogOpen: false
+  };
+
   componentDidMount() {
     if (!this.props.appState.loggedIn) {
       const loginButton = props => (
@@ -120,6 +125,14 @@ class UserBooks extends Component {
       });
   };
 
+  handleOpen = () => {
+    this.setState({ dialogOpen: true });
+  };
+
+  handleClose = () => {
+    this.setState({ dialogOpen: false });
+  };
+
   render() {
     return (
       <div className="bookList">
@@ -131,6 +144,9 @@ class UserBooks extends Component {
             title={`${this.props.profile.profile.firstName}'s Library`}
             books={this.props.book.books}
             removeBook={this.removeBook}
+            handleOpen={this.handleOpen}
+            handleClose={this.handleClose}
+            open={this.state.dialogOpen}
             classes={this.props.classes}
           />
         )}

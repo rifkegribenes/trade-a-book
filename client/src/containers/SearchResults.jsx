@@ -33,8 +33,6 @@ class SearchResults extends Component {
   componentDidMount() {}
 
   addBook = book => {
-    console.log("addBook");
-    console.log(book);
     const token = this.props.appState.authToken;
     const userId = this.props.profile.profile._id;
     if (!this.props.appState.loggedIn || !userId || !token) {
@@ -47,7 +45,6 @@ class SearchResults extends Component {
       this.props.apiBook
         .addBook(token, book)
         .then(result => {
-          console.log(result);
           openSnackbar("success", `Added ${book.title} to your library.`);
           this.props.apiBook
             .getAllBooks()

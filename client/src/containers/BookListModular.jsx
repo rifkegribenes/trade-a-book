@@ -15,6 +15,8 @@ import Delete from "@material-ui/icons/Delete";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
+import AlertDialog from "./AlertDialog";
+
 const BookListModular = props => (
   <div className="bookList">
     <Paper>
@@ -42,6 +44,15 @@ const BookListModular = props => (
           }
           return (
             <div key={book.googleId}>
+              {props.listType === "user" && (
+                <AlertDialog
+                  book={book}
+                  removeBook={props.removeBook}
+                  handleOpen={props.handleOpen}
+                  handleClose={props.handleClose}
+                  open={props.open}
+                />
+              )}
               <ListItem style={{ paddingRight: 0 }}>
                 <img
                   className={props.classes.thumbnail}
@@ -118,7 +129,7 @@ const BookListModular = props => (
                     color="default"
                     title="Remove Book"
                     className={props.classes.button}
-                    onClick={() => props.removeBook(book)}
+                    onClick={() => props.handleOpen()}
                   >
                     <Delete />
                   </IconButton>

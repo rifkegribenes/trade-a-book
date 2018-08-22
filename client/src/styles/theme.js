@@ -11,7 +11,7 @@ export default createMuiTheme({
   },
   overrides: {
     MuiButton: {
-      root: {
+      containedPrimary: {
         background: "linear-gradient(45deg, #f40339, #f5af19)",
         backgroundImage: "linear-gradient(45deg, #f40339, #f5af19)",
         backgroundSize: "200% 200%",

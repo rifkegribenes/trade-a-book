@@ -10,7 +10,6 @@ import * as apiBookActions from "../store/actions/apiBookActions";
 
 // import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
-// import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 
 import Notifier, { openSnackbar } from "./Notifier";
@@ -58,8 +57,6 @@ class Search extends Component {
     });
 
   searchBook = () => {
-    console.log("searchBook");
-
     const title = encodeURIComponent(this.state.title);
     const author = encodeURIComponent(this.state.author);
 
@@ -71,7 +68,6 @@ class Search extends Component {
           if (result === "SEARCH_BOOK_FAILURE" || this.props.book.error) {
             openSnackbar("error", "Sorry, book not found.");
           }
-          console.log(this.props.book.searchResults);
         })
         .catch(err => openSnackbar("error", err));
     } else {

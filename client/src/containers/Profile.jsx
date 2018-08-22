@@ -197,6 +197,8 @@ class Profile extends React.Component {
 
   render() {
     const { classes } = this.props;
+    const { loggedIn } = this.props.appState;
+    const redirect = window.localStorage.getItem("redirect");
     const {
       firstName,
       lastName,
@@ -206,61 +208,64 @@ class Profile extends React.Component {
     } = this.props.profile.profile;
     return (
       <div className={classes.container}>
-        {this.props.appState.loggedIn && (
-          <Card className={classes.card}>
-            <CardMedia
-              className={classes.media}
-              image={BooksImage}
-              title="Books"
-            >
-              <Avatar
-                alt={`${firstName} ${lastName}`}
-                src={avatarUrl}
-                className={classes.avatar}
-              />
-            </CardMedia>
-            <CardContent>
-              <Typography variant="headline" className={classes.name}>
-                {`${firstName} ${lastName}`}
-              </Typography>
-              {(!city && !state) || this.state.edit ? (
-                <div className={classes.form}>
-                  <TextField
-                    id="city"
-                    label="City"
-                    name="city"
-                    onChange={this.handleInput}
-                    value={this.state.city}
-                    fullWidth
-                  />
-                  <TextField
-                    id="state"
-                    label="State"
-                    name="state"
-                    onChange={this.handleInput}
-                    value={this.state.state}
-                    fullWidth
-                  />
-                </div>
-              ) : (
-                <Typography component="p" align="center">
-                  {city} {state}
-                </Typography>
-              )}
-            </CardContent>
-            <CardActions className={classes.actions} disableActionSpacing>
-              <IconButton
-                aria-label={!this.state.edit ? "Edit" : "Save"}
-                title={!this.state.edit ? "Edit" : "Save"}
-                className={classes.icon}
-                color="primary"
-                onClick={!this.state.edit ? this.handleEdit : this.handleSubmit}
+        {loggedIn &&
+          !redirect && (
+            <Card className={classes.card}>
+              <CardMedia
+                className={classes.media}
+                image={BooksImage}
+                title="Books"
               >
-                {!this.state.edit ? <EditIcon /> : <SaveIcon />}
-              </IconButton>
-            </CardActions>
-          </Card>
-        )}
+                <Avatar
+                  alt={`${firstName} ${lastName}`}
+                  src={avatarUrl}
+                  className={classes.avatar}
+                />
+              </CardMedia>
+              <CardContent>
+                <Typography variant="headline" className={classes.name}>
+                  {`${firstName} ${lastName}`}
+                </Typography>
+                {(!city && !state) || this.state.edit ? (
+                  <div className={classes.form}>
+                    <TextField
+                      id="city"
+                      label="City"
+                      name="city"
+                      onChange={this.handleInput}
+                      value={this.state.city}
+                      fullWidth
+                    />
+                    <TextField
+                      id="state"
+                      label="State"
+                      name="state"
+                      onChange={this.handleInput}
+                      value={this.state.state}
+                      fullWidth
+                    />
+                  </div>
+                ) : (
+                  <Typography component="p" align="center">
+                    {city} {state}
+                  </Typography>
+                )}
+              </CardContent>
+              <CardActions className={classes.actions} disableActionSpacing>
+                <IconButton
+                  aria-label={!this.state.edit ? "Edit" : "Save"}
+                  title={!this.state.edit ? "Edit" : "Save"}
+                  className={classes.icon}
+                  color="primary"
+                  onClick={
+                    !this.state.edit ? this.handleEdit : this.handleSubmit
+                  }
+                >
+                  {!this.state.edit ? <EditIcon /> : <SaveIcon />}
+                </IconButton>
+              </CardActions>
+            </Card>
+          )}
         <Notifier />
       </div>
     );
