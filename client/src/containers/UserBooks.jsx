@@ -6,13 +6,11 @@ import { bindActionCreators } from "redux";
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
-import { BASE_URL } from "../store/actions/apiConfig.js";
 
 import BookListModular from "./BookListModular";
 import Notifier, { openSnackbar } from "./Notifier";
 
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   root: {

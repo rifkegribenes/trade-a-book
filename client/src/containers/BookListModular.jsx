@@ -85,17 +85,18 @@ const BookListModular = props => (
                       />
                     </div>
                   )}
-                {props.listType === "all" && (
-                  <IconButton
-                    variant="contained"
-                    color="primary"
-                    className={props.classes.button}
-                    title="Propose a Trade"
-                    onClick={() => props.proposeTrade(book)}
-                  >
-                    <SwapHoriz className={props.classes.rightIcon} />
-                  </IconButton>
-                )}
+                {props.listType === "all" &&
+                  props.userId !== book.owner && (
+                    <IconButton
+                      variant="contained"
+                      color="primary"
+                      className={props.classes.button}
+                      title="Propose a Trade"
+                      onClick={() => props.proposeTrade(book)}
+                    >
+                      <SwapHoriz className={props.classes.rightIcon} />
+                    </IconButton>
+                  )}
                 {props.listType === "search" ? (
                   props.loggedIn ? (
                     <IconButton

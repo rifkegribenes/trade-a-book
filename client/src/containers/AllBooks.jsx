@@ -38,7 +38,8 @@ class AllBooks extends Component {
               firstName: this.props.profile.partialProfile.firstName,
               avatarUrl: this.props.profile.partialProfile.avatarUrl,
               city: this.props.profile.partialProfile.city,
-              state: this.props.profile.partialProfile.state
+              state: this.props.profile.partialProfile.state,
+              _id: this.props.profile.partialProfile._id
             };
             return { ...book, ownerData };
           })
@@ -68,11 +69,12 @@ class AllBooks extends Component {
         <BookListModular
           listType="all"
           loggedIn={this.props.appState.loggedIn}
-          title="All books"
-          subhead="Click to propose a trade."
+          title="All books available for trade"
+          subhead=""
           books={this.props.book.books}
           proposeTrade={this.proposeTrade}
           classes={this.props.classes}
+          userId={this.props.profile.profile._id}
         />
       </div>
     );
