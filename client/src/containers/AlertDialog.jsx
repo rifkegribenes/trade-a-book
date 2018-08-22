@@ -27,7 +27,7 @@ const AlertDialog = props => (
             props.removeBook(props.book);
             props.handleClose();
           }}
-          color="primary"
+          color="secondary"
           variant="contained"
           autoFocus
         >

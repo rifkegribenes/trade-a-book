@@ -52,7 +52,7 @@ class Notifier extends React.Component {
           horizontal: "right"
         }}
         open={this.state.open}
-        autoHideDuration={this.state.variant === "error" ? 5000 : 3000}
+        autoHideDuration={3000}
         onClose={this.handleSnackbarClose}
       >
         <CustomSnackbarContentWrapper
@@ -68,7 +68,7 @@ class Notifier extends React.Component {
 }
 
 export const openSnackbar = (variant, message, action) => {
-  // some kind of race condition is happening here between importing the
+  // some kind of race condition is happening between importing the
   // openSnackbar function into the target component and mounting the Notifier
   // this is dirty but it works...
   if (typeof openSnackbarFn === "function") {

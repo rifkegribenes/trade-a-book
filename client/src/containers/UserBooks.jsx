@@ -38,21 +38,7 @@ class UserBooks extends Component {
 
   componentDidMount() {
     if (!this.props.appState.loggedIn) {
-      const loginButton = props => (
-        <Button
-          key="login"
-          size="small"
-          className={props.classes.button}
-          onClick={() => {
-            window.localStorage.setItem("redirect", "/library");
-            props.onClose();
-          }}
-          href={`${BASE_URL}/api/auth/google`}
-        >
-          Login
-        </Button>
-      );
-      openSnackbar("error", "Please log in to view your library", loginButton);
+      openSnackbar("error", "Please log in to view your library");
     }
     const userId = this.props.profile.profile._id;
     const book = JSON.parse(window.localStorage.getItem("book"));
