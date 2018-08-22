@@ -117,6 +117,10 @@ module.exports = function (app) {
   // Returns fail status + message -or- book object
   bookRoutes.put('/new', requireAuth, BookController.addBook);
 
+  // Remove book (secured)
+  // Returns fail status + message -or- book object
+  bookRoutes.put('/remove/:bookId', requireAuth, BookController.removeBook);
+
   // Update book owner (secured)
   // Returns fail status + message -or- book object
   bookRoutes.put('/update/:userId/:bookId', requireAuth, BookController.updateBookOwner);

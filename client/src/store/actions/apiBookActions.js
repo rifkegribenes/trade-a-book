@@ -16,6 +16,9 @@ export const SEARCH_BOOK_FAILURE = "SEARCH_BOOK_FAILURE";
 export const ADD_BOOK_REQUEST = "ADD_BOOK_REQUEST";
 export const ADD_BOOK_SUCCESS = "ADD_BOOK_SUCCESS";
 export const ADD_BOOK_FAILURE = "ADD_BOOK_FAILURE";
+export const REMOVE_BOOK_REQUEST = "REMOVE_BOOK_REQUEST";
+export const REMOVE_BOOK_SUCCESS = "REMOVE_BOOK_SUCCESS";
+export const REMOVE_BOOK_FAILURE = "REMOVE_BOOK_FAILURE";
 export const UPDATE_BOOK_OWNER_REQUEST = "UPDATE_BOOK_OWNER_REQUEST";
 export const UPDATE_BOOK_OWNER_SUCCESS = "UPDATE_BOOK_OWNER_SUCCESS";
 export const UPDATE_BOOK_OWNER_FAILURE = "UPDATE_BOOK_OWNER_FAILURE";
@@ -236,6 +239,47 @@ export function addBook(token, body) {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body)
+    }
+  };
+}
+
+/*
+* Function: removeBook -- remove book from database
+* @param {string} bookId
+* This action dispatches additional actions as it executes:
+*   REMOVE_BOOK_REQUEST:
+*     Initiates a spinner on the home page.
+*   REMOVE_BOOK_SUCCESS:
+*     If book successfully removed, hides spinner
+*   REMOVE_BOOK_FAILURE:
+*     If database error, hides spinner, displays error toastr
+*/
+export function removeBook(token, bookId) {
+  return {
+    [RSAA]: {
+      endpoint: `${BASE_URL}/api/book/remove/${bookId}`,
+      method: "PUT",
+      types: [
+        REMOVE_BOOK_REQUEST,
+        REMOVE_BOOK_SUCCESS,
+        {
+          type: REMOVE_BOOK_FAILURE,
+          payload: (action, state, res) => {
+            return res.json().then(data => {
+              let message = "Sorry, something went wrong :(";
+              if (data) {
+                if (data.message) {
+                  message = data.message;
+                }
+                return { message };
+              } else {
+                return { message };
+              }
+            });
+          }
+        }
+      ],
+      headers: { Authorization: `Bearer ${token}` }
     }
   };
 }

@@ -1,4 +1,5 @@
-// @flow
+// https://menubar.io/creating-a-material-ui-button-with-spinner-that-reflects-loading-state
+
 import React from "react";
 import Button from "@material-ui/core/Button";
 import SpinnerAdornment from "./SpinnerAdornment";

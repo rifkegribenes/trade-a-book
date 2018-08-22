@@ -60,24 +60,64 @@ class UserBooks extends Component {
         .addBook(token, book)
         .then(result => {
           console.log(result);
-          openSnackbar("success", `Added ${book.title} to your library.`);
-          this.props.apiBook
-            .getUserBooks(userId)
-            .then(result => console.log(this.props.book.books));
+          if (result.type === "ADD_BOOK_SUCCESS") {
+            openSnackbar("success", `Added ${book.title} to your library.`);
+            this.props.apiBook
+              .getUserBooks(userId)
+              .then(result => console.log(this.props.book.books))
+              .catch(err => {
+                console.log(err);
+                openSnackbar("error", err);
+              });
+          } else {
+            openSnackbar("error", this.props.book.error);
+          }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err);
+          openSnackbar("error", err);
+        });
       // then remove stored book from localStorage
       window.localStorage.removeItem("book");
       return;
     }
+
     this.props.apiBook
       .getUserBooks(userId)
       .then(result => {})
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        openSnackbar("error", err);
+      });
   }
 
   removeBook = bookData => {
     console.log("removeBook");
+    const token = this.props.appState.authToken;
+    const userId = this.props.profile.profile._id;
+    this.props.apiBook
+      .removeBook(token, bookData._id)
+      .then(result => {
+        if (result.type === "REMOVE_BOOK_SUCCESS") {
+          openSnackbar(
+            "success",
+            `Removed ${bookData.title} from your library.`
+          );
+          this.props.apiBook
+            .getUserBooks(userId)
+            .then(result => console.log(this.props.book.books))
+            .catch(err => {
+              console.log(err);
+              openSnackbar("error", err);
+            });
+        } else {
+          openSnackbar("error", this.props.book.error);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        openSnackbar("error", err);
+      });
   };
 
   render() {
