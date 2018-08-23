@@ -9,7 +9,7 @@ import * as apiBookActions from "../store/actions/apiBookActions";
 // import { BASE_URL } from "../store/actions/apiConfig.js";
 
 import Notifier, { openSnackbar } from "./Notifier";
-import BookListModular from "./BookListModular";
+import BookList from "./BookList";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -66,7 +66,7 @@ class SearchResults extends Component {
     return (
       <div className="searchResults">
         <Notifier />
-        <BookListModular
+        <BookList
           listType="search"
           loggedIn={this.props.appState.loggedIn}
           title="Search Results"

@@ -16,8 +16,9 @@ import Delete from "@material-ui/icons/Delete";
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
 import AlertDialog from "./AlertDialog";
+import ProposeTradeDialog from "./ProposeTradeDialog";
 
-const BookListModular = props => (
+const BookList = props => (
   <div className="bookList">
     <Paper>
       <Typography variant="display1" align="center" gutterBottom>
@@ -51,6 +52,15 @@ const BookListModular = props => (
                   handleOpen={props.handleOpen}
                   handleClose={props.handleClose}
                   open={props.open}
+                />
+              )}
+              {props.listType === "all" && (
+                <ProposeTradeDialog
+                  book={book}
+                  proposeTrade={props.proposeTrade}
+                  handleOpen={props.handleOpen}
+                  handleClose={props.handleClose}
+                  open={props.dialogOpen}
                 />
               )}
               <ListItem style={{ paddingRight: 0 }}>
@@ -92,7 +102,9 @@ const BookListModular = props => (
                       color="primary"
                       className={props.classes.button}
                       title="Propose a Trade"
-                      onClick={() => props.proposeTrade(book)}
+                      onClick={() => {
+                        props.handleOpen(book);
+                      }}
                     >
                       <SwapHoriz className={props.classes.rightIcon} />
                     </IconButton>
@@ -145,7 +157,7 @@ const BookListModular = props => (
   </div>
 );
 
-BookListModular.propTypes = {
+BookList.propTypes = {
   listType: PropTypes.string.isRequired,
   loggedIn: PropTypes.bool,
   title: PropTypes.string.isRequired,
@@ -174,4 +186,4 @@ BookListModular.propTypes = {
   removeBook: PropTypes.func
 };
 
-export default BookListModular;
+export default BookList;

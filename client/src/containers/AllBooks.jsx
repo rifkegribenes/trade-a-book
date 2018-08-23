@@ -7,7 +7,7 @@ import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
-import BookListModular from "./BookListModular";
+import BookList from "./BookList";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -28,6 +28,21 @@ const styles = theme => ({
 });
 
 class AllBooks extends Component {
+  state = {
+    dialogOpen: false,
+    selectedBook: {}
+  };
+
+  handleOpen = () => {
+    this.setState({
+      dialogOpen: true
+    });
+  };
+
+  handleClose = bookData => {
+    this.setState({ selectedBook: bookData, dialogOpen: false });
+  };
+
   componentDidMount() {
     const bookListPromise = books => {
       return books.map(book => {
@@ -61,16 +76,21 @@ class AllBooks extends Component {
 
   proposeTrade = bookData => {
     console.log("proposeTrade");
+    console.log(bookData);
   };
 
   render() {
     return (
       <div className="bookList">
-        <BookListModular
+        <BookList
           listType="all"
           loggedIn={this.props.appState.loggedIn}
           title="All books available for trade"
           subhead=""
+          dialogOpen={this.state.dialogOpen}
+          handleOpen={this.handleOpen}
+          handleClose={this.handleClose}
+          selectedValue={this.state.selectedValue}
           books={this.props.book.books}
           proposeTrade={this.proposeTrade}
           classes={this.props.classes}

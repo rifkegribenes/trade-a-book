@@ -7,7 +7,7 @@ import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
-import BookListModular from "./BookListModular";
+import BookList from "./BookList";
 import Notifier, { openSnackbar } from "./Notifier";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -109,7 +109,13 @@ class UserBooks extends Component {
       });
   };
 
-  handleOpen = () => {
+  handleOpen = book => {
+    if (book) {
+      if (!this.props.appState.loggedIn) {
+        openSnackbar("error", "Please log in to propose a trade");
+        return;
+      }
+    }
     this.setState({ dialogOpen: true });
   };
 
@@ -122,7 +128,7 @@ class UserBooks extends Component {
       <div className="bookList">
         <Notifier />
         {this.props.appState.loggedIn && (
-          <BookListModular
+          <BookList
             listType="user"
             loggedIn={this.props.appState.loggedIn}
             title={`${this.props.profile.profile.firstName}'s Library`}
