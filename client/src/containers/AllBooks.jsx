@@ -6,9 +6,11 @@ import { bindActionCreators } from "redux";
 import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
+import * as apiTradeActions from "../store/actions/apiTradeActions";
 
 import BookList from "./BookList";
 import AlertDialog from "./AlertDialog";
+import Notifier, { openSnackbar } from "./Notifier";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -111,11 +113,34 @@ class AllBooks extends Component {
   proposeTrade = (bookRequested, bookOffered) => {
     console.log("proposeTrade");
     console.log(bookRequested, bookOffered);
+    const token = this.props.appState.authToken;
+    const body = {
+      bookRequested,
+      bookOffered,
+      fromUser: this.props.profile.profile._id,
+      toUser: bookRequested.owner
+    };
+    this.props.apiTrade
+      .proposeTrade(token, body)
+      .then(result => {
+        if (result.type === "PROPOSE_TRADE_SUCCESS") {
+          openSnackbar(
+            "success",
+            `Message sent to ${
+              bookRequested.ownerData.firstName
+            } proposing trade.`
+          );
+        } else {
+          openSnackbar("error", this.props.trade.error);
+        }
+      })
+      .catch(err => openSnackbar("error", err));
   };
 
   render() {
     return (
       <div className="bookList">
+        <Notifier />
         {this.state.alertDialogOpen && (
           <AlertDialog
             handleClose={this.handleCloseAlertDialog}
@@ -161,13 +186,15 @@ AllBooks.propTypes = {};
 const mapStateToProps = state => ({
   appState: state.appState,
   profile: state.profile,
-  book: state.book
+  book: state.book,
+  trade: state.trade
 });
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
   apiBook: bindActionCreators(apiBookActions, dispatch),
-  apiProfile: bindActionCreators(apiProfileActions, dispatch)
+  apiProfile: bindActionCreators(apiProfileActions, dispatch),
+  apiTrade: bindActionCreators(apiTradeActions, dispatch)
 });
 
 export default withStyles(styles)(
