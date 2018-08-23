@@ -22,13 +22,13 @@ const BookList = props => (
   <div className="bookList">
     <Paper>
       {props.listType === "all" &&
-        props.dialogOpen && (
+        props.tradeDialogOpen && (
           <ProposeTradeDialog
             bookRequested={props.bookRequested}
             proposeTrade={props.proposeTrade}
-            handleOpen={props.handleOpen}
-            handleClose={props.handleClose}
-            open={props.dialogOpen}
+            handleTradeDialogOpen={props.handleTradeDialogOpen}
+            handleTradeDialogClose={props.handleTradeDialogClose}
+            open={props.tradeDialogOpen}
             loggedInUserBooks={props.loggedInUserBooks}
           />
         )}
@@ -59,8 +59,8 @@ const BookList = props => (
               {props.listType === "user" && (
                 <AlertDialog
                   book={book}
-                  handleClose={props.handleClose}
-                  open={props.open}
+                  handleClose={props.handleAlertDialogClose}
+                  open={props.alertDialogOpen}
                   content={`Remove ${book.title} from your library?`}
                   action={() => {
                     props.removeBook(book);
@@ -109,7 +109,7 @@ const BookList = props => (
                       className={props.classes.button}
                       title="Propose a Trade"
                       onClick={() => {
-                        props.handleOpen(book);
+                        props.handleTradeDialogOpen(book);
                       }}
                     >
                       <SwapHoriz className={props.classes.rightIcon} />
@@ -148,7 +148,7 @@ const BookList = props => (
                     color="default"
                     title="Remove Book"
                     className={props.classes.button}
-                    onClick={() => props.handleOpen()}
+                    onClick={() => props.handleAlertDialogOpen()}
                   >
                     <Delete />
                   </IconButton>

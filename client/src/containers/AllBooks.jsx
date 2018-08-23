@@ -8,6 +8,7 @@ import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
 import BookList from "./BookList";
+import AlertDialog from "./AlertDialog";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -24,34 +25,56 @@ const styles = theme => ({
   author: {},
   owner: {
     display: "flex"
+  },
+  contentBold: {
+    fontWeight: "bold"
   }
 });
 
 class AllBooks extends Component {
   state = {
-    dialogOpen: false,
+    tradeDialogOpen: false,
+    alertDialogOpen: false,
     bookOffered: {},
     bookRequested: {}
   };
 
-  handleOpen = bookRequested => {
+  handleTradeDialogOpen = bookRequested => {
     console.log(`handleOpen:`);
     console.log(bookRequested);
-    this.setState({
-      dialogOpen: true,
-      bookRequested: { ...bookRequested }
-    });
+    const newState = { ...this.state };
+    newState.tradeDialogOpen = true;
+    newState.bookRequested = { ...bookRequested };
+    this.setState({ ...newState });
+  };
+
+  handleAlertDialogOpen = () => {
+    const newState = { ...this.state };
+    newState.alertDialogOpen = true;
+    this.setState({ ...newState });
   };
 
   cancel = () => {
-    this.setState({
-      dialogOpen: false
-    });
+    const newState = { ...this.state };
+    newState.alertDialogOpen = false;
+    newState.tradeDialogOpen = false;
+    this.setState({ ...newState });
   };
 
-  handleClose = (bookRequested, bookOffered) => {
-    this.setState({ selectedBook: bookOffered, dialogOpen: false });
-    this.proposeTrade(bookRequested, bookOffered);
+  handleTradeDialogClose = (bookRequested, bookOffered) => {
+    const newState = { ...this.state };
+    newState.bookOffered = bookOffered;
+    newState.bookRequested = bookRequested;
+    newState.tradeDialogOpen = false;
+    newState.alertDialogOpen = true;
+    this.setState({ ...newState });
+  };
+
+  handleAlertDialogClose = () => {
+    const newState = { ...this.state };
+    newState.alertDialogOpen = false;
+    this.setState({ ...newState });
+    this.proposeTrade(this.state.bookRequested, this.state.bookOffered);
   };
 
   componentDidMount() {
@@ -93,19 +116,38 @@ class AllBooks extends Component {
   render() {
     return (
       <div className="bookList">
+        {this.state.alertDialogOpen && (
+          <AlertDialog
+            handleClose={this.handleCloseAlertDialog}
+            open={this.state.alertDialogOpen}
+            title="Confirm your proposal"
+            content={`Clicking Propose Trade will send a message to ${
+              this.state.bookRequested.ownerData.firstName
+            } offering to trade your copy of ${
+              this.state.bookOffered.title
+            } for their copy of ${this.state.bookRequested.title}.`}
+            action={() => {
+              this.proposeTrade(
+                this.state.bookRequested,
+                this.state.bookOffered
+              );
+              this.handleAlertDialogClose();
+            }}
+            buttonText="Propose Trade"
+          />
+        )}
         <BookList
           listType="all"
           loggedIn={this.props.appState.loggedIn}
           title="All books available for trade"
           subhead=""
-          dialogOpen={this.state.dialogOpen}
-          handleOpen={this.handleOpen}
-          handleClose={this.handleClose}
+          tradeDialogOpen={this.state.tradeDialogOpen}
+          handleTradeDialogOpen={this.handleTradeDialogOpen}
+          handleTradeDialogClose={this.handleTradeDialogClose}
           cancel={this.cancel}
           selectedBook={this.state.selectedBook}
           bookRequested={this.state.bookRequested}
           books={this.props.book.books}
-          proposeTrade={this.proposeTrade}
           classes={this.props.classes}
           userId={this.props.profile.profile._id}
         />

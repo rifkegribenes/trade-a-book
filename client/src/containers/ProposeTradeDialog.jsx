@@ -55,7 +55,7 @@ class ProposeTradeDialog extends React.Component {
   };
 
   handleListItemClick = bookOffered => {
-    this.props.handleClose(this.props.bookRequested, bookOffered);
+    this.props.handleTradeDialogClose(this.props.bookRequested, bookOffered);
   };
 
   render() {
