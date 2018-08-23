@@ -10,27 +10,40 @@ import * as apiBookActions from "../store/actions/apiBookActions";
 import { withStyles } from "@material-ui/core/styles";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
 
 import { openSnackbar } from "./Notifier";
 
-const styles = {
-  avatar: {}
-};
+const styles = theme => ({
+  dialog: {
+    maxWidth: 500,
+    margin: "auto"
+  },
+  subhead: {
+    padding: "0 24px"
+  },
+  subheadBold: {
+    fontWeight: "bold"
+  }
+});
 
 class ProposeTradeDialog extends React.Component {
   componentDidMount() {
     const userId = this.props.profile.profile._id;
+    console.log(userId);
 
     this.props.apiBook
       .getUserBooks(userId)
-      .then(result => {})
+      .then(result => {
+        console.log(result.type);
+        if (result.type === "GET_USER_BOOKS_FAILURE") {
+          console.log(this.props.book.error);
+          openSnackbar("error", this.props.book.error);
+        }
+      })
       .catch(err => {
         console.log(err);
         openSnackbar("error", err);
@@ -38,27 +51,33 @@ class ProposeTradeDialog extends React.Component {
   }
 
   handleClose = () => {
-    this.props.onClose(this.props.selectedValue);
+    this.props.cancel();
   };
 
-  handleListItemClick = value => {
-    this.props.onClose(value);
+  handleListItemClick = bookOffered => {
+    this.props.handleClose(this.props.bookRequested, bookOffered);
   };
 
   render() {
-    const { classes, onClose, selectedValue, ...other } = this.props;
-    const books = this.props.book.books;
+    const { classes } = this.props;
+    const books = this.props.book.loggedInUserBooks;
+    console.log(books);
 
     return (
       <Dialog
         onClose={this.handleClose}
         aria-labelledby="simple-dialog-title"
-        {...other}
         open={this.props.open}
+        className={classes.dialog}
       >
-        <DialogTitle id="simple-dialog-title">Choose Book</DialogTitle>
-        <Typography variant="subheading">
-          Which book would you like to offer in exchange?
+        <DialogTitle id="simple-dialog-title">Choose Book to Offer</DialogTitle>
+        <Typography variant="subheading" className={classes.subhead}>
+          Which of your books would you like to offer in exchange for
+          <span className={classes.subheadBold}>
+            &nbsp;
+            {this.props.bookRequested.title}
+          </span>
+          ?
         </Typography>
         <div>
           <List>
@@ -78,17 +97,6 @@ class ProposeTradeDialog extends React.Component {
                   <ListItemText primary={book.title} />
                 </ListItem>
               ))}
-            <ListItem
-              button
-              onClick={() => this.handleListItemClick("addBook")}
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <AddIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="add book" />
-            </ListItem>
           </List>
         </div>
       </Dialog>

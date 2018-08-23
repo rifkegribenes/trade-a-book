@@ -132,7 +132,7 @@ class UserBooks extends Component {
             listType="user"
             loggedIn={this.props.appState.loggedIn}
             title={`${this.props.profile.profile.firstName}'s Library`}
-            books={this.props.book.books}
+            books={this.props.book.loggedInUserBooks}
             removeBook={this.removeBook}
             handleOpen={this.handleOpen}
             handleClose={this.handleClose}

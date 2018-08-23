@@ -12,7 +12,11 @@ const TradeSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  book: {
+  bookRequested: {
+    type: Schema.Types.ObjectId,
+    ref: 'Book'
+  },
+  bookOffered: {
     type: Schema.Types.ObjectId,
     ref: 'Book'
   },

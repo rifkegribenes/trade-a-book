@@ -55,7 +55,8 @@ export function getUserTrades(userId) {
 * Function: proposeTrade -- add new trade to db
 * @param {string} toUser (userId)
 * @param {string} fromUser (userId)
-* @param {string} bookId
+* @param {string} bookRequested (bookId)
+* @param {string} bookOffered (bookId)
 * This action dispatches additional actions as it executes:
 *   PROPOSE_TRADE_REQUEST:
 *     Initiates a spinner on the home page.
@@ -64,10 +65,10 @@ export function getUserTrades(userId) {
 *   PROPOSE_TRADE_FAILURE:
 *     If database error, hides spinner, displays error toastr
 */
-export function proposeTrade(token, toUser, fromUser, bookId) {
+export function proposeTrade(token, body) {
   return {
     [RSAA]: {
-      endpoint: `${BASE_URL}/api/trade/new/${toUser}/${fromUser}/${bookId}`,
+      endpoint: `${BASE_URL}/api/trade/new`,
       method: "PUT",
       types: [
         PROPOSE_TRADE_REQUEST,
@@ -89,7 +90,11 @@ export function proposeTrade(token, toUser, fromUser, bookId) {
           }
         }
       ],
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
     }
   };
 }
@@ -107,10 +112,10 @@ export function proposeTrade(token, toUser, fromUser, bookId) {
 *   UPDATE_TRADE_FAILURE:
 *     If database error, hides spinner, displays error toastr
 */
-export function updateTrade(token, tradeId, userId, status) {
+export function updateTrade(token, body) {
   return {
     [RSAA]: {
-      endpoint: `${BASE_URL}/api/trade/update/${tradeId}/${userId}/${status}`,
+      endpoint: `${BASE_URL}/api/trade/update`,
       method: "PUT",
       types: [
         UPDATE_TRADE_REQUEST,
@@ -132,7 +137,11 @@ export function updateTrade(token, tradeId, userId, status) {
           }
         }
       ],
-      headers: { Authorization: `Bearer ${token}` }
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
     }
   };
 }

@@ -35,6 +35,7 @@ const INITIAL_STATE = {
     published: "",
     thumbnail: ""
   },
+  loggedInUserBooks: [],
   error: null
 };
 
@@ -54,10 +55,18 @@ function book(state = INITIAL_STATE, action) {
       });
 
     case GET_ALL_BOOKS_SUCCESS:
-    case GET_USER_BOOKS_SUCCESS:
       return update(state, {
         loading: { $set: false },
         books: { $set: action.payload.books },
+        error: { $set: null }
+      });
+
+    case GET_USER_BOOKS_SUCCESS:
+      console.log("get user books success");
+      console.log(action.payload.books);
+      return update(state, {
+        loading: { $set: false },
+        loggedInUserBooks: { $set: action.payload.books },
         error: { $set: null }
       });
 

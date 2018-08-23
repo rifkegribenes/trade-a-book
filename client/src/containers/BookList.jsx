@@ -21,6 +21,17 @@ import ProposeTradeDialog from "./ProposeTradeDialog";
 const BookList = props => (
   <div className="bookList">
     <Paper>
+      {props.listType === "all" &&
+        props.dialogOpen && (
+          <ProposeTradeDialog
+            bookRequested={props.bookRequested}
+            proposeTrade={props.proposeTrade}
+            handleOpen={props.handleOpen}
+            handleClose={props.handleClose}
+            open={props.dialogOpen}
+            loggedInUserBooks={props.loggedInUserBooks}
+          />
+        )}
       <Typography variant="display1" align="center" gutterBottom>
         {props.title}
       </Typography>
@@ -52,15 +63,6 @@ const BookList = props => (
                   handleOpen={props.handleOpen}
                   handleClose={props.handleClose}
                   open={props.open}
-                />
-              )}
-              {props.listType === "all" && (
-                <ProposeTradeDialog
-                  book={book}
-                  proposeTrade={props.proposeTrade}
-                  handleOpen={props.handleOpen}
-                  handleClose={props.handleClose}
-                  open={props.dialogOpen}
                 />
               )}
               <ListItem style={{ paddingRight: 0 }}>

@@ -30,17 +30,28 @@ const styles = theme => ({
 class AllBooks extends Component {
   state = {
     dialogOpen: false,
-    selectedBook: {}
+    bookOffered: {},
+    bookRequested: {}
   };
 
-  handleOpen = () => {
+  handleOpen = bookRequested => {
+    console.log(`handleOpen:`);
+    console.log(bookRequested);
     this.setState({
-      dialogOpen: true
+      dialogOpen: true,
+      bookRequested: { ...bookRequested }
     });
   };
 
-  handleClose = bookData => {
-    this.setState({ selectedBook: bookData, dialogOpen: false });
+  cancel = () => {
+    this.setState({
+      dialogOpen: false
+    });
+  };
+
+  handleClose = (bookRequested, bookOffered) => {
+    this.setState({ selectedBook: bookOffered, dialogOpen: false });
+    this.proposeTrade(bookRequested, bookOffered);
   };
 
   componentDidMount() {
@@ -74,9 +85,9 @@ class AllBooks extends Component {
     });
   }
 
-  proposeTrade = bookData => {
+  proposeTrade = (bookRequested, bookOffered) => {
     console.log("proposeTrade");
-    console.log(bookData);
+    console.log(bookRequested, bookOffered);
   };
 
   render() {
@@ -90,7 +101,9 @@ class AllBooks extends Component {
           dialogOpen={this.state.dialogOpen}
           handleOpen={this.handleOpen}
           handleClose={this.handleClose}
-          selectedValue={this.state.selectedValue}
+          cancel={this.cancel}
+          selectedBook={this.state.selectedBook}
+          bookRequested={this.state.bookRequested}
           books={this.props.book.books}
           proposeTrade={this.proposeTrade}
           classes={this.props.classes}

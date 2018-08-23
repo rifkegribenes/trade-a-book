@@ -13,13 +13,14 @@ import {
 } from "../actions/apiTradeActions";
 
 const INITIAL_STATE = {
-  spinnerClass: "spinner__hide",
+  loading: false,
   trades: [],
   currentTrade: {
     _id: "",
     from: "",
     to: "",
-    book: "",
+    bookRequested: "",
+    bookOffered: "",
     status: "",
     createdAt: ""
   },
@@ -34,13 +35,13 @@ function trade(state = INITIAL_STATE, action) {
     case PROPOSE_TRADE_REQUEST:
     case UPDATE_TRADE_REQUEST:
       return update(state, {
-        spinnerClass: { $set: "spinner__show" },
+        loading: { $set: true },
         error: { $set: null }
       });
 
     case GET_USER_TRADES_SUCCESS:
       return update(state, {
-        spinnerClass: { $set: "spinner__hide" },
+        loading: { $set: false },
         trades: { $set: action.payload.trades },
         error: { $set: null }
       });
@@ -48,7 +49,7 @@ function trade(state = INITIAL_STATE, action) {
     case PROPOSE_TRADE_SUCCESS:
     case UPDATE_TRADE_SUCCESS:
       return update(state, {
-        spinnerClass: { $set: "spinner__hide" },
+        loading: { $set: false },
         currentTrade: { $set: action.payload.trade },
         error: { $set: null }
       });
@@ -64,7 +65,7 @@ function trade(state = INITIAL_STATE, action) {
       }
       console.log(error);
       return update(state, {
-        spinnerClass: { $set: "spinner__hide" },
+        loading: { $set: false },
         error: { $set: error }
       });
 

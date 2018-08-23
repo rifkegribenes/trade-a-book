@@ -141,11 +141,11 @@ module.exports = function (app) {
 
   // Propose new trade (secured)
   // Returns fail status + message -or- trade object
-  tradeRoutes.put('/new/:toUser/:fromUser/:bookId', requireAuth, TradeController.proposeTrade);
+  tradeRoutes.put('/new', requireAuth, TradeController.proposeTrade);
 
   // Update trade (secured)
   // Returns fail status + message -or- trade object
-  tradeRoutes.put('/update/:tradeId/:userId/:status', requireAuth, TradeController.updateTrade);
+  tradeRoutes.put('/update', requireAuth, TradeController.updateTrade);
 
 
   // Set url for API group routes

@@ -22,15 +22,20 @@ exports.getUserTrades = (req, res, next) => {
 
 }
 
-// proposeTrade. params = toUser (userId), fromUser (userId), bookId
+// proposeTrade. body =
+//  bookRequested (bookId),
+//  bookOffered (bookId),
+//  fromUser (userId),
+//  toUser (userId),
 exports.proposeTrade = (req, res, next) => {
-	const { toUser, fromUser, bookId } = req.params;
+	const { bookRequested, bookOffered, fromUser, toUser } = req.body;
 	const today = new Date();
 
 	const trade = new Trade({
       to: toUser,
       from: fromUser,
-      book: bookId,
+      bookRequested: bookRequested,
+      bookOffered: bookOffered,
       status: "pending",
   		createdAt: today
     });
@@ -52,10 +57,10 @@ exports.proposeTrade = (req, res, next) => {
 }
 
 
-// updateTrade status. params: tradeId, userId, status
+// updateTrade status. body: tradeId, userId, status
 // after this, update book owner of traded book
 exports.updateTrade = (req, res, next) => {
-	const { tradeId, userId, status } = req.params;
+	const { tradeId, userId, status } = req.body;
 	const target = { _id: tradeId };
   const updates = { status };
   const options = { new: true };
