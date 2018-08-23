@@ -59,10 +59,14 @@ const BookList = props => (
               {props.listType === "user" && (
                 <AlertDialog
                   book={book}
-                  removeBook={props.removeBook}
-                  handleOpen={props.handleOpen}
                   handleClose={props.handleClose}
                   open={props.open}
+                  content={`Remove ${book.title} from your library?`}
+                  action={() => {
+                    props.removeBook(book);
+                    props.handleClose();
+                  }}
+                  buttonText="Delete"
                 />
               )}
               <ListItem style={{ paddingRight: 0 }}>

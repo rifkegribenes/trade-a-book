@@ -15,7 +15,7 @@ const AlertDialog = props => (
     >
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {`Remove ${props.book.title} from your library?`}
+          {props.content}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -23,15 +23,12 @@ const AlertDialog = props => (
           Cancel
         </Button>
         <Button
-          onClick={() => {
-            props.removeBook(props.book);
-            props.handleClose();
-          }}
+          onClick={props.action}
           color="secondary"
           variant="contained"
           autoFocus
         >
-          Delete
+          {props.buttonText}
         </Button>
       </DialogActions>
     </Dialog>
