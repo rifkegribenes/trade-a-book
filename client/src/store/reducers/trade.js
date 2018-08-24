@@ -10,6 +10,7 @@ import {
   UPDATE_TRADE_REQUEST,
   UPDATE_TRADE_SUCCESS,
   UPDATE_TRADE_FAILURE
+  // UPDATE_TRADELIST_SUCCESS
 } from "../actions/apiTradeActions";
 
 const INITIAL_STATE = {
@@ -17,10 +18,26 @@ const INITIAL_STATE = {
   trades: [],
   currentTrade: {
     _id: "",
-    from: "",
-    to: "",
+    fromUser: "",
+    fromUserData: {
+      firstName: "",
+      avatarUrl: ""
+    },
+    toUser: "",
+    toUserData: {
+      firstName: "",
+      avatarUrl: ""
+    },
     bookRequested: "",
+    bookRequestedData: {
+      title: "",
+      thumbnail: ""
+    },
     bookOffered: "",
+    bookOfferedData: {
+      title: "",
+      thumbnail: ""
+    },
     status: "",
     createdAt: ""
   },
@@ -53,6 +70,14 @@ function trade(state = INITIAL_STATE, action) {
         currentTrade: { $set: action.payload.trade },
         error: { $set: null }
       });
+
+    // case UPDATE_TRADELIST_SUCCESS:
+    //   console.log(action.payload.trades);
+    //   return update(state, {
+    //     loading: { $set: false },
+    //     trades: { $set: action.payload.trades },
+    //     error: { $set: null }
+    //   });
 
     case GET_USER_TRADES_FAILURE:
     case PROPOSE_TRADE_FAILURE:

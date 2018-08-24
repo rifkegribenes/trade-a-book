@@ -10,6 +10,15 @@ export const PROPOSE_TRADE_FAILURE = "PROPOSE_TRADE_FAILURE";
 export const UPDATE_TRADE_REQUEST = "UPDATE_TRADE_REQUEST";
 export const UPDATE_TRADE_SUCCESS = "UPDATE_TRADE_SUCCESS";
 export const UPDATE_TRADE_FAILURE = "UPDATE_TRADE_FAILURE";
+// export const UPDATE_TRADELIST_SUCCESS = "UPDATE_TRADELIST_SUCCESS";
+
+// export function updateTradeList(trades) {
+//   console.log(trades);
+//   return {
+//     type: UPDATE_TRADELIST_SUCCESS,
+//     payload: { trades }
+//   };
+// }
 
 /*
 * Function: getUserTrades -- get all trades for a given user

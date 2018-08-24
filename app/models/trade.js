@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const User = require('./user.js');
 const Book = require('./book.js');
 const TradeSchema = Schema({
-  from: {
+  fromUser: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  to: {
+  toUser: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },

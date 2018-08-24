@@ -14,7 +14,7 @@ import Home from "./containers/Home";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
 import UserBooks from "./containers/UserBooks";
-import Trades from "./containers/Trades";
+import UserTrades from "./containers/UserTrades";
 
 class App extends Component {
   componentDidMount() {
@@ -46,7 +46,7 @@ class App extends Component {
             />
             <Route
               path="/trades"
-              render={routeProps => <Trades {...routeProps} />}
+              render={routeProps => <UserTrades {...routeProps} />}
             />
             <Route path="/logout" component={Logout} />
             {/*            <Route path="*" component={NotFound} />*/}
