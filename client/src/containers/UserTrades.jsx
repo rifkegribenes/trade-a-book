@@ -12,6 +12,8 @@ import TradeList from "./TradeList";
 import Notifier, { openSnackbar } from "./Notifier";
 
 import { withStyles } from "@material-ui/core/styles";
+import green from "@material-ui/core/colors/green";
+import amber from "@material-ui/core/colors/amber";
 
 const styles = theme => ({
   root: {
@@ -26,13 +28,19 @@ const styles = theme => ({
   thumbnail: {
     flex: "0 0 auto",
     alignSelf: "center",
-    height: "80px"
+    height: "80px",
+    margin: "10px"
   },
-  owner: {
+  tinycard: {
     display: "flex",
     flexDirection: "column",
     alignSelf: "stretch",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    padding: "15px",
+    border: "1px solid #ededed",
+    width: "30%",
+    margin: "10px",
+    textAlign: "center"
   },
   message: {
     margin: "auto",
@@ -53,7 +61,32 @@ const styles = theme => ({
   },
   subhead: {
     fontWeight: "700",
-    textAlign: "center"
+    textAlign: "center",
+    color: theme.palette.primary.main
+  },
+  icon: {},
+  approved: {
+    color: green[600],
+    margin: "10px auto",
+    height: 50,
+    width: "auto"
+  },
+  rejected: {
+    color: theme.palette.error.dark,
+    margin: "auto",
+    height: 40,
+    marginTop: 10,
+    width: "auto"
+  },
+  pending: {
+    color: amber[700],
+    margin: "auto",
+    height: 40,
+    marginTop: 10,
+    width: "auto"
+  },
+  capitalize: {
+    textTransform: "capitalize"
   }
 });
 

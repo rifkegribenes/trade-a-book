@@ -98,7 +98,7 @@ module.exports = (passport) => {
         // console.log(req.user);
         // check if user is already logged in
         if (!req.user) {
-          console.log('passport.js > 140');
+          console.log('passport.js > 101');
           findExistingUser(profile, token, done);
         } else {
           // return existing user

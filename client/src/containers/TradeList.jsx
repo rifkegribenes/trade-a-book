@@ -8,6 +8,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
+import SwapHoriz from "@material-ui/icons/SwapHoriz";
+import AccessTime from "@material-ui/icons/AccessTime";
+import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
+import ErrorOutline from "@material-ui/icons/ErrorOutline";
 
 const TradeList = props => (
   <div className="tradeList">
@@ -23,7 +27,7 @@ const TradeList = props => (
           const {
             _id,
             toUser,
-            fromUser,
+            // fromUser,
             bookRequested,
             bookOffered,
             status
@@ -32,7 +36,7 @@ const TradeList = props => (
           return (
             <div key={_id}>
               <ListItem style={{ paddingRight: 0 }}>
-                <div className={props.classes.owner}>
+                <div className={props.classes.tinycard}>
                   <Typography
                     variant="subheading"
                     className={props.classes.subhead}
@@ -46,7 +50,8 @@ const TradeList = props => (
                   />
                   <ListItemText primary={bookRequested.title} />
                 </div>
-                <div className={props.classes.owner}>
+                <SwapHoriz className={props.classes.icon} />
+                <div className={props.classes.tinycard}>
                   <Typography
                     variant="subheading"
                     className={props.classes.subhead}
@@ -91,16 +96,25 @@ const TradeList = props => (
                   )}
                 {props.loggedIn &&
                   !(props.userId === toUser._id && status === "pending") && (
-                    <div className={props.classes.owner}>
+                    <div className={props.classes.tinycard}>
                       <Typography
                         variant="subheading"
                         className={props.classes.subhead}
                       >
                         Status
                       </Typography>
+                      {status === "pending" ? (
+                        <AccessTime className={props.classes.pending} />
+                      ) : status === "approved" ? (
+                        <CheckCircleOutline
+                          className={props.classes.approved}
+                        />
+                      ) : (
+                        <ErrorOutline className={props.classes.rejected} />
+                      )}
                       <ListItemText
                         primary={status}
-                        style={{ textAlign: "center" }}
+                        className={props.classes.capitalize}
                       />
                       <Button
                         variant="contained"
