@@ -76,7 +76,6 @@ class AllBooks extends Component {
     const newState = { ...this.state };
     newState.alertDialogOpen = false;
     this.setState({ ...newState });
-    this.proposeTrade(this.state.bookRequested, this.state.bookOffered);
   };
 
   componentDidMount() {
@@ -151,7 +150,7 @@ class AllBooks extends Component {
         <Notifier />
         {this.state.alertDialogOpen && (
           <AlertDialog
-            handleClose={this.handleCloseAlertDialog}
+            handleClose={this.handleAlertDialogClose}
             open={this.state.alertDialogOpen}
             title="Confirm your proposal"
             content={`Clicking Propose Trade will send a message to ${
