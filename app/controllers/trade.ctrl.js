@@ -78,41 +78,92 @@ const populateTradeData = (trades) => {
   });
 }
 
+// aggregate trades
+exports.getUserTrades = (req, res, next) => {
+  const userId = req.params.userId;
+  console.log(userId);
+  Trade.aggregate([
+    { $match: { $or: [ { "toUser": userId }, { "fromUser": userId } ] } },
+    { "$sort": { "createdAt": -1 } },
+    { "$lookup": {
+      "localField": "toUser",
+      "from": "user",
+      "foreignField": "_id",
+      "as": "toUserData"
+    } },
+    { "$unwind": "$toUserData" },
+    { "$project": {
+      "toUserData.profile.firstName": 1,
+      "toUserData.profile.avatarUrl": 1
+    } },
+    { "$lookup": {
+      "localField": "bookRequested",
+      "from": "book",
+      "foreignField": "_id",
+      "as": "bookRequestedData"
+    } },
+    { "$unwind": "$bookRequestedData" },
+    { "$project": {
+      "bookRequestedData.title": 1,
+      "bookRequestedData.thumbnail": 1
+    } },
+    { "$lookup": {
+      "localField": "bookOffered",
+      "from": "book",
+      "foreignField": "_id",
+      "as": "bookOfferedData"
+    } },
+    { "$unwind": "$bookOfferedData" },
+    { "$project": {
+      "bookOfferedData.title": 1,
+      "bookOfferedData.thumbnail": 1
+    } },
+  ]).then((enrichedTradeList) => {
+    console.log('trade.ctrl.js > 122');
+    console.log(enrichedTradeList);
+    return res.status(200).json({ trades: enrichedTradeList });
+  })
+    .catch((err) => {
+      console.log(`trade.ctrl.js > 130: ${err}`);
+      return handleError(res, err);
+    });
+}
+
 
 
 // get all trades for given user. params = userId
-exports.getUserTrades = (req, res, next) => {
-  console.log('getUserTrades');
-  const userId = req.params.userId;
-  console.log(userId);
+// exports.getUserTrades = (req, res, next) => {
+//   console.log('getUserTrades');
+//   const userId = req.params.userId;
+//   console.log(userId);
 
-  Trade.find({
-    $or: [
-      { "toUser": userId },
-      { "fromUser": userId }
-    ]})
-    .exec()
-    .then((trades) => {
-      console.log('trade.ctrl.js > 70');
-      console.log(trades);
-      populateTradeData(trades)
-        .then((enrichedTradeList) => {
-          console.log('trade.ctrl.js > 73');
-          console.log(enrichedTradeList); // this is a single object and should be an array of objects ????
-          return res.status(200).json({ trades: enrichedTradeList });
-        })
-        .catch((err) => {
-          console.log(`trade.ctrl.js > 78: ${err}`);
-          return handleError(res, err);
-        });
+//   Trade.find({
+//     $or: [
+//       { "toUser": userId },
+//       { "fromUser": userId }
+//     ]})
+//     .exec()
+//     .then((trades) => {
+//       console.log('trade.ctrl.js > 70');
+//       console.log(trades);
+//       populateTradeData(trades)
+//         .then((enrichedTradeList) => {
+//           console.log('trade.ctrl.js > 73');
+//           console.log(enrichedTradeList); // this is a single object and should be an array of objects ????
+//           return res.status(200).json({ trades: enrichedTradeList });
+//         })
+//         .catch((err) => {
+//           console.log(`trade.ctrl.js > 78: ${err}`);
+//           return handleError(res, err);
+//         });
 
-    })
-    .catch((err) => {
-  		console.log(`trade.ctrl.js > 84: ${err}`);
-  		return handleError(res, err);
-  	});
+//     })
+//     .catch((err) => {
+//   		console.log(`trade.ctrl.js > 84: ${err}`);
+//   		return handleError(res, err);
+//   	});
 
-}
+// }
 
 // proposeTrade. body =
 //  bookRequested (bookId),

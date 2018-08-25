@@ -112,6 +112,7 @@ class UserTrades extends Component {
       .getUserTrades(userId)
       .then(result => {
         console.log(result.type);
+        console.log(this.props.trade.trades);
         if (result.type === "GET_USER_TRADES_FAILURE") {
           openSnackbar("error", this.props.trade.error);
           return;

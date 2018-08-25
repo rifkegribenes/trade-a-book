@@ -4,22 +4,10 @@ const Schema = mongoose.Schema;
 const User = require('./user.js');
 const Book = require('./book.js');
 const TradeSchema = Schema({
-  fromUser: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  toUser: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  bookRequested: {
-    type: Schema.Types.ObjectId,
-    ref: 'Book'
-  },
-  bookOffered: {
-    type: Schema.Types.ObjectId,
-    ref: 'Book'
-  },
+  fromUser: { type: String },
+  toUser: { type: String },
+  bookRequested: { type: String },
+  bookOffered: { type: String },
   status: {
     type: String,
     enum: ['pending', 'approved', 'rejected'],

@@ -57,6 +57,7 @@ function trade(state = INITIAL_STATE, action) {
       });
 
     case GET_USER_TRADES_SUCCESS:
+      console.log(action.payload.trades);
       return update(state, {
         loading: { $set: false },
         trades: { $set: action.payload.trades },
