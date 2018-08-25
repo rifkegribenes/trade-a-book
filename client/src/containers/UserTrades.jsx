@@ -112,8 +112,6 @@ class UserTrades extends Component {
     this.props.apiTrade
       .getUserTrades(userId)
       .then(result => {
-        console.log(result.type);
-        console.log(this.props.trade.trades);
         if (result.type === "GET_USER_TRADES_FAILURE") {
           openSnackbar("error", this.props.trade.error);
           return;
@@ -172,7 +170,6 @@ class UserTrades extends Component {
   };
 
   render() {
-    console.log(this.props.trade.trades);
     const { classes } = this.props;
     return (
       <div>

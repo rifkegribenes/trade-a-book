@@ -4,9 +4,7 @@ const Trade = require('../models/trade');
 
 // get all trades for given user. params = userId
 exports.getUserTrades = (req, res, next) => {
-  console.log('getUserTrades');
   const userId = req.params.userId;
-  console.log(userId);
 
   Trade.find({
     $or: [
@@ -15,12 +13,10 @@ exports.getUserTrades = (req, res, next) => {
     ]})
     .exec()
     .then((trades) => {
-      console.log('trade.ctrl.js > 18');
-      console.log(trades);
       return res.status(200).json({ trades });
     })
     .catch((err) => {
-  		console.log(`trade.ctrl.js > 23: ${err}`);
+  		console.log(`trade.ctrl.js > 19: ${err}`);
   		return handleError(res, err);
   	});
 
@@ -43,12 +39,9 @@ exports.proposeTrade = (req, res, next) => {
       status: "pending",
   		createdAt: today
     });
-    console.log(trade);
 
     trade.save()
 	    .then((trade) => {
-	      console.log('new trade saved');
-	      console.log(trade);
 	      return res.status(200).json({
 	          message: 'Trade saved successfully',
 	          trade

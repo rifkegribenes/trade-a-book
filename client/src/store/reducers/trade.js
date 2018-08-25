@@ -10,7 +10,6 @@ import {
   UPDATE_TRADE_REQUEST,
   UPDATE_TRADE_SUCCESS,
   UPDATE_TRADE_FAILURE
-  // UPDATE_TRADELIST_SUCCESS
 } from "../actions/apiTradeActions";
 
 const INITIAL_STATE = {
@@ -57,7 +56,6 @@ function trade(state = INITIAL_STATE, action) {
       });
 
     case GET_USER_TRADES_SUCCESS:
-      console.log(action.payload.trades);
       return update(state, {
         loading: { $set: false },
         trades: { $set: action.payload.trades },
@@ -72,18 +70,9 @@ function trade(state = INITIAL_STATE, action) {
         error: { $set: null }
       });
 
-    // case UPDATE_TRADELIST_SUCCESS:
-    //   console.log(action.payload.trades);
-    //   return update(state, {
-    //     loading: { $set: false },
-    //     trades: { $set: action.payload.trades },
-    //     error: { $set: null }
-    //   });
-
     case GET_USER_TRADES_FAILURE:
     case PROPOSE_TRADE_FAILURE:
     case UPDATE_TRADE_FAILURE:
-      console.log(action.payload);
       if (typeof action.payload.message === "string") {
         error = action.payload.message;
       } else {
