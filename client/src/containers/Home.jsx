@@ -35,29 +35,7 @@ class Home extends Component {
     };
   }
 
-  componentDidMount() {
-    // If not logged in, check local storage for authToken
-    // if it doesn't exist, it returns the string "undefined"
-    if (!this.props.appState.loggedIn) {
-      let token = window.localStorage.getItem("authToken");
-      if (token && token !== "undefined") {
-        token = JSON.parse(token);
-        const userId = JSON.parse(window.localStorage.getItem("userId"));
-        if (userId) {
-          this.props.apiProfile.validateToken(token, userId).then(result => {
-            if (result === "VALIDATE_TOKEN_FAILURE") {
-              window.localStorage.clear();
-            } else if (result === "VALIDATE_TOKEN_SUCESS") {
-            }
-          });
-        }
-      } else {
-        // console.log("no token found in local storage");
-      }
-    } else {
-      // console.log("logged in");
-    }
-  }
+  componentDidMount() {}
 
   render() {
     return (

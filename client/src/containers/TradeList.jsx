@@ -8,7 +8,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
 
 const TradeList = props => (
   <div className="tradeList">
@@ -34,40 +33,24 @@ const TradeList = props => (
             <div key={_id}>
               <ListItem style={{ paddingRight: 0 }}>
                 <div className={props.classes.owner}>
+                  <ListItemText primary={"Requested"} />
                   <img
                     className={props.classes.thumbnail}
-                    style={{ height: "80px", padding: 10 }}
+                    style={{ height: "80px", width: "auto", padding: 10 }}
                     src={bookRequested.thumbnail}
                     alt={bookRequested.title}
                   />
                   <ListItemText primary={bookRequested.title} />
                 </div>
                 <div className={props.classes.owner}>
-                  <Avatar
-                    alt={toUser.firstName}
-                    src={toUser.avatarUrl}
-                    className={props.classes.avatar}
-                  />
-                  <ListItemText
-                    primary={`Requested from: ${toUser.firstName}`}
-                  />
-                </div>
-                <div className={props.classes.owner}>
+                  <ListItemText primary={"Offered"} />
                   <img
                     className={props.classes.thumbnail}
-                    style={{ height: "80px", padding: 10 }}
+                    style={{ height: "80px", width: "auto", padding: 10 }}
                     src={bookOffered.thumbnail}
                     alt={bookOffered.title}
                   />
                   <ListItemText primary={bookOffered.title} />
-                </div>
-                <div className={props.classes.owner}>
-                  <Avatar
-                    alt={fromUser.firstName}
-                    src={fromUser.avatarUrl}
-                    className={props.classes.avatar}
-                  />
-                  <ListItemText primary={`Offered by: ${fromUser.firstName}`} />
                 </div>
                 {props.loggedIn &&
                   props.userId === toUser._id &&

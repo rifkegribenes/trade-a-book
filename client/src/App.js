@@ -8,6 +8,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 import * as Actions from "./store/actions";
 import * as apiBookActions from "./store/actions/apiBookActions";
+import * as apiProfileActions from "./store/actions/apiProfileActions";
 
 import NavBar from "./containers/NavBar";
 import Home from "./containers/Home";
@@ -23,7 +24,29 @@ class App extends Component {
       const url = `/${hash.split("=")[1]}`;
       this.props.history.push(url);
     }
+    // If not logged in, check local storage for authToken
+    // if it doesn't exist, it returns the string "undefined"
+    if (!this.props.appState.loggedIn) {
+      let token = window.localStorage.getItem("authToken");
+      if (token && token !== "undefined") {
+        token = JSON.parse(token);
+        const userId = JSON.parse(window.localStorage.getItem("userId"));
+        if (userId) {
+          this.props.apiProfile.validateToken(token, userId).then(result => {
+            if (result === "VALIDATE_TOKEN_FAILURE") {
+              window.localStorage.clear();
+            } else if (result === "VALIDATE_TOKEN_SUCESS") {
+            }
+          });
+        }
+      } else {
+        // console.log("no token found in local storage");
+      }
+    } else {
+      // console.log("logged in");
+    }
   }
+
   render() {
     return (
       <div className="App">
@@ -65,7 +88,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(Actions, dispatch),
-  apiBook: bindActionCreators(apiBookActions, dispatch)
+  apiBook: bindActionCreators(apiBookActions, dispatch),
+  apiProfile: bindActionCreators(apiProfileActions, dispatch)
 });
 
 export default withRouter(

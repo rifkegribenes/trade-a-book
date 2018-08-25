@@ -2,135 +2,6 @@ const Book = require('../models/book');
 const User = require('../models/user');
 const Trade = require('../models/trade');
 
-
-// takes an array of user trades and
-// populates user and book data before returning to client
-const populateTradeData = (trades) => {
-  return new Promise((resolve, reject) => {
-    const enrichedTradeList = trades.map((trade) => {
-      console.log('trade.ctrl.js > 10');
-      console.log(trade);
-      console.log(trade.bookRequested);
-      Book.findOne({ _id: trade.bookRequested })
-        .then((bookRequested) => {
-          if (bookRequested) {
-            console.log('trade.ctrl.js > 16')
-            console.log(bookRequested);
-            console.log(bookRequested.title);
-            console.log(bookRequested.thumbnail);
-            const bookRequestedData = {
-              title: bookRequested.title,
-              thumbnail: bookRequested.thumbnail
-            };
-            console.log(bookRequestedData);
-
-            Book.findOne({ _id: trade.bookOffered })
-            .then((bookOffered) => {
-              if (bookOffered) {
-              const bookOfferedData = {
-                title: bookOffered.title,
-                thumbnail: bookOffered.thumbnail
-                };
-
-              User.findOne({ _id: trade.toUser })
-                .then((toUser) => {
-                  if (toUser) {
-                    const toUserData = {
-                      firstName: toUser.profile.firstName,
-                      avatarUrl: toUser.profile.avatarUrl
-                      };
-                    console.log('trade.ctrl.js > 36');
-                    console.log({ ...trade._doc, bookRequestedData, bookOfferedData, toUserData });
-                    return { ...trade._doc, bookRequestedData, bookOfferedData, toUserData };
-                    } else {
-                      console.log(`trade.ctrl.js > 41: toUser not found`);
-                      reject('toUser not found');
-                    }
-                })
-                .catch(err => {
-                  console.log(`trade.ctrl.js > 45: ${err}`);
-                  reject(err);
-                });
-
-
-              } else {
-                console.log(`trade.ctrl.js > 51: bookOffered not found`);
-                reject('bookOffered not found');
-              }
-
-              })
-            .catch(err => {
-              console.log(`trade.ctrl.js > 57: ${err}`);
-              reject(err);
-            });
-            } else {
-              console.log(`trade.ctrl.js > 61: bookRequested not found`);
-              reject('bookRequested not found');
-            }
-          })
-      .catch(err => {
-        console.log(`trade.ctrl.js > 66: ${err}`);
-        reject(err);
-      });
-    });
-    // need to figure out how to resolve whole map / array, not just one item
-    resolve(enrichedTradeList);
-  });
-}
-
-// aggregate trades
-// exports.getUserTrades = (req, res, next) => {
-//   const userId = req.params.userId;
-//   console.log(userId);
-//   Trade.aggregate([
-//     { $match: { $or: [ { "toUser": userId }, { "fromUser": userId } ] } },
-//     { "$sort": { "createdAt": -1 } },
-//     { "$lookup": {
-//       "localField": "toUser",
-//       "from": "user",
-//       "foreignField": "_id",
-//       "as": "toUserData"
-//     } },
-//     { "$unwind": "$toUserData" },
-//     { "$project": {
-//       "toUserData.profile.firstName": 1,
-//       "toUserData.profile.avatarUrl": 1
-//     } },
-    // { "$lookup": {
-    //   "localField": "bookRequested",
-    //   "from": "book",
-    //   "foreignField": "_id",
-    //   "as": "bookRequestedData"
-    // } },
-    // { "$unwind": "$bookRequestedData" },
-    // { "$project": {
-    //   "bookRequestedData.title": 1,
-    //   "bookRequestedData.thumbnail": 1
-    // } },
-    // { "$lookup": {
-    //   "localField": "bookOffered",
-    //   "from": "book",
-    //   "foreignField": "_id",
-    //   "as": "bookOfferedData"
-    // } },
-    // { "$unwind": "$bookOfferedData" },
-    // { "$project": {
-    //   "bookOfferedData.title": 1,
-    //   "bookOfferedData.thumbnail": 1
-    // } }
-//   ]).then((enrichedTradeList) => {
-//     console.log('trade.ctrl.js > 122');
-//     console.log(enrichedTradeList);
-//     return res.status(200).json({ trades: enrichedTradeList });
-//   })
-//     .catch((err) => {
-//       console.log(`trade.ctrl.js > 130: ${err}`);
-//       return handleError(res, err);
-//     });
-// }
-
-
-
 // get all trades for given user. params = userId
 exports.getUserTrades = (req, res, next) => {
   console.log('getUserTrades');
@@ -144,32 +15,22 @@ exports.getUserTrades = (req, res, next) => {
     ]})
     .exec()
     .then((trades) => {
-      console.log('trade.ctrl.js > 70');
+      console.log('trade.ctrl.js > 18');
       console.log(trades);
-      // populateTradeData(trades)
-      //   .then((enrichedTradeList) => {
-      //     console.log('trade.ctrl.js > 73');
-      //     console.log(enrichedTradeList); // this is a single object and should be an array of objects ????
-      //     return res.status(200).json({ trades: enrichedTradeList });
-      //   })
-      //   .catch((err) => {
-      //     console.log(`trade.ctrl.js > 78: ${err}`);
-      //     return handleError(res, err);
-      //   });
       return res.status(200).json({ trades });
     })
     .catch((err) => {
-  		console.log(`trade.ctrl.js > 84: ${err}`);
+  		console.log(`trade.ctrl.js > 23: ${err}`);
   		return handleError(res, err);
   	});
 
 }
 
 // proposeTrade. body =
-//  bookRequested (bookId),
-//  bookOffered (bookId),
-//  fromUser (userId),
-//  toUser (userId),
+//  bookRequested {_id, title, thumbnail},
+//  bookOffered {_id, title, thumbnail},
+//  fromUser {_id, firstName, avatarUrl},
+//  toUser {_id, firstName, avatarUrl},
 exports.proposeTrade = (req, res, next) => {
 	const { bookRequested, bookOffered, fromUser, toUser } = req.body;
 	const today = new Date();

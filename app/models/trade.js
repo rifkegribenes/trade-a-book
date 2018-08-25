@@ -6,12 +6,12 @@ const Book = require('./book.js');
 const TradeSchema = Schema({
   fromUser: {
     _id: { type: String },
-    name: { type: String },
+    firstName: { type: String },
     avatarUrl: { type: String }
   },
   toUser: {
     _id: { type: String },
-    name: { type: String },
+    firstName: { type: String },
     avatarUrl: { type: String }
   },
   bookRequested: {

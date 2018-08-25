@@ -23,10 +23,26 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     flex: "0 0 auto"
   },
-  rightIcon: {},
-  author: {},
+  thumbnail: {
+    flex: "0 0 auto"
+  },
   owner: {
-    display: "flex"
+    display: "flex",
+    flexDirection: "column"
+  },
+  message: {
+    margin: "auto",
+    width: "50%",
+    textAlign: "center",
+    height: "50%"
+  },
+  container: {
+    width: "100%",
+    height: "100%",
+    minHeight: "80vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
   }
 });
 
@@ -36,13 +52,21 @@ class UserTrades extends Component {
   };
 
   componentDidMount() {
-    const userId = this.props.profile.profile._id;
-
-    if (!this.props.appState.loggedIn || !userId) {
+    if (!this.props.profile.profile._id) {
       openSnackbar("error", "Please log in to view your trades");
       return;
     }
+    this.getUserTrades();
+  }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.profile.profile._id !== this.props.profile.profile._id) {
+      this.getUserTrades();
+    }
+  }
+
+  getUserTrades = () => {
+    const userId = this.props.profile.profile._id;
     this.props.apiTrade
       .getUserTrades(userId)
       .then(result => {
@@ -57,7 +81,7 @@ class UserTrades extends Component {
         console.log(err);
         openSnackbar("error", err);
       });
-  }
+  };
 
   updateTrade = (tradeData, status) => {
     console.log("updateTrade");
@@ -107,10 +131,11 @@ class UserTrades extends Component {
 
   render() {
     console.log(this.props.trade.trades);
+    const { classes } = this.props;
     return (
-      <div className="tradeList">
+      <div>
         <Notifier />
-        {this.props.appState.loggedIn && this.props.trade.trades.length ? (
+        {this.props.trade.trades ? (
           <TradeList
             loggedIn={this.props.appState.loggedIn}
             title={`${this.props.profile.profile.firstName}'s Trades`}
@@ -122,7 +147,9 @@ class UserTrades extends Component {
             classes={this.props.classes}
           />
         ) : (
-          "Loading..."
+          <div className={classes.container}>
+            <div className={classes.message}>No trades</div>
+          </div>
         )}
       </div>
     );
