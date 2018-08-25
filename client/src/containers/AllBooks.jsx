@@ -117,8 +117,16 @@ class AllBooks extends Component {
     const body = {
       bookRequested,
       bookOffered,
-      fromUser: this.props.profile.profile._id,
-      toUser: bookRequested.owner
+      fromUser: {
+        _id: this.props.profile.profile._id,
+        firstName: this.props.profile.profile.firstName,
+        avatarUrl: this.props.profile.profile.avatarUrl
+      },
+      toUser: {
+        _id: bookRequested.owner,
+        firstName: bookRequested.ownerData.firstName,
+        avatarUrl: bookRequested.ownerData.avatarUrl
+      }
     };
     this.props.apiTrade
       .proposeTrade(token, body)

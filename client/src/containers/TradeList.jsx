@@ -24,64 +24,53 @@ const TradeList = props => (
           const {
             _id,
             toUser,
-            toUserData,
-            fromUserData,
-            bookRequestedData,
-            bookOfferedData,
+            fromUser,
+            bookRequested,
+            bookOffered,
             status
           } = trade;
           console.log(trade);
           return (
             <div key={_id}>
               <ListItem style={{ paddingRight: 0 }}>
-                {bookRequestedData && (
-                  <div>
-                    <img
-                      className={props.classes.thumbnail}
-                      style={{ height: "80px", padding: 10 }}
-                      src={bookRequestedData.thumbnail}
-                      alt={bookRequestedData.title}
-                    />
-                    <ListItemText primary={bookRequestedData.title} />
-                  </div>
-                )}
-                {toUserData && (
-                  <div className={props.classes.owner}>
-                    <Avatar
-                      alt={toUserData.firstName}
-                      src={toUserData.avatarUrl}
-                      className={props.classes.avatar}
-                    />
-                    <ListItemText
-                      primary={`Requested from: ${toUserData.firstName}`}
-                    />
-                  </div>
-                )}
-                {bookOfferedData && (
-                  <div>
-                    <img
-                      className={props.classes.thumbnail}
-                      style={{ height: "80px", padding: 10 }}
-                      src={bookOfferedData.thumbnail}
-                      alt={bookOfferedData.title}
-                    />
-                    <ListItemText primary={bookOfferedData.title} />
-                  </div>
-                )}
-                {fromUserData && (
-                  <div className={props.classes.owner}>
-                    <Avatar
-                      alt={fromUserData.firstName}
-                      src={fromUserData.avatarUrl}
-                      className={props.classes.avatar}
-                    />
-                    <ListItemText
-                      primary={`Offered by: ${fromUserData.firstName}`}
-                    />
-                  </div>
-                )}
+                <div className={props.classes.owner}>
+                  <img
+                    className={props.classes.thumbnail}
+                    style={{ height: "80px", padding: 10 }}
+                    src={bookRequested.thumbnail}
+                    alt={bookRequested.title}
+                  />
+                  <ListItemText primary={bookRequested.title} />
+                </div>
+                <div className={props.classes.owner}>
+                  <Avatar
+                    alt={toUser.firstName}
+                    src={toUser.avatarUrl}
+                    className={props.classes.avatar}
+                  />
+                  <ListItemText
+                    primary={`Requested from: ${toUser.firstName}`}
+                  />
+                </div>
+                <div className={props.classes.owner}>
+                  <img
+                    className={props.classes.thumbnail}
+                    style={{ height: "80px", padding: 10 }}
+                    src={bookOffered.thumbnail}
+                    alt={bookOffered.title}
+                  />
+                  <ListItemText primary={bookOffered.title} />
+                </div>
+                <div className={props.classes.owner}>
+                  <Avatar
+                    alt={fromUser.firstName}
+                    src={fromUser.avatarUrl}
+                    className={props.classes.avatar}
+                  />
+                  <ListItemText primary={`Offered by: ${fromUser.firstName}`} />
+                </div>
                 {props.loggedIn &&
-                  props.userId === toUser &&
+                  props.userId === toUser._id &&
                   status === "pending" && (
                     <div className={props.classes.actions}>
                       <Button
@@ -109,7 +98,7 @@ const TradeList = props => (
                     </div>
                   )}
                 {props.loggedIn &&
-                  !(props.userId === toUser && status === "pending") && (
+                  !(props.userId === toUser._id && status === "pending") && (
                     <div className={props.classes.actions}>
                       <ListItemText primary={status} />
                       <Button
@@ -142,23 +131,23 @@ TradeList.propTypes = {
   trades: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string,
-      fromUser: PropTypes.string,
-      fromUserData: PropTypes.shape({
+      fromUser: PropTypes.shape({
+        _id: PropTypes.string,
         firstName: PropTypes.string,
         avatarUrl: PropTypes.string
       }),
-      toUser: PropTypes.string,
-      toUserData: PropTypes.shape({
+      toUser: PropTypes.shape({
+        _id: PropTypes.string,
         firstName: PropTypes.string,
         avatarUrl: PropTypes.string
       }),
-      bookRequested: PropTypes.string,
-      bookRequestedData: PropTypes.shape({
+      bookRequested: PropTypes.shape({
+        _id: PropTypes.string,
         title: PropTypes.string,
         thumbnail: PropTypes.string
       }),
-      bookOffered: PropTypes.string,
-      bookOfferedData: PropTypes.shape({
+      bookOffered: PropTypes.shape({
+        _id: PropTypes.string,
         title: PropTypes.string,
         thumbnail: PropTypes.string
       }),

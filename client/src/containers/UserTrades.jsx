@@ -43,71 +43,6 @@ class UserTrades extends Component {
       return;
     }
 
-    // const tradeListUserPromise = trades => {
-    //   return new Promise((resolve, reject) => {
-    //     trades.map(trade => {
-    //       return this.props.apiProfile
-    //         .getPartialProfile(trade.toUser)
-    //         .then((result) => {
-    //           console.log(result.type);
-    //           const toUserData = {
-    //             firstName: this.props.profile.partialProfile.firstName,
-    //             avatarUrl: this.props.profile.partialProfile.avatarUrl,
-    //           };
-    //           const fromUserData = {
-    //             firstName: this.props.profile.profile.firstName,
-    //             avatarUrl: this.props.profile.profile.avatarUrl
-    //           }
-    //           console.log(toUserData, fromUserData);
-    //           console.log({ ...trade, toUserData, fromUserData });
-    //           resolve({ ...trade, toUserData, fromUserData });
-    //         })
-    //         .catch(err => {
-    //           console.log(err);
-    //           reject(err);
-    //         });
-    //     });
-    //   });
-    // }
-
-    // const tradeListBookPromise = trades => {
-    //   return new Promise((resolve, reject) => {
-    //     return trades.map(trade => {
-    //       return this.props.apiBook
-    //         .getBookById(trade.bookRequested)
-    //         .then((result) => {
-    //           console.log(result.type);
-    //           const bookRequestedData = {
-    //             title: this.props.book.currentBook.title,
-    //             thumbnail: this.props.book.currentBook.thumbnail
-    //           };
-    //           this.props.apiBook.getBookById(trade.bookOffered)
-    //           .then((result) => {
-    //             console.log(result.type);
-    //             const bookOfferedData = {
-    //               title: this.props.book.currentBook.title,
-    //               thumbnail: this.props.book.currentBook.thumbnail
-    //             };
-    //             console.log(bookRequestedData, bookOfferedData);
-    //             console.log({ ...trade, bookRequestedData, bookOfferedData });
-    //             resolve({ ...trade, bookRequestedData, bookOfferedData });
-    //           })
-    //           .catch(err => {
-    //             console.log(err);
-    //             reject(err);
-    //             openSnackbar("error", err);
-    //           });
-    //         })
-    //         .catch(err => {
-    //           console.log(err);
-    //           reject(err);
-    //           openSnackbar("error", err);
-    //         });
-    //     });
-    //   });
-    // };
-
-    // fetch all user trades from Mongo
     this.props.apiTrade
       .getUserTrades(userId)
       .then(result => {
@@ -117,21 +52,6 @@ class UserTrades extends Component {
           openSnackbar("error", this.props.trade.error);
           return;
         }
-        // then for each trade fetch book and user data to enrich list
-        // tradeListUserPromise(this.props.trade.trades)
-        //   .then((tradeListWithUserInfo) => {
-        //     console.log(tradeListWithUserInfo);
-        //     tradeListBookPromise(tradeListWithUserInfo)
-        //       .then(tradeListFinal => {
-        //         console.log(tradeListFinal);
-        //         // and save this to redux tradelist
-        //         this.props.apiTrade.updateTradeList(tradeListFinal);
-        //       })
-        //       .catch(err => {
-        //         console.log(err);
-        //         openSnackbar("error", err);
-        //       })
-        //     })
       })
       .catch(err => {
         console.log(err);
@@ -190,9 +110,7 @@ class UserTrades extends Component {
     return (
       <div className="tradeList">
         <Notifier />
-        {this.props.appState.loggedIn &&
-        this.props.trade.trades.length &&
-        this.props.trade.trades[0].bookRequestedData ? (
+        {this.props.appState.loggedIn && this.props.trade.trades.length ? (
           <TradeList
             loggedIn={this.props.appState.loggedIn}
             title={`${this.props.profile.profile.firstName}'s Trades`}
