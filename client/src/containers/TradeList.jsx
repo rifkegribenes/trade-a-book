@@ -33,17 +33,26 @@ const TradeList = props => (
             <div key={_id}>
               <ListItem style={{ paddingRight: 0 }}>
                 <div className={props.classes.owner}>
-                  <ListItemText primary={"Requested"} />
+                  <Typography
+                    variant="subheading"
+                    className={props.classes.subhead}
+                  >
+                    Requested
+                  </Typography>
                   <img
                     className={props.classes.thumbnail}
-                    style={{ height: "80px", width: "auto", padding: 10 }}
                     src={bookRequested.thumbnail}
                     alt={bookRequested.title}
                   />
                   <ListItemText primary={bookRequested.title} />
                 </div>
                 <div className={props.classes.owner}>
-                  <ListItemText primary={"Offered"} />
+                  <Typography
+                    variant="subheading"
+                    className={props.classes.subhead}
+                  >
+                    Offered
+                  </Typography>
                   <img
                     className={props.classes.thumbnail}
                     style={{ height: "80px", width: "auto", padding: 10 }}
@@ -82,8 +91,17 @@ const TradeList = props => (
                   )}
                 {props.loggedIn &&
                   !(props.userId === toUser._id && status === "pending") && (
-                    <div className={props.classes.actions}>
-                      <ListItemText primary={status} />
+                    <div className={props.classes.owner}>
+                      <Typography
+                        variant="subheading"
+                        className={props.classes.subhead}
+                      >
+                        Status
+                      </Typography>
+                      <ListItemText
+                        primary={status}
+                        style={{ textAlign: "center" }}
+                      />
                       <Button
                         variant="contained"
                         color="secondary"

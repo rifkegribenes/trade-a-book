@@ -24,11 +24,15 @@ const styles = theme => ({
     flex: "0 0 auto"
   },
   thumbnail: {
-    flex: "0 0 auto"
+    flex: "0 0 auto",
+    alignSelf: "center",
+    height: "80px"
   },
   owner: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    alignSelf: "stretch",
+    justifyContent: "space-between"
   },
   message: {
     margin: "auto",
@@ -43,6 +47,13 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center"
+  },
+  actions: {
+    display: "flex"
+  },
+  subhead: {
+    fontWeight: "700",
+    textAlign: "center"
   }
 });
 
@@ -52,11 +63,9 @@ class UserTrades extends Component {
   };
 
   componentDidMount() {
-    if (!this.props.profile.profile._id) {
-      openSnackbar("error", "Please log in to view your trades");
-      return;
+    if (this.props.profile.profile._id) {
+      this.getUserTrades();
     }
-    this.getUserTrades();
   }
 
   componentDidUpdate(prevProps) {
