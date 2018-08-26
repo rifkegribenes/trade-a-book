@@ -29,8 +29,6 @@ exports.viewProfile = (req, res, next) => {
 
 exports.partialProfile = (req, res, next) => {
   const userId = req.params.userId;
-  console.log('user.ctrl.js > 30');
-  console.log(userId);
   if (userId) {
     User.findById(userId)
       .exec()

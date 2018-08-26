@@ -17,6 +17,7 @@ import Logout from "./containers/Logout";
 import UserBooks from "./containers/UserBooks";
 import UserTrades from "./containers/UserTrades";
 import AddBook from "./containers/AddBook";
+import AllBooks from "./containers/AllBooks";
 
 class App extends Component {
   componentDidMount() {
@@ -75,6 +76,10 @@ class App extends Component {
             <Route
               path="/new"
               render={routeProps => <AddBook {...routeProps} />}
+            />
+            <Route
+              path="/all"
+              render={routeProps => <AllBooks {...routeProps} />}
             />
             <Route path="/logout" component={Logout} />
             {/*            <Route path="*" component={NotFound} />*/}

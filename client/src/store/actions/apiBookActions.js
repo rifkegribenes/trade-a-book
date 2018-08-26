@@ -23,10 +23,18 @@ export const UPDATE_BOOK_OWNER_REQUEST = "UPDATE_BOOK_OWNER_REQUEST";
 export const UPDATE_BOOK_OWNER_SUCCESS = "UPDATE_BOOK_OWNER_SUCCESS";
 export const UPDATE_BOOK_OWNER_FAILURE = "UPDATE_BOOK_OWNER_FAILURE";
 export const CLEAR_SEARCH_RESULTS = "CLEAR_SEARCH_RESULTS";
+export const UPDATE_BOOKLIST_SUCCESS = "UPDATE_BOOKLIST_SUCCESS";
 
 export function clearSearchResults() {
   return {
     type: CLEAR_SEARCH_RESULTS
+  };
+}
+
+export function updateBooklist(books) {
+  return {
+    type: UPDATE_BOOKLIST_SUCCESS,
+    payload: { books }
   };
 }
 

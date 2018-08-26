@@ -19,6 +19,7 @@ import {
   UPDATE_BOOK_OWNER_REQUEST,
   UPDATE_BOOK_OWNER_SUCCESS,
   UPDATE_BOOK_OWNER_FAILURE,
+  UPDATE_BOOKLIST_SUCCESS,
   CLEAR_SEARCH_RESULTS
 } from "../actions/apiBookActions";
 
@@ -55,6 +56,7 @@ function book(state = INITIAL_STATE, action) {
       });
 
     case GET_ALL_BOOKS_SUCCESS:
+    case UPDATE_BOOKLIST_SUCCESS:
       return update(state, {
         loading: { $set: false },
         books: { $set: action.payload.books },

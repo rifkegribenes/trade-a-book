@@ -9,7 +9,7 @@ import * as apiBookActions from "../store/actions/apiBookActions";
 import * as apiTradeActions from "../store/actions/apiTradeActions";
 
 import BookList from "../components/BookList";
-import AlertDialog from "./AlertDialog";
+import AlertDialog from "../components/AlertDialog";
 import Notifier, { openSnackbar } from "./Notifier";
 import { withStyles } from "@material-ui/core/styles";
 
@@ -77,22 +77,31 @@ class AllBooks extends Component {
   };
 
   componentDidMount() {
+    const userId = this.props.profile.profile._id;
     const bookListPromise = books => {
-      return books.map(book => {
-        return this.props.apiProfile
-          .getPartialProfile(book.owner)
-          .then(() => {
-            const ownerData = {
-              firstName: this.props.profile.partialProfile.firstName,
-              avatarUrl: this.props.profile.partialProfile.avatarUrl,
-              city: this.props.profile.partialProfile.city,
-              state: this.props.profile.partialProfile.state,
-              _id: this.props.profile.partialProfile._id
-            };
-            return { ...book, ownerData };
+      // filter out books that belong to logged-inn user
+      return (
+        books
+          .filter(book => book.owner.toString() !== userId.toString())
+          // then map through booklist and
+          // return partial profile data for book owner
+          .map(book => {
+            console.log(book.owner.toString());
+            return this.props.apiProfile
+              .getPartialProfile(book.owner)
+              .then(() => {
+                const ownerData = {
+                  firstName: this.props.profile.partialProfile.firstName,
+                  avatarUrl: this.props.profile.partialProfile.avatarUrl,
+                  city: this.props.profile.partialProfile.city,
+                  state: this.props.profile.partialProfile.state,
+                  _id: this.props.profile.partialProfile._id
+                };
+                return { ...book, ownerData };
+              })
+              .catch(err => console.log(err));
           })
-          .catch(err => console.log(err));
-      });
+      );
     };
 
     // fetch all book data from Mongo
@@ -186,7 +195,7 @@ class AllBooks extends Component {
   }
 }
 
-AllBook.propTypes = {
+AllBooks.propTypes = {
   appState: PropTypes.shape({
     loggedIn: PropTypes.bool,
     authToken: PropTypes.string

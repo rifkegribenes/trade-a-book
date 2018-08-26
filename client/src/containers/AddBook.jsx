@@ -70,7 +70,6 @@ class AddBook extends Component {
   };
 
   clearSearch = () => {
-    console.log("clearing search");
     this.props.apiBook.clearSearchResults();
     this.setState({
       title: "",

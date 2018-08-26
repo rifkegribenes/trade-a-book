@@ -45,6 +45,7 @@ class SearchResults extends Component {
         .then(result => {
           openSnackbar("success", `Added ${book.title} to your library.`);
           this.props.clearSearch();
+          this.props.history.push("/library");
         })
         .catch(err => openSnackbar("error", err));
     } else {

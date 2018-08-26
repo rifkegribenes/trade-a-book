@@ -104,6 +104,11 @@ class NavBar extends React.Component {
                 handleClose={this.handleClose}
               />
               <ListItemLink
+                to="/all"
+                primary="All Books"
+                handleClose={this.handleClose}
+              />
+              <ListItemLink
                 to="/new"
                 primary="Add Book"
                 handleClose={this.handleClose}
