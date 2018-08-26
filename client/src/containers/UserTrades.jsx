@@ -78,25 +78,22 @@ const styles = theme => ({
     textAlign: "center",
     color: theme.palette.primary.main
   },
-  icon: {},
   approved: {
     color: green[600],
-    margin: "10px auto",
-    height: 50,
+    height: 72,
+    margin: "20px auto",
     width: "auto"
   },
   rejected: {
     color: theme.palette.error.dark,
-    margin: "auto",
-    height: 40,
-    marginTop: 10,
+    height: 72,
+    margin: "20px auto",
     width: "auto"
   },
   pending: {
     color: amber[700],
-    margin: "auto",
-    height: 40,
-    marginTop: 10,
+    height: 72,
+    margin: "20px auto",
     width: "auto"
   },
   capitalize: {

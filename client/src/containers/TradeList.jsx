@@ -13,6 +13,8 @@ import AccessTime from "@material-ui/icons/AccessTime";
 import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 import ErrorOutline from "@material-ui/icons/ErrorOutline";
 
+import tradeInfo from "../utils";
+
 const TradeList = props => (
   <div className="tradeList">
     <Paper>
@@ -27,13 +29,37 @@ const TradeList = props => (
           const {
             _id,
             toUser,
-            // fromUser,
+            fromUser,
             bookRequested,
             bookOffered,
-            status
+            status,
+            createdAt,
+            updatedAt
           } = trade;
+          let userProposed = true;
+          if (props.userId === toUser._id) {
+            userProposed = false;
+          }
+          const message = tradeInfo(
+            userProposed,
+            toUser,
+            fromUser,
+            status,
+            createdAt,
+            updatedAt
+          );
           return (
             <div key={_id}>
+              <ListItem
+                style={{
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                  paddingTop: 24,
+                  paddingBottom: 0
+                }}
+              >
+                <ListItemText primary={message} />
+              </ListItem>
               <ListItem style={{ paddingRight: 0 }}>
                 <div className={props.classes.tinycard}>
                   <Typography
@@ -127,17 +153,6 @@ const TradeList = props => (
                         primary={status}
                         className={props.classes.capitalize}
                       />
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className={props.classes.button}
-                        title="View Trade"
-                        onClick={() => {
-                          console.log("View Trade");
-                        }}
-                      >
-                        View Trade
-                      </Button>
                     </div>
                   )}
               </ListItem>

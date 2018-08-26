@@ -32,6 +32,9 @@ const TradeSchema = Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  processedAt: {
+    type: Date
   }
 });
 

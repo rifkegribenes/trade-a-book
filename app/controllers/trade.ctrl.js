@@ -55,11 +55,11 @@ exports.proposeTrade = (req, res, next) => {
 
 
 // updateTrade status. body: tradeId, userId, status
-// after this, update book owner of traded book
 exports.updateTrade = (req, res, next) => {
 	const { tradeId, userId, status } = req.body;
 	const target = { _id: tradeId };
-  const updates = { status };
+  const today = new Date();
+  const updates = { status, updatedAt: today };
   const options = { new: true };
 
   Trade.findOneAndUpdate(target, updates, options)
