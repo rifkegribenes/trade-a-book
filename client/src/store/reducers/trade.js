@@ -1,5 +1,6 @@
 import update from "immutability-helper";
 
+import { LOGOUT } from "../actions";
 import {
   GET_USER_TRADES_REQUEST,
   GET_USER_TRADES_SUCCESS,
@@ -47,6 +48,9 @@ function trade(state = INITIAL_STATE, action) {
   let error;
 
   switch (action.type) {
+    case LOGOUT:
+      return INITIAL_STATE;
+
     case GET_USER_TRADES_REQUEST:
     case PROPOSE_TRADE_REQUEST:
     case UPDATE_TRADE_REQUEST:

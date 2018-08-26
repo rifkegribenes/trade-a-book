@@ -1,5 +1,6 @@
 import update from "immutability-helper";
 
+import { LOGOUT } from "../actions";
 import {
   VALIDATE_TOKEN_REQUEST,
   VALIDATE_TOKEN_SUCCESS,
@@ -39,6 +40,9 @@ function profile(state = INITIAL_STATE, action) {
   let error;
 
   switch (action.type) {
+    case LOGOUT:
+      return INITIAL_STATE;
+
     case VALIDATE_TOKEN_REQUEST:
     case GET_PROFILE_REQUEST:
     case GET_PARTIAL_PROFILE_REQUEST:

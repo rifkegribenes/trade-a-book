@@ -1,5 +1,6 @@
 import update from "immutability-helper";
 
+import { LOGOUT } from "../actions";
 import {
   GET_ALL_BOOKS_REQUEST,
   GET_ALL_BOOKS_SUCCESS,
@@ -44,6 +45,9 @@ function book(state = INITIAL_STATE, action) {
   let error;
 
   switch (action.type) {
+    case LOGOUT:
+      return INITIAL_STATE;
+
     case GET_ALL_BOOKS_REQUEST:
     case GET_BOOK_BY_ID_REQUEST:
     case GET_USER_BOOKS_REQUEST:
