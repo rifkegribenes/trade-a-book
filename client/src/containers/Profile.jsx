@@ -118,12 +118,10 @@ class Profile extends React.Component {
             this.props.profile.profile.state
           ) {
             // save city and state to component state
-            console.log("saving city and state to component state");
             const newState = { ...this.state };
             newState.city = this.props.profile.profile.city;
             newState.state = this.props.profile.profile.state;
             this.setState({ ...newState }, () => {
-              console.log(this.state.city, this.state.state);
               this.closeEdit();
             });
           }
@@ -274,48 +272,26 @@ class Profile extends React.Component {
 
 Profile.propTypes = {
   appState: PropTypes.shape({
-    user: PropTypes.shape({
-      _id: PropTypes.string
-    })
+    loggedIn: PropTypes.bool,
+    authToken: PropTypes.string
   }).isRequired,
   actions: PropTypes.shape({
-    setLoggedIn: PropTypes.func,
-    dismissModal: PropTypes.func
+    setLoggedIn: PropTypes.func
   }).isRequired,
   api: PropTypes.shape({
     getProfile: PropTypes.func
   }).isRequired,
   profile: PropTypes.shape({
-    user: PropTypes.shape({
-      profile: PropTypes.shape({
-        firstName: PropTypes.string,
-        lastName: PropTypes.string,
-        email: PropTypes.string,
-        avatarUrl: PropTypes.string
-      }).isRequired,
-      local: PropTypes.shape({
-        email: PropTypes.string
-      }),
-      facebook: PropTypes.shape({
-        email: PropTypes.string,
-        token: PropTypes.string
-      }),
-      github: PropTypes.shape({
-        email: PropTypes.string,
-        token: PropTypes.string
-      }),
-      google: PropTypes.shape({
-        email: PropTypes.string,
-        token: PropTypes.string
-      })
-    }),
-    errorMsg: PropTypes.string,
-    spinnerClass: PropTypes.string,
-    modal: PropTypes.shape({
-      class: PropTypes.string,
-      text: PropTypes.string,
-      title: PropTypes.string
-    })
+    profile: PropTypes.shape({
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      avatarUrl: PropTypes.string,
+      email: PropTypes.string,
+      city: PropTypes.string,
+      state: PropTypes.string
+    }).isRequired,
+    error: PropTypes.string,
+    loading: PropTypes.bool
   }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func
@@ -324,8 +300,7 @@ Profile.propTypes = {
 
 const mapStateToProps = state => ({
   appState: state.appState,
-  profile: state.profile,
-  auth: state.auth
+  profile: state.profile
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -21,9 +21,23 @@ const styles = theme => ({
     padding: 20,
     maxWidth: 1200
   },
-  button: {
-    margin: theme.spacing.unit,
-    flex: "0 0 auto"
+  buttonApprove: {
+    flex: "0 0 auto",
+    color: "white",
+    backgroundColor: green[600],
+    "&:hover": {
+      backgroundColor: green[400],
+      transition: "500ms ease-in-out"
+    }
+  },
+  buttonReject: {
+    flex: "0 0 auto",
+    color: "white",
+    backgroundColor: theme.palette.error.main,
+    "&:hover": {
+      backgroundColor: theme.palette.error.light,
+      transition: "500ms ease-in-out"
+    }
   },
   thumbnail: {
     flex: "0 0 auto",
@@ -35,9 +49,9 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     alignSelf: "stretch",
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     padding: "15px",
-    border: "1px solid #ededed",
+    border: "1px solid #ddd",
     width: "30%",
     margin: "10px",
     textAlign: "center"
@@ -138,6 +152,7 @@ class UserTrades extends Component {
       .then(result => {
         if (result.type === "UPDATE_TRADE_SUCCESS") {
           openSnackbar("success", `Set trade staus to ${status}.`);
+          // if approved, need to change book owner here
           this.props.apiTrade
             .getUserTrades(userId)
             .then(result => console.log(this.props.trade.trades))
@@ -177,6 +192,7 @@ class UserTrades extends Component {
         {this.props.trade.trades ? (
           <TradeList
             loggedIn={this.props.appState.loggedIn}
+            userId={this.props.profile.profile._id}
             title={`${this.props.profile.profile.firstName}'s Trades`}
             trades={this.props.trade.trades}
             updateTrade={this.updateTrade}

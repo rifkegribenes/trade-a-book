@@ -32,7 +32,6 @@ const TradeList = props => (
             bookOffered,
             status
           } = trade;
-          console.log(trade);
           return (
             <div key={_id}>
               <ListItem style={{ paddingRight: 0 }}>
@@ -69,28 +68,40 @@ const TradeList = props => (
                 {props.loggedIn &&
                   props.userId === toUser._id &&
                   status === "pending" && (
-                    <div className={props.classes.actions}>
+                    <div className={props.classes.tinycard}>
+                      <Typography
+                        variant="subheading"
+                        className={props.classes.subhead}
+                      >
+                        Process Trade
+                      </Typography>
                       <Button
                         variant="contained"
-                        color="primary"
-                        className={props.classes.button}
+                        fullWidth
+                        className={props.classes.buttonApprove}
                         title="Approve Trade"
+                        style={{ margin: "20px auto" }}
                         onClick={() => {
                           console.log("Approve Trade");
+                          props.updateTrade(trade, "approved");
                         }}
                       >
-                        Approve
+                        <CheckCircleOutline />
+                        &nbsp;Approve
                       </Button>
                       <Button
                         variant="contained"
-                        color="primary"
-                        className={props.classes.button}
+                        fullWidth
+                        className={props.classes.buttonReject}
                         title="Reject Trade"
+                        style={{ margin: "10px auto" }}
                         onClick={() => {
                           console.log("Reject Trade");
+                          props.updateTrade(trade, "rejected");
                         }}
                       >
-                        Reject
+                        <ErrorOutline />
+                        &nbsp;Reject
                       </Button>
                     </div>
                   )}
@@ -118,7 +129,7 @@ const TradeList = props => (
                       />
                       <Button
                         variant="contained"
-                        color="secondary"
+                        color="primary"
                         className={props.classes.button}
                         title="View Trade"
                         onClick={() => {

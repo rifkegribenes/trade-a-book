@@ -16,7 +16,7 @@ import {
 } from "../actions/apiProfileActions";
 
 const INITIAL_STATE = {
-  spinnerClass: "spinner__hide",
+  loading: false,
   profile: {
     _id: "",
     firstName: "",
