@@ -58,9 +58,16 @@ const TradeList = props => (
                   paddingBottom: 0
                 }}
               >
-                <ListItemText primary={message} />
+                <ListItemText
+                  primary={message}
+                  style={{
+                    textAlign: "center",
+                    paddingRight: 0,
+                    paddingLeft: 0
+                  }}
+                />
               </ListItem>
-              <ListItem style={{ paddingRight: 0 }}>
+              <ListItem style={{ paddingRight: 0, paddingLeft: 0 }}>
                 <div className={props.classes.tinycard}>
                   <Typography
                     variant="subheading"
@@ -85,7 +92,6 @@ const TradeList = props => (
                   </Typography>
                   <img
                     className={props.classes.thumbnail}
-                    style={{ height: "80px", width: "auto", padding: 10 }}
                     src={bookOffered.thumbnail}
                     alt={bookOffered.title}
                   />

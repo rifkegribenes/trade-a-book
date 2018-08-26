@@ -133,9 +133,9 @@ class AllBooks extends Component {
         if (result.type === "PROPOSE_TRADE_SUCCESS") {
           openSnackbar(
             "success",
-            `Message sent to ${
+            `If this were a real app, a message would be sent to ${
               bookRequested.ownerData.firstName
-            } proposing trade.`
+            } proposing this trade.`
           );
         } else {
           openSnackbar("error", this.props.trade.error);

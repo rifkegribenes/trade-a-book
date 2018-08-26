@@ -149,7 +149,7 @@ class UserTrades extends Component {
       .then(result => {
         if (result.type === "UPDATE_TRADE_SUCCESS") {
           openSnackbar("success", `Set trade staus to ${status}.`);
-          // if approved, need to change book owner here
+          // if approved, change book owner?
           this.props.apiTrade
             .getUserTrades(userId)
             .then(result => console.log(this.props.trade.trades))
