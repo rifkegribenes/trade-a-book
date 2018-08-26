@@ -77,6 +77,22 @@ class NavBar extends React.Component {
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
+    const linkMap = {
+      profile: "Profile",
+      all: "All Books",
+      new: "Add Book",
+      library: "My Books",
+      trades: "My Trades"
+    };
+    const linkList = Object.keys(linkMap);
+    const menuLinks = linkList.map((link, index) => (
+      <ListItemLink
+        to={`/${link}`}
+        key={index}
+        primary={linkMap[link]}
+        handleClose={this.handleClose}
+      />
+    ));
     return (
       <div className={classes.root}>
         <AppBar position="static">
@@ -98,31 +114,7 @@ class NavBar extends React.Component {
               onClose={this.handleClose}
               component="nav"
             >
-              <ListItemLink
-                to="/profile"
-                primary="Profile"
-                handleClose={this.handleClose}
-              />
-              <ListItemLink
-                to="/all"
-                primary="All Books"
-                handleClose={this.handleClose}
-              />
-              <ListItemLink
-                to="/new"
-                primary="Add Book"
-                handleClose={this.handleClose}
-              />
-              <ListItemLink
-                to="/library"
-                primary="My Books"
-                handleClose={this.handleClose}
-              />
-              <ListItemLink
-                to="/trades"
-                primary="My Trades"
-                handleClose={this.handleClose}
-              />
+              {menuLinks}
             </Menu>
             <Typography
               variant="title"

@@ -86,7 +86,6 @@ class AllBooks extends Component {
           // then map through booklist and
           // return partial profile data for book owner
           .map(book => {
-            console.log(book.owner.toString());
             return this.props.apiProfile
               .getPartialProfile(book.owner)
               .then(() => {
