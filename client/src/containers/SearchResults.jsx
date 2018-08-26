@@ -1,15 +1,13 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as Actions from "../store/actions";
-import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
-// import { BASE_URL } from "../store/actions/apiConfig.js";
 
 import Notifier, { openSnackbar } from "./Notifier";
-import BookList from "./BookList";
+import BookList from "../components/BookList";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -46,9 +44,7 @@ class SearchResults extends Component {
         .addBook(token, book)
         .then(result => {
           openSnackbar("success", `Added ${book.title} to your library.`);
-          this.props.apiBook
-            .getAllBooks()
-            .then(result => console.log(this.props.book.books));
+          this.props.clearSearch();
         })
         .catch(err => openSnackbar("error", err));
     } else {
@@ -81,7 +77,26 @@ class SearchResults extends Component {
   }
 }
 
-SearchResults.propTypes = {};
+SearchResults.propTypes = {
+  appState: PropTypes.shape({
+    loggedIn: PropTypes.bool,
+    authToken: PropTypes.string
+  }),
+  book: PropTypes.shape({
+    searchResults: PropTypes.array
+  }),
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      _id: PropTypes.string
+    })
+  }),
+  classes: PropTypes.object,
+  apiBook: PropTypes.shape({
+    getAllBooks: PropTypes.func,
+    addBook: PropTypes.func
+  }),
+  clearSearch: PropTypes.func
+};
 
 const mapStateToProps = state => ({
   appState: state.appState,
@@ -90,9 +105,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch),
-  apiBook: bindActionCreators(apiBookActions, dispatch),
-  apiProfile: bindActionCreators(apiProfileActions, dispatch)
+  apiBook: bindActionCreators(apiBookActions, dispatch)
 });
 
 export default withStyles(styles)(

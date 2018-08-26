@@ -11,11 +11,12 @@ import * as apiBookActions from "./store/actions/apiBookActions";
 import * as apiProfileActions from "./store/actions/apiProfileActions";
 
 import NavBar from "./containers/NavBar";
-import Home from "./containers/Home";
+import Home from "./components/Home";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
 import UserBooks from "./containers/UserBooks";
 import UserTrades from "./containers/UserTrades";
+import AddBook from "./containers/AddBook";
 
 class App extends Component {
   componentDidMount() {
@@ -70,6 +71,10 @@ class App extends Component {
             <Route
               path="/trades"
               render={routeProps => <UserTrades {...routeProps} />}
+            />
+            <Route
+              path="/new"
+              render={routeProps => <AddBook {...routeProps} />}
             />
             <Route path="/logout" component={Logout} />
             {/*            <Route path="*" component={NotFound} />*/}

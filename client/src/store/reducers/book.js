@@ -19,7 +19,7 @@ import {
   UPDATE_BOOK_OWNER_REQUEST,
   UPDATE_BOOK_OWNER_SUCCESS,
   UPDATE_BOOK_OWNER_FAILURE,
-  UPDATE_BOOKLIST_SUCCESS
+  CLEAR_SEARCH_RESULTS
 } from "../actions/apiBookActions";
 
 const INITIAL_STATE = {
@@ -70,17 +70,17 @@ function book(state = INITIAL_STATE, action) {
         error: { $set: null }
       });
 
-    case UPDATE_BOOKLIST_SUCCESS:
-      return update(state, {
-        loading: { $set: false },
-        books: { $set: action.payload.books },
-        error: { $set: null }
-      });
-
     case SEARCH_BOOK_SUCCESS:
       return update(state, {
         loading: { $set: false },
         searchResults: { $set: action.payload.books },
+        error: { $set: null }
+      });
+
+    case CLEAR_SEARCH_RESULTS:
+      return update(state, {
+        loading: { $set: false },
+        searchResults: { $set: [] },
         error: { $set: null }
       });
 

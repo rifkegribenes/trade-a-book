@@ -13,6 +13,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
 
@@ -33,6 +34,12 @@ const styles = {
   },
   loginButton: {
     textDecoration: "none"
+  },
+  avatar: {
+    marginRight: 20
+  },
+  admin: {
+    display: "flex"
   }
 };
 
@@ -97,6 +104,11 @@ class NavBar extends React.Component {
                 handleClose={this.handleClose}
               />
               <ListItemLink
+                to="/new"
+                primary="Add Book"
+                handleClose={this.handleClose}
+              />
+              <ListItemLink
                 to="/library"
                 primary="My Books"
                 handleClose={this.handleClose}
@@ -117,14 +129,21 @@ class NavBar extends React.Component {
               </Link>
             </Typography>
             {this.props.appState.loggedIn ? (
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.loginButton}
-                href="/logout"
-              >
-                Logout
-              </Button>
+              <div className={classes.admin}>
+                <Avatar
+                  alt={this.props.profile.profile.firstName}
+                  src={this.props.profile.profile.avatarUrl}
+                  className={classes.avatar}
+                />
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  className={classes.loginButton}
+                  href="/logout"
+                >
+                  Logout
+                </Button>
+              </div>
             ) : (
               <Button
                 variant="contained"
@@ -149,11 +168,21 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  appState: PropTypes.shape({
+    loggedIn: PropTypes.bool
+  }),
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      firstName: PropTypes.string,
+      avatarUrl: PropTypes.string
+    })
+  })
 };
 
 const mapStateToProps = state => ({
-  appState: state.appState
+  appState: state.appState,
+  profile: state.profile
 });
 
 export default withRouter(withStyles(styles)(connect(mapStateToProps)(NavBar)));

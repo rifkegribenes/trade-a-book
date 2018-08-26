@@ -1,13 +1,13 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
-import BookList from "./BookList";
+import BookList from "../components/BookList";
 import Notifier, { openSnackbar } from "./Notifier";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -26,6 +26,20 @@ const styles = theme => ({
   author: {},
   owner: {
     display: "flex"
+  },
+  message: {
+    margin: "auto",
+    width: "50%",
+    textAlign: "center",
+    height: "50%"
+  },
+  container: {
+    width: "100%",
+    height: "100%",
+    minHeight: "80vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
   }
 });
 
@@ -138,13 +152,36 @@ class UserBooks extends Component {
             handleAlertDialogClose={this.handleClose}
             alertDialogOpen={this.state.dialogOpen}
             classes={this.props.classes}
+            emptyMsg="Your library is empty! Add some books to get started."
           />
         )}
       </div>
     );
   }
 }
-UserBooks.propTypes = {};
+
+UserBooks.propTypes = {
+  appState: PropTypes.shape({
+    loggedIn: PropTypes.bool,
+    authToken: PropTypes.string
+  }),
+  book: PropTypes.shape({
+    error: PropTypes.string,
+    books: PropTypes.array,
+    loggedInUserBooks: PropTypes.array
+  }),
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      _id: PropTypes.string,
+      firstName: PropTypes.string
+    })
+  }),
+  classes: PropTypes.object,
+  apiBook: PropTypes.shape({
+    getUserBooks: PropTypes.func,
+    addBook: PropTypes.func
+  })
+};
 
 const mapStateToProps = state => ({
   appState: state.appState,
@@ -153,7 +190,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch),
   apiBook: bindActionCreators(apiBookActions, dispatch),
   apiProfile: bindActionCreators(apiProfileActions, dispatch)
 });

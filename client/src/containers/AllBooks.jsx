@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 import * as apiTradeActions from "../store/actions/apiTradeActions";
 
-import BookList from "./BookList";
+import BookList from "../components/BookList";
 import AlertDialog from "./AlertDialog";
 import Notifier, { openSnackbar } from "./Notifier";
 import { withStyles } from "@material-ui/core/styles";
@@ -23,8 +23,6 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     flex: "0 0 auto"
   },
-  rightIcon: {},
-  author: {},
   owner: {
     display: "flex"
   },
@@ -188,7 +186,43 @@ class AllBooks extends Component {
   }
 }
 
-AllBooks.propTypes = {};
+AllBook.propTypes = {
+  appState: PropTypes.shape({
+    loggedIn: PropTypes.bool,
+    authToken: PropTypes.string
+  }),
+  book: PropTypes.shape({
+    books: PropTypes.array
+  }),
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      _id: PropTypes.string,
+      firstName: PropTypes.string,
+      avatarUrl: PropTypes.string
+    }),
+    partialProfile: PropTypes.shape({
+      _id: PropTypes.string,
+      firstName: PropTypes.string,
+      avatarUrl: PropTypes.string,
+      city: PropTypes.string,
+      state: PropTypes.string
+    })
+  }),
+  trade: PropTypes.shape({
+    error: PropTypes.string
+  }),
+  classes: PropTypes.object,
+  apiProfile: PropTypes.shape({
+    getPartialProfile: PropTypes.func
+  }),
+  apiBook: PropTypes.shape({
+    getAllBooks: PropTypes.func,
+    updateBooklist: PropTypes.func
+  }),
+  apiTrade: PropTypes.shape({
+    proposeTrade: PropTypes.func
+  })
+};
 
 const mapStateToProps = state => ({
   appState: state.appState,
@@ -198,7 +232,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch),
   apiBook: bindActionCreators(apiBookActions, dispatch),
   apiProfile: bindActionCreators(apiProfileActions, dispatch),
   apiTrade: bindActionCreators(apiTradeActions, dispatch)

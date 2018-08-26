@@ -43,7 +43,6 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "flex-end"
   },
-  icon: {},
   avatar: {
     width: 80,
     height: 80,

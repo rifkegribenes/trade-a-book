@@ -1,7 +1,6 @@
 import React from "react";
-// import PropTypes from 'prop-types';
 
-import CustomSnackbarContentWrapper from "./CustomSnackbarContent";
+import CustomSnackbarContentWrapper from "../components/CustomSnackbarContent";
 
 import Snackbar from "@material-ui/core/Snackbar";
 

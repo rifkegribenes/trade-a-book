@@ -70,8 +70,6 @@ exports.addBook = (req, res, next) => {
     });
     console.log(newBook);
 
-    // check if exists in db first b4 creating new -- findOrCreate ??
-
     newBook.save()
 	    .then((book) => {
 	      console.log('new book saved');

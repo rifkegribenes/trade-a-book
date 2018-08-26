@@ -1,14 +1,14 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as Actions from "../store/actions";
 import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiTradeActions from "../store/actions/apiTradeActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
-import TradeList from "./TradeList";
+import TradeList from "../components/TradeList";
 import Notifier, { openSnackbar } from "./Notifier";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -207,7 +207,28 @@ class UserTrades extends Component {
     );
   }
 }
-UserTrades.propTypes = {};
+
+UserTrades.propTypes = {
+  appState: PropTypes.shape({
+    loggedIn: PropTypes.bool,
+    authToken: PropTypes.string
+  }),
+  trade: PropTypes.shape({
+    error: PropTypes.string,
+    trades: PropTypes.array
+  }),
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      _id: PropTypes.string,
+      firstName: PropTypes.string
+    })
+  }),
+  classes: PropTypes.object,
+  apiTrade: PropTypes.shape({
+    getUserTrades: PropTypes.func,
+    updateTrade: PropTypes.func
+  })
+};
 
 const mapStateToProps = state => ({
   appState: state.appState,
@@ -217,7 +238,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch),
   apiTrade: bindActionCreators(apiTradeActions, dispatch),
   apiBook: bindActionCreators(apiBookActions, dispatch),
   apiProfile: bindActionCreators(apiProfileActions, dispatch)

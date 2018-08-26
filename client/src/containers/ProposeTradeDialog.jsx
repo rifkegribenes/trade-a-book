@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as Actions from "../store/actions";
-import * as apiProfileActions from "../store/actions/apiProfileActions";
 import * as apiBookActions from "../store/actions/apiBookActions";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -107,19 +105,34 @@ class ProposeTradeDialog extends React.Component {
 ProposeTradeDialog.propTypes = {
   classes: PropTypes.object.isRequired,
   onClose: PropTypes.func,
-  selectedValue: PropTypes.string
+  selectedValue: PropTypes.string,
+  cancel: PropTypes.func,
+  book: PropTypes.shape({
+    loggedInUserBooks: PropTypes.array
+  }),
+  profile: PropTypes.shape({
+    profile: PropTypes.shape({
+      _id: PropTypes.string
+    })
+  }),
+  apiBook: PropTypes.shape({
+    getUserBooks: PropTypes.func
+  }),
+  bookRequested: PropTypes.object,
+  proposeTrade: PropTypes.func,
+  handleTradeDialogOpen: PropTypes.func,
+  handleTradeDialogClose: PropTypes.func,
+  open: PropTypes.bool,
+  loggedInUserBooks: PropTypes.array
 };
 
 const mapStateToProps = state => ({
-  appState: state.appState,
   profile: state.profile,
   book: state.book
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(Actions, dispatch),
-  apiBook: bindActionCreators(apiBookActions, dispatch),
-  apiProfile: bindActionCreators(apiProfileActions, dispatch)
+  apiBook: bindActionCreators(apiBookActions, dispatch)
 });
 
 export default withStyles(styles)(
