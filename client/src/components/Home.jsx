@@ -1,5 +1,5 @@
 import React from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import book from "../img/book_trade.svg";
 import Typography from "@material-ui/core/Typography";
@@ -68,6 +68,8 @@ const Home = props => (
   </div>
 );
 
-Home.propTypes = {};
+Home.propTypes = {
+  classes: PropTypes.object
+};
 
 export default Home;

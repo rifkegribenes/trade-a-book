@@ -4,6 +4,8 @@ import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import * as Actions from "../store/actions";
 
+import Typography from "@material-ui/core/Typography";
+
 class Logout extends React.Component {
   componentDidMount() {
     this.props.actions.logout();
@@ -15,8 +17,8 @@ class Logout extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="single-msg">goodbye</div>
+      <div className={props.classes.container}>
+        <Typography className={props.classes.message}>Goodbye!</Typography>
       </div>
     );
   }
@@ -25,7 +27,8 @@ class Logout extends React.Component {
 Logout.propTypes = {
   actions: PropTypes.shape({
     logout: PropTypes.func
-  }).isRequired
+  }).isRequired,
+  classes: PropTypes.object
 };
 
 const mapStateToProps = state => ({

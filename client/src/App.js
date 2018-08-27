@@ -138,7 +138,12 @@ class App extends Component {
               path="/all"
               render={routeProps => <AllBooks {...routeProps} />}
             />
-            <Route path="/logout" component={Logout} />
+            <Route
+              path="/logout"
+              render={routeProps => (
+                <Logout classes={this.props.classes} {...routeProps} />
+              )}
+            />
             {/*            <Route path="*" component={NotFound} />*/}
           </Switch>
         </main>

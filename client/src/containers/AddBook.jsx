@@ -99,12 +99,14 @@ class AddBook extends Component {
 
 AddBook.propTypes = {
   book: PropTypes.shape({
-    searchResults: PropTypes.array
+    searchResults: PropTypes.array,
+    error: PropTypes.string
   }),
   apiBook: PropTypes.shape({
     clearSearchResults: PropTypes.func,
     searchBook: PropTypes.func
-  })
+  }),
+  classes: PropTypes.object
 };
 
 const mapStateToProps = state => ({
