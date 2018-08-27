@@ -79,7 +79,7 @@ class AllBooks extends Component {
   componentDidMount() {
     const userId = this.props.profile.profile._id;
     const bookListPromise = books => {
-      // filter out books that belong to logged-inn user
+      // filter out books owned by logged-inn user
       return (
         books
           .filter(book => book.owner.toString() !== userId.toString())
@@ -108,7 +108,7 @@ class AllBooks extends Component {
       // then for each book fetch owner data
       Promise.all(bookListPromise(this.props.book.books))
         .then(bookList => {
-          // and save this to redux booklist
+          // and save enriched list to redux booklist
           this.props.apiBook.updateBooklist(bookList);
         })
         .catch(err => console.log(err));
@@ -116,8 +116,6 @@ class AllBooks extends Component {
   }
 
   proposeTrade = (bookRequested, bookOffered) => {
-    console.log("proposeTrade");
-    console.log(bookRequested, bookOffered);
     const token = this.props.appState.authToken;
     const body = {
       bookRequested,
@@ -178,12 +176,11 @@ class AllBooks extends Component {
           listType="all"
           loggedIn={this.props.appState.loggedIn}
           title="All books available for trade"
-          subhead=""
+          subhead="Click arrows to propose a trade"
           tradeDialogOpen={this.state.tradeDialogOpen}
           handleTradeDialogOpen={this.handleTradeDialogOpen}
           handleTradeDialogClose={this.handleTradeDialogClose}
           cancel={this.cancel}
-          selectedBook={this.state.selectedBook}
           bookRequested={this.state.bookRequested}
           books={this.props.book.books}
           classes={this.props.classes}

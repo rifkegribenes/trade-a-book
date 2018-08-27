@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -11,6 +11,7 @@ import BookList from "../components/BookList";
 import Notifier, { openSnackbar } from "./Notifier";
 
 import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
@@ -31,7 +32,8 @@ const styles = theme => ({
     margin: "auto",
     width: "50%",
     textAlign: "center",
-    height: "50%"
+    height: "50%",
+    lineHeight: "2em"
   },
   container: {
     width: "100%",
@@ -49,9 +51,18 @@ class UserBooks extends Component {
   };
 
   componentDidMount() {
-    if (!this.props.appState.loggedIn) {
-      openSnackbar("error", "Please log in to view your library");
+    if (this.props.profile.profile._id) {
+      this.getUserBooks();
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.profile.profile._id !== this.props.profile.profile._id) {
+      this.getUserBooks();
+    }
+  }
+
+  getUserBooks = () => {
     const userId = this.props.profile.profile._id;
     const book = JSON.parse(window.localStorage.getItem("book"));
     if (book) {
@@ -92,7 +103,7 @@ class UserBooks extends Component {
         console.log(err);
         openSnackbar("error", err);
       });
-  }
+  };
 
   removeBook = bookData => {
     console.log("removeBook");
@@ -138,10 +149,11 @@ class UserBooks extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     return (
       <div className="bookList">
         <Notifier />
-        {this.props.appState.loggedIn && (
+        {this.props.book.loggedInUserBooks.length ? (
           <BookList
             listType="user"
             loggedIn={this.props.appState.loggedIn}
@@ -151,9 +163,15 @@ class UserBooks extends Component {
             handleAlertDialogOpen={this.handleOpen}
             handleAlertDialogClose={this.handleClose}
             alertDialogOpen={this.state.dialogOpen}
-            classes={this.props.classes}
-            emptyMsg="Your library is empty! Add some books to get started."
+            classes={classes}
           />
+        ) : (
+          <div className={classes.container}>
+            <Typography className={classes.message}>
+              Your library is empty! <br />
+              <Link to="/new">Add some books</Link> to get started.
+            </Typography>
+          </div>
         )}
       </div>
     );

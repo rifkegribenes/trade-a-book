@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -14,6 +14,7 @@ import Notifier, { openSnackbar } from "./Notifier";
 import { withStyles } from "@material-ui/core/styles";
 import green from "@material-ui/core/colors/green";
 import amber from "@material-ui/core/colors/amber";
+import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   root: {
@@ -60,7 +61,8 @@ const styles = theme => ({
     margin: "auto",
     width: "50%",
     textAlign: "center",
-    height: "50%"
+    height: "50%",
+    lineHeight: "2em"
   },
   container: {
     width: "100%",
@@ -98,6 +100,9 @@ const styles = theme => ({
   },
   capitalize: {
     textTransform: "capitalize"
+  },
+  headline: {
+    paddingTop: 20
   }
 });
 
@@ -186,7 +191,7 @@ class UserTrades extends Component {
     return (
       <div>
         <Notifier />
-        {this.props.trade.trades ? (
+        {this.props.trade.trades.length ? (
           <TradeList
             loggedIn={this.props.appState.loggedIn}
             userId={this.props.profile.profile._id}
@@ -200,7 +205,13 @@ class UserTrades extends Component {
           />
         ) : (
           <div className={classes.container}>
-            <div className={classes.message}>No trades</div>
+            <Typography className={classes.message}>
+              You have not proposed any trades yet.
+              <br />
+              <Link to="/all">Check out the list of offered books</Link>
+              <br />
+              and propose a trade to get started.
+            </Typography>
           </div>
         )}
       </div>

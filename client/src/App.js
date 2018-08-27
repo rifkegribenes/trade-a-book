@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { withStyles } from "@material-ui/core/styles";
+import green from "@material-ui/core/colors/green";
 
 import * as Actions from "./store/actions";
 import * as apiBookActions from "./store/actions/apiBookActions";
@@ -19,7 +20,7 @@ import UserTrades from "./containers/UserTrades";
 import AddBook from "./containers/AddBook";
 import AllBooks from "./containers/AllBooks";
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1
   },
@@ -37,9 +38,41 @@ const styles = {
     justifyContent: "center"
   },
   row: {
-    display: "flex"
+    display: "flex",
+    justifyContent: "center"
+  },
+  tinycard: {
+    display: "flex",
+    flexDirection: "column",
+    alignSelf: "stretch",
+    justifyContent: "flex-start",
+    padding: "15px",
+    border: "1px solid #ddd",
+    width: "30%",
+    margin: "10px",
+    textAlign: "center"
+  },
+  add: {
+    color: green[600],
+    height: 72,
+    width: "auto"
+  },
+  list: {
+    color: theme.palette.primary.main,
+    height: 72,
+    width: "auto"
+  },
+  trade: {
+    color: theme.palette.secondary.main,
+    height: 72,
+    width: "auto"
+  },
+  button: {
+    height: 100,
+    margin: "20px auto",
+    width: 100
   }
-};
+});
 
 class App extends Component {
   componentDidMount() {

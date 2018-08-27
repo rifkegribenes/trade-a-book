@@ -18,7 +18,12 @@ import tradeInfo from "../utils";
 const TradeList = props => (
   <div className="tradeList">
     <Paper>
-      <Typography variant="display1" align="center" gutterBottom>
+      <Typography
+        variant="display1"
+        align="center"
+        gutterBottom
+        className={props.classes.headline}
+      >
         {props.title}
       </Typography>
       <Typography variant="subheading" align="center" gutterBottom>

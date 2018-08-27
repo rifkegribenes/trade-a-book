@@ -43,133 +43,127 @@ const BookList = props => (
       <Typography variant="subheading" align="center" gutterBottom>
         {props.subhead}
       </Typography>
-      {props.books.length ? (
-        <List style={{ maxWidth: 600, margin: "auto" }}>
-          {props.books.map((bookData, i, books) => {
-            let book = { ...bookData };
-            let city, state;
-            if (props.listType === "search") {
-              book = {
-                googleId: bookData.id,
-                title: bookData.volumeInfo.title,
-                authors: [...bookData.volumeInfo.authors],
-                published: bookData.volumeInfo.publishedDate,
-                thumbnail: bookData.volumeInfo.imageLinks.thumbnail
-              };
-            } else if (props.listType === "all" && book.ownerData) {
-              city = book.ownerData.city;
-              state = book.ownerData.state;
-            }
-            return (
-              <div key={book.googleId}>
-                {props.listType === "user" && (
-                  <AlertDialog
-                    book={book}
-                    handleClose={props.handleAlertDialogClose}
-                    open={props.alertDialogOpen}
-                    content={`Remove ${book.title} from your library?`}
-                    action={() => {
-                      props.removeBook(book);
-                      props.handleClose();
-                    }}
-                    buttonText="Delete"
-                  />
-                )}
-                <ListItem style={{ paddingRight: 0 }}>
-                  <img
-                    className={props.classes.thumbnail}
-                    style={{ height: "80px", padding: 10 }}
-                    src={book.thumbnail}
-                    alt={book.title}
-                  />
-                  <ListItemText
-                    primary={book.title}
-                    secondary={`${book.authors.join(", ")}
-                    (${book.published.substring(0, 4)})`}
-                  />
-                  {props.listType === "all" &&
-                    book.ownerData && (
-                      <div className={props.classes.owner}>
-                        <Avatar
-                          alt={book.ownerData.firstName}
-                          src={book.ownerData.avatarUrl}
-                          className={props.classes.avatar}
-                        />
-                        <ListItemText
-                          primary={`Offered by: ${book.ownerData.firstName}`}
-                          secondary={
-                            city && state
-                              ? `${city} ${state}`
-                              : city
-                                ? city
-                                : null
-                          }
-                        />
-                      </div>
-                    )}
-                  {props.listType === "all" &&
-                    props.userId !== book.owner && (
-                      <IconButton
-                        variant="contained"
-                        color="primary"
-                        className={props.classes.button}
-                        title="Propose a Trade"
-                        onClick={() => {
-                          props.handleTradeDialogOpen(book);
-                        }}
-                      >
-                        <SwapHoriz className={props.classes.rightIcon} />
-                      </IconButton>
-                    )}
-                  {props.listType === "search" ? (
-                    props.loggedIn ? (
-                      <IconButton
-                        size="small"
-                        variant="contained"
-                        color="default"
-                        title="Add Book"
-                        className={props.classes.button}
-                        onClick={() => props.addBook(book)}
-                      >
-                        <AddBox />
-                      </IconButton>
-                    ) : (
-                      <IconButton
-                        size="small"
-                        variant="contained"
-                        color="default"
-                        title="Add Book"
-                        className={props.classes.button}
-                        onClick={() => props.setRedirect(book)}
-                        href={`${BASE_URL}/api/auth/google`}
-                      >
-                        <AddBox />
-                      </IconButton>
-                    )
-                  ) : null}
-                  {props.listType === "user" && (
+      <List style={{ maxWidth: 600, margin: "auto" }}>
+        {props.books.map((bookData, i, books) => {
+          let book = { ...bookData };
+          let city, state;
+          if (props.listType === "search") {
+            book = {
+              googleId: bookData.id,
+              title: bookData.volumeInfo.title,
+              authors: [...bookData.volumeInfo.authors],
+              published: bookData.volumeInfo.publishedDate,
+              thumbnail: bookData.volumeInfo.imageLinks.thumbnail
+            };
+          } else if (props.listType === "all" && book.ownerData) {
+            city = book.ownerData.city;
+            state = book.ownerData.state;
+          }
+          return (
+            <div key={book.googleId}>
+              {props.listType === "user" && (
+                <AlertDialog
+                  book={book}
+                  handleClose={props.handleAlertDialogClose}
+                  open={props.alertDialogOpen}
+                  content={`Remove ${book.title} from your library?`}
+                  action={() => {
+                    props.removeBook(book);
+                    props.handleAlertDialogClose();
+                  }}
+                  buttonText="Delete"
+                />
+              )}
+              <ListItem style={{ paddingRight: 0 }}>
+                <img
+                  className={props.classes.thumbnail}
+                  style={{ height: "80px", padding: 10 }}
+                  src={book.thumbnail}
+                  alt={book.title}
+                />
+                <ListItemText
+                  primary={book.title}
+                  secondary={`${book.authors.join(", ")}
+                  (${book.published.substring(0, 4)})`}
+                />
+                {props.listType === "all" &&
+                  book.ownerData && (
+                    <div className={props.classes.owner}>
+                      <Avatar
+                        alt={book.ownerData.firstName}
+                        src={book.ownerData.avatarUrl}
+                        className={props.classes.avatar}
+                      />
+                      <ListItemText
+                        primary={`Offered by: ${book.ownerData.firstName}`}
+                        secondary={
+                          city && state
+                            ? `${city} ${state}`
+                            : city
+                              ? city
+                              : null
+                        }
+                      />
+                    </div>
+                  )}
+                {props.listType === "all" &&
+                  props.userId !== book.owner && (
+                    <IconButton
+                      variant="contained"
+                      color="primary"
+                      className={props.classes.button}
+                      title="Propose a Trade"
+                      onClick={() => {
+                        props.handleTradeDialogOpen(book);
+                      }}
+                    >
+                      <SwapHoriz className={props.classes.rightIcon} />
+                    </IconButton>
+                  )}
+                {props.listType === "search" ? (
+                  props.loggedIn ? (
                     <IconButton
                       size="small"
                       variant="contained"
                       color="default"
-                      title="Remove Book"
+                      title="Add Book"
                       className={props.classes.button}
-                      onClick={() => props.handleAlertDialogOpen()}
+                      onClick={() => props.addBook(book)}
                     >
-                      <Delete />
+                      <AddBox />
                     </IconButton>
-                  )}
-                </ListItem>
-                {i < books.length - 1 ? <Divider light /> : null}
-              </div>
-            );
-          })}
-        </List>
-      ) : (
-        <div className={props.classes.container}>
-          <div className={props.classes.emptyMsg}>{props.message}</div>
-        </div>
-      )}
+                  ) : (
+                    <IconButton
+                      size="small"
+                      variant="contained"
+                      color="default"
+                      title="Add Book"
+                      className={props.classes.button}
+                      onClick={() => props.setRedirect(book)}
+                      href={`${BASE_URL}/api/auth/google`}
+                    >
+                      <AddBox />
+                    </IconButton>
+                  )
+                ) : null}
+                {props.listType === "user" && (
+                  <IconButton
+                    size="small"
+                    variant="contained"
+                    color="default"
+                    title="Remove Book"
+                    className={props.classes.button}
+                    onClick={() => props.handleAlertDialogOpen()}
+                  >
+                    <Delete />
+                  </IconButton>
+                )}
+              </ListItem>
+              {i < books.length - 1 ? <Divider light /> : null}
+            </div>
+          );
+        })}
+      </List>
     </Paper>
   </div>
 );
