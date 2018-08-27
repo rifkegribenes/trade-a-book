@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { Switch, Route, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-// import PropTypes from "prop-types";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { withStyles } from "@material-ui/core/styles";
 
 import * as Actions from "./store/actions";
 import * as apiBookActions from "./store/actions/apiBookActions";
@@ -18,6 +18,28 @@ import UserBooks from "./containers/UserBooks";
 import UserTrades from "./containers/UserTrades";
 import AddBook from "./containers/AddBook";
 import AllBooks from "./containers/AllBooks";
+
+const styles = {
+  root: {
+    flexGrow: 1
+  },
+  hero: {
+    marginRight: 20
+  },
+  container: {
+    maxWidth: 1200,
+    padding: "100px 60px 60px 60px",
+    margin: "auto",
+    height: "100%",
+    minHeight: "80vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+  row: {
+    display: "flex"
+  }
+};
 
 class App extends Component {
   componentDidMount() {
@@ -59,7 +81,9 @@ class App extends Component {
             <Route
               exact
               path="/"
-              render={routeProps => <Home {...routeProps} />}
+              render={routeProps => (
+                <Home classes={this.props.classes} {...routeProps} />
+              )}
             />
             <Route
               path="/profile/:id?/:token?"
@@ -102,9 +126,11 @@ const mapDispatchToProps = dispatch => ({
   apiProfile: bindActionCreators(apiProfileActions, dispatch)
 });
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
+export default withStyles(styles)(
+  withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(App)
+  )
 );
