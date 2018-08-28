@@ -14,6 +14,7 @@ import * as apiProfileActions from "./store/actions/apiProfileActions";
 import NavBar from "./containers/NavBar";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
+import NotFound from "./components/NotFound";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
 import UserBooks from "./containers/UserBooks";
@@ -27,6 +28,11 @@ const styles = theme => ({
   },
   hero: {
     marginRight: 20
+  },
+  notFound: {
+    height: "80vh",
+    width: "auto",
+    marginTop: "-60px"
   },
   container: {
     maxWidth: 1200,
@@ -167,7 +173,12 @@ class App extends Component {
                 <Logout classes={this.props.classes} {...routeProps} />
               )}
             />
-            {/*            <Route path="*" component={NotFound} />*/}
+            <Route
+              path="*"
+              render={routeProps => (
+                <NotFound classes={this.props.classes} {...routeProps} />
+              )}
+            />
           </Switch>
         </main>
         <Footer classes={this.props.classes} />
