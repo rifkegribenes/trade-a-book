@@ -12,6 +12,7 @@ import * as apiBookActions from "./store/actions/apiBookActions";
 import * as apiProfileActions from "./store/actions/apiProfileActions";
 
 import NavBar from "./containers/NavBar";
+import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Profile from "./containers/Profile";
 import Logout from "./containers/Logout";
@@ -29,7 +30,7 @@ const styles = theme => ({
   },
   container: {
     maxWidth: 1200,
-    padding: "100px 60px 60px 60px",
+    padding: 60,
     margin: "auto",
     height: "100%",
     minHeight: "80vh",
@@ -78,6 +79,21 @@ const styles = theme => ({
     height: 100,
     margin: "20px auto",
     width: 100
+  },
+  footer: {
+    width: "100vw",
+    margin: "auto",
+    position: "fixed",
+    backgroundColor: theme.palette.primary.main,
+    bottom: 0,
+    padding: 5,
+    display: "flex",
+    justifyContent: "center",
+    boxShadow: "0 1px 5px 2px rgba(0,0,0,.2)"
+  },
+  footerIcon: {
+    width: 20,
+    height: "auto"
   }
 });
 
@@ -154,6 +170,7 @@ class App extends Component {
             {/*            <Route path="*" component={NotFound} />*/}
           </Switch>
         </main>
+        <Footer classes={this.props.classes} />
       </div>
     );
   }
