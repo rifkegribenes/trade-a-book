@@ -11,7 +11,7 @@ import List from "@material-ui/icons/List";
 const Home = props => (
   <div className={props.classes.container}>
     <div className={props.classes.row}>
-      <img src={book} className={props.classes.hero} />
+      <img src={book} alt="" className={props.classes.hero} />
       <Typography
         variant="display1"
         align="left"

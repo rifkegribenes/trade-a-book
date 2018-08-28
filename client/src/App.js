@@ -37,6 +37,13 @@ const styles = theme => ({
     flexDirection: "column",
     justifyContent: "center"
   },
+  message: {
+    margin: "auto",
+    width: "50%",
+    textAlign: "center",
+    height: "50%",
+    lineHeight: "2em"
+  },
   row: {
     display: "flex",
     justifyContent: "center"
