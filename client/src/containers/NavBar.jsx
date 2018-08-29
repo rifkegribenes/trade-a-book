@@ -16,6 +16,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 
 import { BASE_URL } from "../store/actions/apiConfig.js";
+import { skip } from "../utils";
 
 const styles = {
   root: {
@@ -40,6 +41,26 @@ const styles = {
   },
   admin: {
     display: "flex"
+  },
+  skip: {
+    position: "absolute",
+    top: "-1000px",
+    left: "-1000px",
+    height: "1px",
+    width: "1px",
+    textAlign: "left",
+    overflow: "hidden",
+
+    "&:focus": {
+      position: "relative",
+      top: 0,
+      left: "-13px",
+      width: "auto",
+      height: "auto",
+      overflow: "visible",
+      textAlign: "center",
+      zIndex: "1000"
+    }
   }
 };
 
@@ -97,6 +118,14 @@ class NavBar extends React.Component {
       <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
+            <Button
+              color="secondary"
+              variant="raised"
+              className={classes.skip}
+              onClick={() => skip("main")}
+            >
+              Skip to content &rsaquo;
+            </Button>
             <IconButton
               className={classes.menuButton}
               color="inherit"

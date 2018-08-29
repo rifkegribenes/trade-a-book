@@ -7,9 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack -d | node server.js",
     "client": "cd client && yarn build && yarn start",
-    "sass": "cd client && yarn sass",
     "server": "LOG_LEVEL=debug nodemon --inspect server.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\" \"yarn sass\""
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "repository": {
     "type": "git",

@@ -13,7 +13,7 @@ import AccessTime from "@material-ui/icons/AccessTime";
 import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 import ErrorOutline from "@material-ui/icons/ErrorOutline";
 
-import tradeInfo from "../utils";
+import { tradeInfo } from "../utils";
 
 const TradeList = props => (
   <div className="tradeList">
