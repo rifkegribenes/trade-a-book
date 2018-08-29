@@ -17,9 +17,23 @@ const styles = theme => ({
     padding: 20,
     maxWidth: 1200
   },
+  container: {
+    padding: "0px 20px 60px 20px"
+  },
+  item: {
+    [theme.breakpoints.down("xs")]: {
+      flexWrap: "wrap"
+    }
+  },
   button: {
     margin: theme.spacing.unit,
-    flex: "0 0 auto"
+    flex: "0 0 auto",
+    [theme.breakpoints.down("xs")]: {
+      position: "absolute",
+      right: 20,
+      top: 20,
+      flex: "1 1 auto"
+    }
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
@@ -61,7 +75,7 @@ class SearchResults extends Component {
 
   render() {
     return (
-      <div className="searchResults">
+      <div className={this.props.classes.container}>
         <Notifier />
         <BookList
           listType="search"

@@ -12,11 +12,14 @@ import Notifier, { openSnackbar } from "./Notifier";
 
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = {
+const styles = theme => ({
   root: {
     margin: 20,
     padding: 20,
     maxWidth: 400
+  },
+  container: {
+    padding: "20px 20px 60px 20px"
   },
   form: {
     margin: "auto",
@@ -26,15 +29,28 @@ const styles = {
     paddingBottom: 20,
     display: "flex",
     alignItems: "flex-end",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    [theme.breakpoints.down("xs")]: {
+      flexWrap: "wrap",
+      height: "100%"
+    }
   },
   button: {
-    flex: "0 0 auto"
+    flex: "0 0 auto",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+      flex: "1 1 auto",
+      marginTop: 20
+    }
   },
   input: {
-    marginRight: 20
+    marginRight: 20,
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+      marginRight: 0
+    }
   }
-};
+});
 
 class AddBook extends Component {
   constructor(props) {

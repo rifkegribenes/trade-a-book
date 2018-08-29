@@ -53,7 +53,10 @@ const styles = theme => ({
   },
   row: {
     display: "flex",
-    justifyContent: "center"
+    justifyContent: "center",
+    [theme.breakpoints.down("xs")]: {
+      flexWrap: "wrap"
+    }
   },
   tinycard: {
     display: "flex",
@@ -62,9 +65,14 @@ const styles = theme => ({
     justifyContent: "flex-start",
     padding: "15px",
     border: "1px solid #ddd",
-    width: "30%",
     margin: "10px",
-    textAlign: "center"
+    textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%"
+    },
+    [theme.breakpoints.up("sm")]: {
+      width: "30%"
+    }
   },
   add: {
     color: green[600],
