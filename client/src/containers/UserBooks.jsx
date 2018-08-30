@@ -41,7 +41,8 @@ const styles = theme => ({
     minHeight: "80vh",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingBottom: 40
   }
 });
 
@@ -151,7 +152,7 @@ class UserBooks extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="bookList">
+      <div className={classes.container}>
         <Notifier />
         {this.props.book.loggedInUserBooks.length ? (
           <BookList

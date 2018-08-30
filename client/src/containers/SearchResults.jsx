@@ -21,14 +21,14 @@ const styles = theme => ({
     padding: "0px 20px 60px 20px"
   },
   item: {
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       flexWrap: "wrap"
     }
   },
   button: {
     margin: theme.spacing.unit,
     flex: "0 0 auto",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       position: "absolute",
       right: 20,
       top: 20,
@@ -38,12 +38,14 @@ const styles = theme => ({
   rightIcon: {
     marginLeft: theme.spacing.unit
   },
-  author: {}
+  bookInfo: {
+    [theme.breakpoints.down("xs")]: {
+      width: "100%"
+    }
+  }
 });
 
 class SearchResults extends Component {
-  componentDidMount() {}
-
   addBook = book => {
     const token = this.props.appState.authToken;
     const userId = this.props.profile.profile._id;

@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
 import ButtonWithSpinner from "./ButtonWithSpinner";

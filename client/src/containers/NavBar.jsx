@@ -18,7 +18,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { BASE_URL } from "../store/actions/apiConfig.js";
 import { skip } from "../utils";
 
-const styles = {
+const styles = theme => ({
   root: {
     flexGrow: 1
   },
@@ -37,7 +37,10 @@ const styles = {
     textDecoration: "none"
   },
   avatar: {
-    marginRight: 20
+    marginRight: 20,
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
   },
   admin: {
     display: "flex"
@@ -62,7 +65,7 @@ const styles = {
       zIndex: "1000"
     }
   }
-};
+});
 
 function ListItemLink(props) {
   const { primary, to, handleClose } = props;

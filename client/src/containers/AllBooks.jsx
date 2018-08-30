@@ -21,13 +21,55 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit,
-    flex: "0 0 auto"
+    flex: "0 0 auto",
+    ["@media (max-width:450px)"]: {
+      position: "absolute",
+      right: 7,
+      top: 20,
+      flex: "1 1 auto"
+    }
   },
   owner: {
-    display: "flex"
+    display: "flex",
+    ["@media (max-width:450px)"]: {
+      marginTop: 10,
+      padding: "0 10px"
+    }
+  },
+  offered: {
+    ["@media (max-width:450px)"]: {
+      padding: 0
+    }
   },
   contentBold: {
     fontWeight: "bold"
+  },
+  container: {
+    width: "100%",
+    height: "100%",
+    minHeight: "80vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingBottom: 40
+  },
+  item: {
+    ["@media (max-width:450px)"]: {
+      flexWrap: "wrap"
+    }
+  },
+  bookInfo: {
+    ["@media (max-width:450px)"]: {
+      width: "100%",
+      padding: "0 10px"
+    }
+  },
+  avatar: {
+    ["@media (max-width:450px)"]: {
+      position: "absolute",
+      right: 20,
+      bottom: 15
+    }
   }
 });
 

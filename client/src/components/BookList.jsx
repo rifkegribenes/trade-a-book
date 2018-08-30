@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -85,6 +84,7 @@ const BookList = props => (
               />
               <ListItemText
                 primary={book.title}
+                className={props.classes.bookInfo}
                 secondary={`${book.authors.join(", ")}
                 (${book.published.substring(0, 4)})`}
               />
@@ -97,6 +97,7 @@ const BookList = props => (
                       className={props.classes.avatar}
                     />
                     <ListItemText
+                      className={props.classes.offered}
                       primary={`Offered by: ${book.ownerData.firstName}`}
                       secondary={
                         city && state ? `${city} ${state}` : city ? city : null
