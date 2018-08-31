@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 
 import { openSnackbar } from "./Notifier";
 
@@ -25,6 +26,9 @@ const styles = theme => ({
   },
   subheadBold: {
     fontWeight: "bold"
+  },
+  root: {
+    margin: 0
   }
 });
 
@@ -60,6 +64,8 @@ class ProposeTradeDialog extends React.Component {
     const { classes } = this.props;
     const books = this.props.book.loggedInUserBooks;
     console.log(books);
+    const fullWidthDialog = isWidthUp("sm", this.props.width) ? false : true;
+    console.log(`fullWidthDialog: ${fullWidthDialog}`);
 
     return (
       <Dialog
@@ -67,6 +73,8 @@ class ProposeTradeDialog extends React.Component {
         aria-labelledby="simple-dialog-title"
         open={this.props.open}
         className={classes.dialog}
+        fullWidth={fullWidthDialog}
+        PaperProps={{ classes }}
       >
         <DialogTitle id="simple-dialog-title">Choose Book to Offer</DialogTitle>
         <Typography variant="subheading" className={classes.subhead}>
@@ -135,9 +143,11 @@ const mapDispatchToProps = dispatch => ({
   apiBook: bindActionCreators(apiBookActions, dispatch)
 });
 
-export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ProposeTradeDialog)
+export default withWidth()(
+  withStyles(styles)(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(ProposeTradeDialog)
+  )
 );

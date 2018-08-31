@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -16,63 +15,59 @@ import ErrorOutline from "@material-ui/icons/ErrorOutline";
 import { tradeInfo } from "../utils";
 
 const TradeList = props => (
-  <div className="tradeList">
-    <Paper>
-      <Typography
-        variant="display1"
-        align="center"
-        gutterBottom
-        className={props.classes.headline}
-      >
-        {props.title}
-      </Typography>
-      <Typography variant="subheading" align="center" gutterBottom>
-        {props.subhead}
-      </Typography>
-      <List style={{ maxWidth: 600, margin: "auto" }}>
-        {props.trades.map((trade, i, trades) => {
-          const {
-            _id,
-            toUser,
-            fromUser,
-            bookRequested,
-            bookOffered,
-            status,
-            createdAt,
-            updatedAt
-          } = trade;
-          let userProposed = true;
-          if (props.userId === toUser._id) {
-            userProposed = false;
-          }
-          const message = tradeInfo(
-            userProposed,
-            toUser,
-            fromUser,
-            status,
-            createdAt,
-            updatedAt
-          );
-          return (
-            <div key={_id}>
-              <ListItem
+  <div className={props.classes.container}>
+    <Typography
+      variant="display1"
+      align="center"
+      gutterBottom
+      className={props.classes.headline}
+    >
+      {props.title}
+    </Typography>
+    <Typography variant="subheading" align="center" gutterBottom>
+      {props.subhead}
+    </Typography>
+    <List style={{ width: 600, maxWidth: "100%", margin: "auto" }}>
+      {props.trades.map((trade, i, trades) => {
+        const {
+          _id,
+          toUser,
+          fromUser,
+          bookRequested,
+          bookOffered,
+          status,
+          createdAt,
+          updatedAt
+        } = trade;
+        let userProposed = true;
+        if (props.userId === toUser._id) {
+          userProposed = false;
+        }
+        const message = tradeInfo(
+          userProposed,
+          toUser,
+          fromUser,
+          status,
+          createdAt,
+          updatedAt
+        );
+        return (
+          <div key={_id}>
+            <ListItem className={props.classes.tradeSummary}>
+              <ListItemText
+                primary={message}
                 style={{
-                  paddingLeft: 0,
+                  textAlign: "center",
                   paddingRight: 0,
-                  paddingTop: 24,
-                  paddingBottom: 0
+                  paddingLeft: 0
                 }}
-              >
-                <ListItemText
-                  primary={message}
-                  style={{
-                    textAlign: "center",
-                    paddingRight: 0,
-                    paddingLeft: 0
-                  }}
-                />
-              </ListItem>
-              <ListItem style={{ paddingRight: 0, paddingLeft: 0 }}>
+              />
+            </ListItem>
+            <ListItem
+              style={{ paddingRight: 0, paddingLeft: 0 }}
+              className={props.classes.tradeRow}
+            >
+              <div className={props.classes.tradeInfoWrap}>
                 <div className={props.classes.tinycard}>
                   <Typography
                     variant="subheading"
@@ -102,10 +97,12 @@ const TradeList = props => (
                   />
                   <ListItemText primary={bookOffered.title} />
                 </div>
+              </div>
+              <div className={props.classes.tradeStatusWrap}>
                 {props.loggedIn &&
                   props.userId === toUser._id &&
                   status === "pending" && (
-                    <div className={props.classes.tinycard}>
+                    <div className={props.classes.tinycardFlex}>
                       <Typography
                         variant="subheading"
                         className={props.classes.subhead}
@@ -144,7 +141,7 @@ const TradeList = props => (
                   )}
                 {props.loggedIn &&
                   !(props.userId === toUser._id && status === "pending") && (
-                    <div className={props.classes.tinycard}>
+                    <div className={props.classes.tinycardFlex}>
                       <Typography
                         variant="subheading"
                         className={props.classes.subhead}
@@ -166,13 +163,13 @@ const TradeList = props => (
                       />
                     </div>
                   )}
-              </ListItem>
-              {i < trades.length - 1 ? <Divider light /> : null}
-            </div>
-          );
-        })}
-      </List>
-    </Paper>
+              </div>
+            </ListItem>
+            {i < trades.length - 1 ? <Divider light /> : null}
+          </div>
+        );
+      })}
+    </List>
   </div>
 );
 

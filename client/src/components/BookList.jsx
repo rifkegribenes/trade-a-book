@@ -58,7 +58,7 @@ const BookList = props => (
           state = book.ownerData.state;
         }
         return (
-          <div key={book.googleId}>
+          <div key={`${book.googleId}-${i}`}>
             {props.listType === "user" && (
               <AlertDialog
                 book={book}

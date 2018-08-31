@@ -27,11 +27,17 @@ const styles = theme => ({
   },
   menuButton: {
     marginLeft: -12,
-    marginRight: 20
+    marginRight: 20,
+    [theme.breakpoints.down("xs")]: {
+      marginRight: 0
+    }
   },
   title: {
     color: "white",
-    textDecoration: "none"
+    textDecoration: "none",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1.1rem"
+    }
   },
   loginButton: {
     textDecoration: "none"
@@ -166,6 +172,7 @@ class NavBar extends React.Component {
                 />
                 <Button
                   variant="contained"
+                  size="small"
                   color="secondary"
                   className={classes.loginButton}
                   href="/logout"
@@ -177,6 +184,7 @@ class NavBar extends React.Component {
               <Button
                 variant="contained"
                 color="secondary"
+                size="small"
                 href={`${BASE_URL}/api/auth/google`}
                 className={classes.loginButton}
                 onClick={() => {

@@ -143,7 +143,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <React.Fragment>
         <CssBaseline />
         <NavBar />
         <main className="main" id="main">
@@ -190,7 +190,7 @@ class App extends Component {
           </Switch>
         </main>
         <Footer classes={this.props.classes} />
-      </div>
+      </React.Fragment>
     );
   }
 }

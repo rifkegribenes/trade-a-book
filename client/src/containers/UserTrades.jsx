@@ -22,6 +22,10 @@ const styles = theme => ({
     padding: 20,
     maxWidth: 1200
   },
+  tradeSummary: {
+    padding: "0 20px",
+    maxWidth: "100%"
+  },
   buttonApprove: {
     flex: "0 0 auto",
     color: "white",
@@ -44,7 +48,37 @@ const styles = theme => ({
     flex: "0 0 auto",
     alignSelf: "center",
     height: "80px",
-    margin: "10px"
+    margin: "10px",
+    ["@media (max-width:450px)"]: {
+      width: "40px",
+      margin: "3px",
+      height: "auto"
+    }
+  },
+  tradeRow: {
+    display: "flex",
+    ["@media (max-width:450px)"]: {
+      flexWrap: "wrap"
+    }
+  },
+  tradeInfoWrap: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "auto"
+  },
+  tradeStatusWrap: {
+    display: "flex",
+    justifyContent: "center",
+    ["@media (max-width:450px)"]: {
+      width: "100%",
+      margin: "0 10px"
+    }
+  },
+  icon: {
+    ["@media (max-width:450px)"]: {
+      display: "none"
+    }
   },
   tinycard: {
     display: "flex",
@@ -55,7 +89,27 @@ const styles = theme => ({
     border: "1px solid #ddd",
     width: "30%",
     margin: "10px",
-    textAlign: "center"
+    textAlign: "center",
+    ["@media (max-width:450px)"]: {
+      width: "42%",
+      padding: "5px",
+      margin: "5px"
+    }
+  },
+  tinycardFlex: {
+    display: "flex",
+    flexDirection: "column",
+    alignSelf: "stretch",
+    justifyContent: "flex-start",
+    padding: "15px",
+    border: "1px solid #ddd",
+    width: "30%",
+    margin: "10px",
+    textAlign: "center",
+    ["@media (max-width:450px)"]: {
+      width: "calc(84% + 40px)",
+      margin: "5px"
+    }
   },
   message: {
     margin: "auto",
@@ -66,6 +120,7 @@ const styles = theme => ({
   },
   container: {
     width: "100%",
+    maxWidth: 1200,
     height: "100%",
     minHeight: "80vh",
     display: "flex",
