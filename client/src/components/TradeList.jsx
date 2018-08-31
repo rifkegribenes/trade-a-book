@@ -80,7 +80,10 @@ const TradeList = props => (
                     src={bookRequested.thumbnail}
                     alt={bookRequested.title}
                   />
-                  <ListItemText primary={bookRequested.title} />
+                  <ListItemText
+                    style={{ padding: 0 }}
+                    primary={bookRequested.title}
+                  />
                 </div>
                 <SwapHoriz className={props.classes.icon} />
                 <div className={props.classes.tinycard}>
@@ -95,7 +98,10 @@ const TradeList = props => (
                     src={bookOffered.thumbnail}
                     alt={bookOffered.title}
                   />
-                  <ListItemText primary={bookOffered.title} />
+                  <ListItemText
+                    style={{ padding: 0 }}
+                    primary={bookOffered.title}
+                  />
                 </div>
               </div>
               <div className={props.classes.tradeStatusWrap}>

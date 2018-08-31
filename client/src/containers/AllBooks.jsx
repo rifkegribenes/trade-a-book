@@ -22,7 +22,7 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     flex: "0 0 auto",
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       position: "absolute",
       right: 7,
       top: 20,
@@ -31,13 +31,13 @@ const styles = theme => ({
   },
   owner: {
     display: "flex",
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       marginTop: 10,
       padding: "0 10px"
     }
   },
   offered: {
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       padding: 0
     }
   },
@@ -54,18 +54,18 @@ const styles = theme => ({
     paddingBottom: 40
   },
   item: {
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       flexWrap: "wrap"
     }
   },
   bookInfo: {
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       width: "100%",
       padding: "0 10px"
     }
   },
   avatar: {
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       position: "absolute",
       right: 20,
       bottom: 15

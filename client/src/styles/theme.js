@@ -13,11 +13,13 @@ export default createMuiTheme({
     }
   },
   breakpoints: {
-    xs: 0,
-    sm: 600,
-    md: 960,
-    lg: 1280,
-    xl: 1920
+    values: {
+      xs: 0,
+      sm: 450,
+      md: 600,
+      lg: 1280,
+      xl: 1920
+    }
   },
   overrides: {
     MuiButton: {

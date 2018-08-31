@@ -49,7 +49,7 @@ const styles = theme => ({
     alignSelf: "center",
     height: "80px",
     margin: "10px",
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       width: "40px",
       margin: "3px",
       height: "auto"
@@ -57,26 +57,30 @@ const styles = theme => ({
   },
   tradeRow: {
     display: "flex",
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       flexWrap: "wrap"
     }
   },
   tradeInfoWrap: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    margin: "auto"
+    justifyContent: "flex-start",
+    margin: "auto",
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center"
+    }
   },
   tradeStatusWrap: {
     display: "flex",
     justifyContent: "center",
-    ["@media (max-width:450px)"]: {
+    alignSelf: "stretch",
+    [theme.breakpoints.down("sm")]: {
       width: "100%",
       margin: "0 10px"
     }
   },
   icon: {
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       display: "none"
     }
   },
@@ -87,11 +91,12 @@ const styles = theme => ({
     justifyContent: "flex-start",
     padding: "15px",
     border: "1px solid #ddd",
-    width: "30%",
+    width: "45%",
     margin: "10px",
     textAlign: "center",
-    ["@media (max-width:450px)"]: {
+    [theme.breakpoints.down("sm")]: {
       width: "42%",
+      minWidth: 100,
       padding: "5px",
       margin: "5px"
     }
@@ -103,11 +108,12 @@ const styles = theme => ({
     justifyContent: "flex-start",
     padding: "15px",
     border: "1px solid #ddd",
-    width: "30%",
+    width: "100%",
     margin: "10px",
     textAlign: "center",
-    ["@media (max-width:450px)"]: {
-      width: "calc(84% + 40px)",
+    [theme.breakpoints.down("sm")]: {
+      width: "calc(80% + 20px)",
+      maxWidth: 300,
       margin: "5px"
     }
   },

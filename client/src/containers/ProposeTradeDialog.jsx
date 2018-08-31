@@ -17,16 +17,6 @@ import withWidth, { isWidthUp } from "@material-ui/core/withWidth";
 import { openSnackbar } from "./Notifier";
 
 const styles = theme => ({
-  dialog: {
-    maxWidth: 500,
-    margin: "auto"
-  },
-  subhead: {
-    padding: "0 24px"
-  },
-  subheadBold: {
-    fontWeight: "bold"
-  },
   root: {
     margin: 0
   }
@@ -72,14 +62,14 @@ class ProposeTradeDialog extends React.Component {
         onClose={this.handleClose}
         aria-labelledby="simple-dialog-title"
         open={this.props.open}
-        className={classes.dialog}
+        style={{ maxWidth: 500, margin: "auto" }}
         fullWidth={fullWidthDialog}
         PaperProps={{ classes }}
       >
         <DialogTitle id="simple-dialog-title">Choose Book to Offer</DialogTitle>
-        <Typography variant="subheading" className={classes.subhead}>
+        <Typography variant="subheading" style={{ padding: "0 24px" }}>
           Which of your books would you like to offer in exchange for
-          <span className={classes.subheadBold}>
+          <span style={{ fontWeight: "bold" }}>
             &nbsp;
             {this.props.bookRequested.title}
           </span>
