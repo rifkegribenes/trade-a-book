@@ -48,7 +48,8 @@ const styles = theme => ({
 
 class UserBooks extends Component {
   state = {
-    dialogOpen: false
+    dialogOpen: false,
+    selectedBook: {}
   };
 
   componentDidMount() {
@@ -108,6 +109,11 @@ class UserBooks extends Component {
 
   removeBook = bookData => {
     console.log("removeBook");
+    console.log(bookData);
+    this.setState({
+      dialogOpen: true,
+      selectedBook: { ...bookData }
+    });
     const token = this.props.appState.authToken;
     const userId = this.props.profile.profile._id;
     this.props.apiBook
@@ -142,11 +148,11 @@ class UserBooks extends Component {
         return;
       }
     }
-    this.setState({ dialogOpen: true });
+    this.setState({ dialogOpen: true, selectedBook: { ...book } });
   };
 
   handleClose = () => {
-    this.setState({ dialogOpen: false });
+    this.setState({ dialogOpen: false, selectedBook: {} });
   };
 
   render() {
@@ -165,6 +171,7 @@ class UserBooks extends Component {
             handleAlertDialogClose={this.handleClose}
             alertDialogOpen={this.state.dialogOpen}
             classes={classes}
+            selectedBook={this.state.selectedBook}
           />
         ) : (
           <div className={classes.container}>

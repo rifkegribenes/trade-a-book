@@ -59,19 +59,21 @@ const BookList = props => (
         }
         return (
           <div key={`${book.googleId}-${i}`}>
-            {props.listType === "user" && (
-              <AlertDialog
-                book={book}
-                handleClose={props.handleAlertDialogClose}
-                open={props.alertDialogOpen}
-                content={`Remove ${book.title} from your library?`}
-                action={() => {
-                  props.removeBook(book);
-                  props.handleAlertDialogClose();
-                }}
-                buttonText="Delete"
-              />
-            )}
+            {props.listType === "user" &&
+              props.alertDialogOpen &&
+              props.selectedBook._id === book._id && (
+                <AlertDialog
+                  book={book}
+                  handleClose={props.handleAlertDialogClose}
+                  open={props.alertDialogOpen}
+                  content={`Remove ${book.title} from your library?`}
+                  action={() => {
+                    props.removeBook(book);
+                    props.handleAlertDialogClose();
+                  }}
+                  buttonText="Delete"
+                />
+              )}
             <ListItem
               className={props.classes.item}
               style={{ paddingRight: 0 }}
@@ -152,7 +154,7 @@ const BookList = props => (
                   color="default"
                   title="Remove Book"
                   className={props.classes.button}
-                  onClick={() => props.handleAlertDialogOpen()}
+                  onClick={() => props.handleAlertDialogOpen(book)}
                 >
                   <Delete />
                 </IconButton>
