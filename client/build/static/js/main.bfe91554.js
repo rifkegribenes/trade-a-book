@@ -33432,60 +33432,13 @@
   function(e, t, n) {
     "use strict";
     function r() {
-      if ("serviceWorker" in navigator) {
-        if (new URL("", window.location).origin !== window.location.origin)
-          return;
-        window.addEventListener("load", function() {
-          var e = "/service-worker.js";
-          i
-            ? (a(e),
-              navigator.serviceWorker.ready.then(function() {
-                console.log(
-                  "This web app is being served cache-first by a service worker. To learn more, visit https://goo.gl/SC7cgQ"
-                );
-              }))
-            : o(e);
-        });
-      }
-    }
-    function o(e) {
-      navigator.serviceWorker
-        .register(e)
-        .then(function(e) {
-          e.onupdatefound = function() {
-            var t = e.installing;
-            t.onstatechange = function() {
-              "installed" === t.state &&
-                (navigator.serviceWorker.controller
-                  ? console.log("New content is available; please refresh.")
-                  : console.log("Content is cached for offline use."));
-            };
-          };
-        })
-        .catch(function(e) {
-          console.error("Error during service worker registration:", e);
-        });
-    }
-    function a(e) {
-      fetch(e)
-        .then(function(t) {
-          404 === t.status ||
-          -1 === t.headers.get("content-type").indexOf("javascript")
-            ? navigator.serviceWorker.ready.then(function(e) {
-                e.unregister().then(function() {
-                  window.location.reload();
-                });
-              })
-            : o(e);
-        })
-        .catch(function() {
-          console.log(
-            "No internet connection found. App is running in offline mode."
-          );
+      "serviceWorker" in navigator &&
+        navigator.serviceWorker.ready.then(function(e) {
+          e.unregister();
         });
     }
     t.a = r;
-    var i = Boolean(
+    Boolean(
       "localhost" === window.location.hostname ||
         "[::1]" === window.location.hostname ||
         window.location.hostname.match(
@@ -33555,4 +33508,4 @@
     });
   }
 ]);
-//# sourceMappingURL=main.de2f3f2a.js.map
+//# sourceMappingURL=main.bfe91554.js.map
