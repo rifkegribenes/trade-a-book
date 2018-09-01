@@ -30284,11 +30284,10 @@
             {
               key: "componentDidMount",
               value: function() {
-                var e = this;
                 this.props.actions.logout(),
                   window.localStorage.clear(),
                   setTimeout(function() {
-                    e.props.history.push("/");
+                    window.location.href = "https://trade-a-book.herokuapp.com";
                   }, 1e3);
               }
             },
@@ -33508,4 +33507,4 @@
     });
   }
 ]);
-//# sourceMappingURL=main.bfe91554.js.map
+//# sourceMappingURL=main.564e2e47.js.map

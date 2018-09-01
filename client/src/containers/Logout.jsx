@@ -11,7 +11,7 @@ class Logout extends React.Component {
     this.props.actions.logout();
     window.localStorage.clear();
     setTimeout(() => {
-      this.props.history.push("/");
+      window.location.href = "https://trade-a-book.herokuapp.com";
     }, 1000);
   }
 
