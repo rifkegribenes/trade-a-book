@@ -153,6 +153,6 @@ module.exports = function (app) {
 
   // Catch client-side routes that don't exist on the back-end.
   // Redirects to /#/redirect={route}/{optional_id}
-  // app.get('/:client_route/:id?', StaticController.redirectHash);
+  app.get('/:client_route/:id?', StaticController.redirectHash);
 
 };
