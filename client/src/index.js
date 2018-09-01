@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
 import store from "./store/store";
-import registerServiceWorker from "./registerServiceWorker";
+import { unregister } from "./registerServiceWorker";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
 import theme from "./styles/theme";
 
@@ -19,4 +19,4 @@ render(
   </Provider>,
   root
 );
-registerServiceWorker();
+unregister();
