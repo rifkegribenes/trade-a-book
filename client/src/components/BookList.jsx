@@ -115,7 +115,11 @@ const BookList = props => (
                     className={props.classes.button}
                     title="Propose a Trade"
                     onClick={() => {
-                      props.handleTradeDialogOpen(book);
+                      if (props.loggedIn) {
+                        props.handleTradeDialogOpen(book);
+                      } else {
+                        window.location.href = `${BASE_URL}/api/auth/google`;
+                      }
                     }}
                   >
                     <SwapHoriz className={props.classes.rightIcon} />

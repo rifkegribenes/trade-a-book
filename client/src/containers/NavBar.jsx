@@ -107,6 +107,7 @@ class NavBar extends React.Component {
   render() {
     const { classes } = this.props;
     const { anchorEl } = this.state;
+    const { loggedIn } = this.props.appState;
     const linkMap = {
       profile: "Profile",
       all: "All Books",
@@ -114,7 +115,7 @@ class NavBar extends React.Component {
       library: "My Books",
       trades: "My Trades"
     };
-    const linkList = Object.keys(linkMap);
+    const linkList = loggedIn ? Object.keys(linkMap) : ["all", "new"];
     const menuLinks = linkList.map((link, index) => (
       <ListItemLink
         to={`/${link}`}
@@ -163,7 +164,7 @@ class NavBar extends React.Component {
                 Trade a Book
               </Link>
             </Typography>
-            {this.props.appState.loggedIn ? (
+            {loggedIn ? (
               <div className={classes.admin}>
                 <Avatar
                   alt={this.props.profile.profile.firstName}
