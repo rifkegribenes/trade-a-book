@@ -27,7 +27,9 @@ const styles = theme => ({
     flexGrow: 1
   },
   hero: {
-    marginRight: 20
+    marginRight: 20,
+    height: 150,
+    width: "auto"
   },
   notFound: {
     height: "80vh",
@@ -54,7 +56,7 @@ const styles = theme => ({
   row: {
     display: "flex",
     justifyContent: "center",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("md")]: {
       flexWrap: "wrap"
     }
   },
@@ -67,10 +69,10 @@ const styles = theme => ({
     border: "1px solid #ddd",
     margin: "10px",
     textAlign: "center",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%"
     },
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up("md")]: {
       width: "30%"
     }
   },

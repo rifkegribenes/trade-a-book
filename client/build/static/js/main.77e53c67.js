@@ -17848,7 +17848,7 @@
         var t;
         return {
           root: { flexGrow: 1 },
-          hero: { marginRight: 20 },
+          hero: { marginRight: 20, height: 150, width: "auto" },
           notFound: { height: "80vh", width: "auto", marginTop: "-60px" },
           container: {
             maxWidth: 1200,
@@ -17869,7 +17869,7 @@
           },
           row: i(
             { display: "flex", justifyContent: "center" },
-            e.breakpoints.down("xs"),
+            e.breakpoints.down("md"),
             { flexWrap: "wrap" }
           ),
           tinycard: ((t = {
@@ -17882,8 +17882,8 @@
             margin: "10px",
             textAlign: "center"
           }),
-          i(t, e.breakpoints.down("sm"), { width: "100%" }),
-          i(t, e.breakpoints.up("sm"), { width: "30%" }),
+          i(t, e.breakpoints.down("md"), { width: "100%" }),
+          i(t, e.breakpoints.up("md"), { width: "30%" }),
           t),
           add: { color: m.a[600], height: 72, width: "auto" },
           list: { color: e.palette.primary.main, height: 72, width: "auto" },
@@ -33507,4 +33507,4 @@
     });
   }
 ]);
-//# sourceMappingURL=main.564e2e47.js.map
+//# sourceMappingURL=main.77e53c67.js.map

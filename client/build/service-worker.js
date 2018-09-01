@@ -1,8 +1,8 @@
 "use strict";
 var precacheConfig = [
-    ["/index.html", "d2b54db78c619a26a6cc214fd83d3548"],
+    ["/index.html", "833d845e6a98b225255d16066f7576b1"],
     ["/static/css/main.65027555.css", "41e5e45b9b5d9ecaa09b72c11eed3386"],
-    ["/static/js/main.564e2e47.js", "9b3cc32b89c1bc6c660f0ad6b0505555"],
+    ["/static/js/main.77e53c67.js", "a9e829a1a2d511ee7b586c5b0cd3c73e"],
     ["/static/media/404.1f13c66d.svg", "1f13c66d39ee486d9bc04d48bf0e468c"],
     [
       "/static/media/RainbowBooks_400.8737971f.jpg",
