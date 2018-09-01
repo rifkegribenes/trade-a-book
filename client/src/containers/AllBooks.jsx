@@ -82,8 +82,6 @@ class AllBooks extends Component {
   };
 
   handleTradeDialogOpen = bookRequested => {
-    console.log(`handleOpen:`);
-    console.log(bookRequested);
     const newState = { ...this.state };
     newState.tradeDialogOpen = true;
     newState.bookRequested = { ...bookRequested };

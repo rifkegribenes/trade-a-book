@@ -11,6 +11,7 @@ exports.getUserTrades = (req, res, next) => {
       { "toUser._id": userId },
       { "fromUser._id": userId }
     ]})
+    .sort({createdAt: -1})
     .exec()
     .then((trades) => {
       return res.status(200).json({ trades });

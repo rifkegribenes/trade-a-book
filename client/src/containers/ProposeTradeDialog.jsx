@@ -25,14 +25,11 @@ const styles = theme => ({
 class ProposeTradeDialog extends React.Component {
   componentDidMount() {
     const userId = this.props.profile.profile._id;
-    console.log(userId);
 
     this.props.apiBook
       .getUserBooks(userId)
       .then(result => {
-        console.log(result.type);
         if (result.type === "GET_USER_BOOKS_FAILURE") {
-          console.log(this.props.book.error);
           openSnackbar("error", this.props.book.error);
         }
       })
@@ -53,9 +50,7 @@ class ProposeTradeDialog extends React.Component {
   render() {
     const { classes } = this.props;
     const books = this.props.book.loggedInUserBooks;
-    console.log(books);
     const fullWidthDialog = isWidthUp("sm", this.props.width) ? false : true;
-    console.log(`fullWidthDialog: ${fullWidthDialog}`);
 
     return (
       <Dialog
